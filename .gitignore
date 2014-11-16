@@ -18,4 +18,4 @@ reports/*
 swagger-ui.sublime-workspace
 .idea
 .project
-*/node_modules/*
+node_modules
