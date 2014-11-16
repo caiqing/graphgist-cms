@@ -40,7 +40,9 @@
     "hat": ">=0.0.3",
     "mocha": ">= 1.6.0",
     "should": ">= 0.6.3",
-    "random-name": ">=0.1.0"
+    "random-name": ">=0.1.0",
+    "node-phantom": "~0.2.5",
+    "socket.io": "0.9.16"
   },
   "license": "MIT"
 }

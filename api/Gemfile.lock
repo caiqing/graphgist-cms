@@ -1,0 +1,62 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (4.1.7)
+      i18n (~> 0.6, >= 0.6.9)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.1)
+      tzinfo (~> 1.1)
+    childprocess (0.5.5)
+      ffi (~> 1.0, >= 1.0.11)
+    faraday (0.9.0)
+      multipart-post (>= 1.2, < 3)
+    faraday_middleware (0.9.1)
+      faraday (>= 0.7.4, < 0.10)
+    ffi (1.9.6)
+    httparty (0.13.3)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
+    httpclient (2.5.3.3)
+    i18n (0.6.11)
+    json (1.8.1)
+    mini_portile (0.6.1)
+    minitest (5.4.3)
+    multi_json (1.10.1)
+    multi_xml (0.5.5)
+    multipart-post (2.0.0)
+    neo4j-community (2.1.5)
+    neo4j-core (3.0.8)
+      activesupport
+      faraday (~> 0.9.0)
+      faraday_middleware (~> 0.9.1)
+      httparty
+      httpclient
+      json
+      neo4j-community (~> 2.1.1)
+      net-http-persistent
+      os
+      zip
+    net-http-persistent (2.9.4)
+    nokogiri (1.6.4.1)
+      mini_portile (~> 0.6.0)
+    os (0.9.6)
+    rubyzip (1.1.6)
+    selenium-webdriver (2.44.0)
+      childprocess (~> 0.5)
+      multi_json (~> 1.0)
+      rubyzip (~> 1.0)
+      websocket (~> 1.0)
+    thread_safe (0.3.4)
+    tzinfo (1.2.2)
+      thread_safe (~> 0.1)
+    websocket (1.2.1)
+    zip (2.0.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  neo4j-core
+  nokogiri
+  selenium-webdriver
