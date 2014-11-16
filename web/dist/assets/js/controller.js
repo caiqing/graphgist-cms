@@ -1,6 +1,6 @@
 'use strict';
 
-var API_URL="http://graphgist-api.herokuapp.com"||"http://localhost:3000";
+var API_URL='http://localhost:3000';
 
 /* Controllers */
 
@@ -107,6 +107,10 @@ contentApp.controller('GistListCtrl', ['$scope', '$http', '$templateCache',
 	  	fetchGists();
 	}]);
 
+contentApp.controller('GistSubmitCtrl', ['$scope',
+  function($scope) {
+      $scope.tshirt_sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL']
+  }]);
 
 // contentApp.directive('carouselactors', function() {
 // 	var res = {

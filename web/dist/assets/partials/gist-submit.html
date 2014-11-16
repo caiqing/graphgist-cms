@@ -1,0 +1,103 @@
+<form action="" method="POST" class="form-horizontal">
+  <div class="form-group">
+    <label>
+      <div class="col-sm-4">GraphGist URL</div>
+      <div class="col-sm-8"><input type="text" name="tagline" class="form-control" placeholder="e.g. http://gist.neo4j.org/?#######"></div>
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      <div class="col-sm-4">Gist Title</div>
+      <div class="col-sm-8"><input type="text" name="title" class="form-control"></div>
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      <div class="col-sm-4">Category</div>
+      
+      <div class="col-sm-8">
+        <select name="category" class="form-control">
+          <option></option>
+          <option value="Education">Education</option>
+          <option value="Finance">Finance</option>
+          <option value="Life Science">Life Science</option>
+          <option value="Manufacturing">Manufacturing</option>
+          <option value="Sports">Sports</option>
+          <option value="Resources">Resources</option>
+          <option value="Retail">Retail</option>
+          <option value="Telecommunication">Telecommunication</option>
+          <option value="Transport">Transport</option>
+          <option value="Advanced">Advanced</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      <div class="col-sm-4">Your Name</div>
+      <div class="col-sm-8"><input type="text" name="submitter[name]" class="form-control"></div>
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      <div class="col-sm-4">Twitter (e.g. @peterneubauer)</div>
+      <div class="col-sm-8">
+        <div class="input-group input-group-lg">
+          <span class="input-group-addon">@</span>
+          <input type="text" name="submitter[twitter]" class="form-control">
+        </div>
+      </div>
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      <div class="col-sm-4">Postal Address</div>
+      <div class="col-sm-8"><textarea name="submitter[postal_address]" class="form-control" placeholder="(street, house number, city, zip, country) - No T-Shirt if empty !!"></textarea></div>
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      <div class="col-sm-4">E-Mail</div>
+      <div class="col-sm-8"><input type="text" name="submitter[email]" class="form-control"></div>
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      <div class="col-sm-4">T-Shirt Size</div>
+      <div class="col-sm-8">
+        <div class="group">
+          <div class="btn-group" role="group" data-toggle="buttons">
+            <label ng-repeat="size in tshirt_sizes" class="btn btn-primary"><input type="radio" name="submitter[tshirt_size]" value="{{size}}">{{size}}</label>
+          </div>
+        </div>
+        Other: <input type="text" name="submitter[tshirt_size_other]" class="form-control" placeholder="Special wishes here.  No T-Shirt if empty!">
+      </div>
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      <div class="col-sm-4">Description</div>
+      <div class="col-sm-8"><textarea name="description" class="form-control" placeholder="One or two sentence description"></textarea></div>
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      <div class="col-sm-4">Image-URL</div>
+      <div class="col-sm-8"><input type="text" name="image_url" class="form-control"></div>
+    </label>
+  </div>
+
+  <input type="submit" value="Submit GraphGist" class="btn btn-primary">
+
+</form>
+
+<style>
+  form {
+    margin: 20px;
+  }
+  label {
+    display: block;
+  }
+</style>
+
