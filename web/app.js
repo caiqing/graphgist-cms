@@ -9,7 +9,9 @@ module.exports = function (app, api_port) {
 
   app.configure(function(){
     app.get('/', function (req, res) {
-      res.render(__dirname + '/dist/index.html.jade', {api_port: api_port});
+      api_url = (app.settings.env == 'development') ? ('http://localhost:'+ api_port) : ''
+
+      res.render(__dirname + '/dist/index.html.jade', {api_port: api_port, api_url: api_url});
     });
     app.get('/index.html', function (req, res) {
       res.render(__dirname + '/dist/index.html.jade', {api_port: api_port});
