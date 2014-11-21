@@ -13,12 +13,12 @@ phantom.create(function (err,ph) {
   ph.createPage(function (err,page) {
     console.log('querying');
 
-    db.query('MATCH (gist:Gist) WHERE gist.poster_image IS NULL RETURN ID(gist) AS id, gist.tagline AS tagline LIMIT 3', {}, function (err, results) {
+    db.query('MATCH (gist:Gist) WHERE gist.poster_image IS NULL RETURN ID(gist) AS id, gist.url AS url LIMIT 3', {}, function (err, results) {
 
       for (var i = 0; i < results.length; i++) {
         var result = results[i]
 
-        var url = result.tagline;
+        var url = result.url;
 
         console.log(url + ': opening...');
         page.onResourceError = function(resourceError) {
@@ -51,7 +51,7 @@ phantom.create(function (err,ph) {
                       image_url: image_url
                     },
                     function (err, results) {
-                      console.log(result.tagline + ': neo4j response: err: ' + err + ' / results: ' + results);
+                      console.log(result.url + ': neo4j response: err: ' + err + ' / results: ' + results);
 
                       ph.exit();
   //                    ph._phantom.kill('SIGTERM');
@@ -66,16 +66,16 @@ phantom.create(function (err,ph) {
 
 
     //    jsdom.env(
-    //      result.tagline,
+    //      result.url,
     //      ["http://code.jquery.com/jquery.js"],
     //      function (errors, window) {
     //        setTimeout(function() {
     //
     //          var images = window.$("div#content img");
-    //          console.log(result.tagline + ': ' + images.length + ' images');
+    //          console.log(result.url + ': ' + images.length + ' images');
     //          var image_url = window.$(images[0]).attr('src');
     //
-    //          console.log(result.tagline + ': setting URL: ' + image_url);
+    //          console.log(result.url + ': setting URL: ' + image_url);
     //          console.log({test: {
     //              gist_id: result.id, 
     //              image_url: image_url
@@ -86,7 +86,7 @@ phantom.create(function (err,ph) {
     //              image_url: image_url
     //            },
     //            function (err, results) {
-    //              console.log(result.tagline + ': err: ' + err + ' / results: ' + results);
+    //              console.log(result.url + ': err: ' + err + ' / results: ' + results);
     //            }
     //          );
     //        }, 10000);

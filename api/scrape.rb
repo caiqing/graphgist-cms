@@ -7,7 +7,7 @@ session = Neo4j::Session.open(:server_db, ENV['NEO4J_URL'] || 'http://localhost:
 browser = Selenium::WebDriver.for :firefox
 
 begin
-  session.query.match(gist: :Gist).where(gist: {poster_image: nil}).pluck('ID(gist)', 'gist.tagline').each do |id, url|
+  session.query.match(gist: :Gist).where(gist: {poster_image: nil}).pluck('ID(gist)', 'gist.url').each do |id, url|
     browser.navigate.to(url)
 
     begin
