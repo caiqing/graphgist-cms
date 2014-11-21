@@ -34,7 +34,7 @@
 //       "released":{
 //         "type":"integer"
 //       },
-//       "tagline":{
+//       "url":{
 //         "type":"string"
 //       }
 //     }
