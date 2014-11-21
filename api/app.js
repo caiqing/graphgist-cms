@@ -28,6 +28,7 @@ module.exports = function (app, port) {
     app.use(express.json());
     app.use(express.methodOverride());
     app.use(app.router);
+    app.set('port', port);
     // development only
     if ('development' == app.get('env')) {
       app.use(express.errorHandler());

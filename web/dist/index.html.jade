@@ -1,0 +1,93 @@
+doctype html
+
+html(lang="en", ng-app="contentApp")
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(name="description", content="")
+    meta(name="author", content="")
+    link(rel="shortcut icon", href="assets/ico/favicon.ico")
+
+    title Neo4j Gists
+
+    link(type="text/css", rel="stylesheet", href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600,700")
+
+    // Bootstrap core CSS
+    link(href="assets/lib/bootstrap/css/bootstrap.css", rel="stylesheet")
+
+    // Custom styles for this template
+    link(href="navbar-static-top.css", rel="stylesheet")
+
+    // Owl Carousel Assets
+    link(href="assets/lib/owl-carousel/owl.carousel.css", rel="stylesheet")
+    link(href="assets/lib/owl-carousel/owl.theme.css", rel="stylesheet")
+
+    // Prettify
+    link(href="assets/js/google-code-prettify/prettify.css", rel="stylesheet")
+
+    // HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
+    | <!--[if lt IE 9]>
+    |   <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    |   <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    | <![endif]-->
+
+    script var API_PORT = #{api_port};
+
+    script(src="assets/js/holder.js")
+    script(src="assets/lib/angular/angular.js")
+    script(src="assets/lib/angular/angular-route.js")
+    script(src="assets/js/app.js")
+    script(src="assets/js/controller.js")
+    script(src="assets/js/parallax.js")
+
+    style.
+      #gist-link{
+        /*background: #989898;*/
+        color: black;
+        font-size:15px;
+      }
+      #gist-link:hover{
+        /*background: #989898;*/
+        color: #989898;
+      }
+
+  body
+
+    // Static navbar
+    div(role="navigation").navbar.navbar-default.navbar-static-top
+      div.container
+        div.navbar-header
+          button(type="button", data-toggle="collapse", data-target=".navbar-collapse").navbar-toggle
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+
+          div.logo-well
+            img(id="logo", alt="Neo4j World's Leading Graph Database", src="assets/img/logo-white.svg")
+
+          a(href="#").navbar-brand
+            div.brand Neo4j GraphGists
+
+        div.navbar-collapse.collapse
+          ul.nav.navbar-nav
+            li: a(href="https://github.com/kbastani/neo4j-app-gists-ui") GitHub Project
+            li: a(href="http://www.neo4j.com") Neo4j 2.1.5
+            li &nbsp;
+            li: a(href="#/gists/submit") Submit a GraphGist
+
+    div(ng-view)
+
+    div#mydiv
+        img(src="assets/img/AjaxLoader.gif").ajax-loader
+
+    // Bootstrap core JavaScript
+
+    // Placed at the end of the document so the pages load faster
+    script(src="http://code.jquery.com/jquery-2.0.3.min.js")
+    script(src="assets/js/application.js")
+    script(src="assets/lib/bootstrap/js/bootstrap.min.js")
+    script(src="assets/lib/owl-carousel/owl.carousel.min.js")
+    script(src="assets/js/google-code-prettify/prettify.js")
+

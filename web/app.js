@@ -1,11 +1,19 @@
 var express = require('express');
 
-module.exports = function (app) {
+module.exports = function (app, api_port) {
   app.use(express.logger());
 
   // var http_handler = express.static(__dirname + '/');
 
+  app.set('view engine', 'jade')
+
   app.configure(function(){
+    app.get('/', function (req, res) {
+      res.render(__dirname + '/dist/index.html.jade', {api_port: api_port});
+    });
+    app.get('/index.html', function (req, res) {
+      res.render(__dirname + '/dist/index.html.jade', {api_port: api_port});
+    });
     app.use('/dist/assets', express.static(__dirname + '/dist/assets'));
     app.use(express.static(__dirname + '/dist'));
   });

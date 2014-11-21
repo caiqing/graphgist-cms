@@ -3,7 +3,7 @@ var app = require('express')();
 var port = process.env.PORT || 5000;
 var API_PORT = port;
 
-web_app = require('./web/app')(app)
+web_app = require('./web/app')(app, API_PORT)
 api_app = require('./api/app')(app, API_PORT)
 
 app.listen(port, function() {

@@ -1,6 +1,6 @@
 'use strict';
 
-var API_URL='http://localhost:3000';
+var API_URL='http://localhost:'+ API_PORT;
 
 /* Controllers */
 
