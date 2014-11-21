@@ -1,8 +1,8 @@
 ============================
-Neo4j Movie Website Template
+Neo4j GraphGist Browser
 ============================
 
-This repository is a movie content browser powered by Neo4j. All movie content is consumed from a Neo4j REST API endpoint built using Neo4j Swagger.
+This repository is a GraphGist content browser powered by Neo4j. All GraphGist content is consumed from a Neo4j REST API endpoint built using Neo4j Swagger.
 
 * Neo4j: http://www.neo4j.org/download/
 * Swagger: http://neo4j-swagger.tinj.com/
@@ -10,11 +10,11 @@ This repository is a movie content browser powered by Neo4j. All movie content i
 * Bootstrap: http://getbootstrap.com/
 * Angular.js: http://angularjs.org/
 
-<a href="http://neo4jmovies.herokuapp.com">![Neo4j Movies Template](http://i.imgur.com/lL2M3Z0.png)</a>
+<a href="http://graphgist.herokuapp.com/">![Neo4j GraphGist Template](http://i.imgur.com/2QkbDh2.png?1)</a>
 
 ### Prerequisites
 
-* An instance of Neo4j (`>=2.0.3`) running locally - [http://www.neo4j.org/download](http://www.neo4j.org/download_thanks?edition=community&release=2.1.0-M01)
+* An instance of Neo4j (`>=2.0.3`) running locally - [http://www.neo4j.org/download](http://neo4j.com/download/)
 * Installed `node.js` and `npm` on your machine
 
 ### Usage
@@ -24,11 +24,9 @@ Follow the directions below for each component of the platform.
 #### Database
 
 * Extract the Neo4j store files located in `database/graph.db.zip` to your Neo4j data directory `neo4j/data`
-* Start the Neo4j server at `http://localhost:7474`
+* Start the Neo4j server (either at `http://localhost:7474` or use the `NEO4J_URL` environment variable)
 
-#### Movies REST API
+#### GraphGist API
 
-* From the terminal, go to the `api` directory of the project and run `npm install`, after `node_modules` are installed, run `node app`. The movies REST API will be started at `http://localhost:3000`
+* From the terminal, go to the `graphgist-cms` project directory and run `npm install`.  After `node_modules` are installed, run `node listen`. The GraphGist web site will be started at `http://localhost:5000`
 
-#### Movies Website
-* From the terminal, go to the `web` directory of the project and run `npm install`, after `node_modules` are installed, run `node app`. The movies website will be started at `http://localhost:5000`
