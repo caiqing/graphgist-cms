@@ -8,6 +8,7 @@ browser = Selenium::WebDriver.for :firefox
 
 begin
   session.query.match(gist: :Gist).where(gist: {poster_image: nil}).pluck('ID(gist)', 'gist.url').each do |id, url|
+    puts "urlurl: #{url.inspect}"
     browser.navigate.to(url)
 
     begin
