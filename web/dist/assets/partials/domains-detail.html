@@ -4,7 +4,7 @@
         <ol class="breadcrumb">
           <li><a href="#">Home</a></li>
           <li><a href="#">Tags</a></li>
-          <li class="active">{{people.name}}</li>
+          <li class="active">{{domains.name}}</li>
         </ol>
       </div>
     </div>
@@ -12,7 +12,7 @@
 
         <div class="row">
           <div class="col-md-12">
-            <h3 class="content-title">{{people.name}}</h3>
+            <h3 class="content-title">{{domains.name}}</h3>
           </div>
         </div>
         <div class="row">
@@ -22,30 +22,30 @@
               <li><a href="#">Related</a></li>
             </ul> -->
 
-            <span ng-show="people.heading!=null">
+            <span ng-show="domains.heading!=null">
                 <div class="panel panel-default">
                   <!-- Default panel contents -->
-                  <div class="panel-heading"><h4><i>{{people.heading}}</i></h4></div>
+                  <div class="panel-heading"><h4><i>{{domains.heading}}</i></h4></div>
                   
 
                   <!-- List group -->
                   <ul class="list-group list-group-details">
                     <!-- <li class="list-group-item">
-                      <div class="panel-heading">Bio: <span class="panel-heading">{people.bio}</span></div>
+                      <div class="panel-heading">Bio: <span class="panel-heading">{domains.bio}</span></div>
                     </li> -->
                     <!-- <li class="list-group-item"> -->
                       <div class="panel-heading">
-                        {{people.description}}
+                        {{domains.description}}
                         <br><br>
-                        <ul><div ng-repeat="point in people.list">
+                        <ul><div ng-repeat="point in domains.list">
                           <li>{{point.toString()}}</li><br>
                         </div></ul>
-                        {{people.description2}}
+                        {{domains.description2}}
 
                         <div class="row">
                         <!-- <div class="item-label col-md-3">Tagline:</div> -->
                         <br>
-                        <div class="item-label col-md-12 brand"><a id="gist-link" ng-href="{{people.url}}">Read More ></a></div>
+                        <div class="item-label col-md-12 brand"><a id="gist-link" ng-href="{{domains.url}}">Read More ></a></div>
                       </div>
                    </div>
                     <!-- </li> -->
@@ -58,7 +58,7 @@
               <!-- Default panel contents -->
               <div class="panel-heading">Related GraphGists</div>
               <div class="panel-body">
-                  <div id="owl-demo-cast" carouselpeoplegists="people" class="owl-carousel owl-theme actors">
+                  <div id="owl-demo-cast" carouseldomainsgists="domains" class="owl-carousel owl-theme actors">
                     <!-- Actors -->
                   </div>
                 </div>
@@ -67,7 +67,7 @@
 
               <div class="panel-heading">Related</div>
               <div class="panel-body">
-                  <div id="owl-demo-cast" carouselrelatedpeople="people" class="owl-carousel owl-theme actors">
+                  <div id="owl-demo-cast" carouselrelateddomains="domains" class="owl-carousel owl-theme actors">
                  
                   </div>
                 </div>
@@ -80,7 +80,7 @@
         <div class="row">
           <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="thumbnail">
-              <img class="people-thumbnail" ng-src="{{people.poster_image}}" alt="{{people.name}}">
+              <img class="domains-thumbnail" ng-src="{{domains.poster_image}}" alt="{{domains.name}}">
             </div>
           </div>
         </div>

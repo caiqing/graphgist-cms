@@ -22,8 +22,8 @@ contentApp.config(['$routeProvider',
         templateUrl: 'assets/partials/gist-detail.html',
         controller: 'GistItemCtrl'
       }).
-      when('/people/:peopleId', {
-        templateUrl: 'assets/partials/people-detail.html',
+      when('/domains/:domainsId', {
+        templateUrl: 'assets/partials/domains-detail.html',
         controller: 'PeopleItemCtrl'
       }).
 

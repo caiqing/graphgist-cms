@@ -1,5 +1,5 @@
 /**
- *  neo4j person functions
+ *  neo4j domain functions
  *  these are mostly written in a functional style
  */
 
@@ -8,7 +8,7 @@ var _ = require('underscore');
 var uuid = require('hat'); // generates uuids
 var Cypher = require('../neo4j/cypher');
 var Role = require('../models/neo4j/role');
-var Person = require('../models/neo4j/person');
+var Domain = require('../models/neo4j/domain');
 var async = require('async');
 var randomName = require('random-name');
 
@@ -31,25 +31,25 @@ function _randomNames (n) {
  *  to be combined with queries using _.partial()
  */
 
-// return a single person
-var _singlePerson = function (results, callback) {
+// return a single domain
+var _singleDomain = function (results, callback) {
   if (results.length) {
-    var person = new Person(results[0].person);
-    person.gists = results[0].gist;
-    person.related = results[0].related;
-    callback(null, person);
+    var domain = new Domain(results[0].domain);
+    domain.gists = results[0].gist;
+    domain.related = results[0].related;
+    callback(null, domain);
   } else {
     callback(null, null);
   }
 };
 
-// return many people
-var _manyPersons = function (results, callback) {
-  var people = _.map(results, function (result) {
-    return new Person(result.person);
+// return many domains
+var _manyDomains = function (results, callback) {
+  var domains = _.map(results, function (result) {
+    return new Domain(result.domain);
   });
 
-  callback(null, people);
+  callback(null, domains);
 };
 
 var _manyRoles = function (results, callback) {
@@ -87,7 +87,7 @@ var _matchBy = function (keys, params, options, callback) {
     'WITH node',
     'MATCH (node)',
     Cypher.where('node', keys),
-    'RETURN node as person'
+    'RETURN node as domain'
   ].join('\n');
 
   callback(null, query, cypher_params);
@@ -102,25 +102,25 @@ var _getAuthorByGist = function (params, options, callback) {
 
   var query = [
     'MATCH (gist:Gist {title: {title}})',
-    'MATCH (person)<-[:HAS_USECASE]-(gist)', 
-    'RETURN DISTINCT person'
+    'MATCH (domain)<-[:HAS_USECASE]-(gist)', 
+    'RETURN DISTINCT domain'
   ].join('\n');
 
   callback(null, query, cypher_params);
 };
 
-// var _getCoActorsByPerson = function (params, options, callback) {
+// var _getCoActorsByDomain = function (params, options, callback) {
 //   var cypher_params = {
 //     name: params.name
 //   };
 
 //   var query = [
-//     'MATCH (actor:Person {name: {name}})',
+//     'MATCH (actor:Domain {name: {name}})',
 //     'MATCH (actor)-[:ACTED_IN]->(m)',
 //     'WITH m, actor',
-//     'MATCH (m)<-[:ACTED_IN]-(person:Person)',
-//     'WHERE actor <> person', 
-//     'RETURN person'
+//     'MATCH (m)<-[:ACTED_IN]-(domain:Domain)',
+//     'WHERE actor <> domain', 
+//     'RETURN domain'
 //   ].join('\n');
 
 //   callback(null, query, cypher_params);
@@ -133,8 +133,8 @@ var _getAuthorByGist = function (params, options, callback) {
 
 //   var query = [
 //     'MATCH (gist:Gist {title: {title}})',
-//     'MATCH (people:Person)-[relatedTo]-(gist)', 
-//     'RETURN { gisttitle: gist.title, name: people.name, roletype: type(relatedTo) } as role'
+//     'MATCH (domains:Domain)-[relatedTo]-(gist)', 
+//     'RETURN { gisttitle: gist.title, name: domains.name, roletype: type(relatedTo) } as role'
 //   ].join('\n');
 
 //   callback(null, query, cypher_params);
@@ -153,7 +153,7 @@ var _getViewByName = function (params, options, callback) {
     'OPTIONAL MATCH (tag)<-[:HAS_USECASE|HAS_DOMAIN]-(gist)-[:HAS_USECASE|HAS_DOMAIN]->(tags)',
     'WITH DISTINCT { name: tags.name, poster_image: tags.poster_image } as related, count(DISTINCT gists) as weight, gist, tag',
     'ORDER BY weight DESC',
-    'RETURN collect(DISTINCT { title: gist.title, poster_image: gist.poster_image }) as gist, collect(DISTINCT { related: related, weight: weight }) as related, tag as person'
+    'RETURN collect(DISTINCT { title: gist.title, poster_image: gist.poster_image }) as gist, collect(DISTINCT { related: related, weight: weight }) as related, tag as domain'
   ].join('\n');
 
   callback(null, query, cypher_params);
@@ -164,7 +164,7 @@ var _getViewByName = function (params, options, callback) {
 // var _matchByUUID = _.partial(_matchBy, ['id']);
 var _matchAll = _.partial(_matchBy, []);
 
-// gets n random people
+// gets n random domains
 var _getRandom = function (params, options, callback) {
   var cypher_params = {
     n: parseInt(params.n || 1)
@@ -206,13 +206,13 @@ var _updateName = function (params, options, callback) {
     'WITH node',
     'MATCH (node {id:{id}})',
     'SET node.name = {name}',
-    'RETURN node as person'
+    'RETURN node as domain'
   ].join('\n');
 
   callback(null, query, cypher_params);
 };
 
-// creates the person with cypher
+// creates the domain with cypher
 var _create = function (params, options, callback) {
   var cypher_params = {
     id: params.id || uuid(),
@@ -229,13 +229,13 @@ var _create = function (params, options, callback) {
     'SET node.created = timestamp()',
     'ON MATCH',
     'SET node.lastLogin = timestamp()',
-    'RETURN node as person'
+    'RETURN node as domain'
   ].join('\n');
 
   callback(null, query, cypher_params);
 };
 
-// delete the person and any relationships with cypher
+// delete the domain and any relationships with cypher
 var _delete = function (params, options, callback) {
   var cypher_params = {
     id: params.id
@@ -253,7 +253,7 @@ var _delete = function (params, options, callback) {
   callback(null, query, cypher_params);
 };
 
-// delete all people
+// delete all domains
 var _deleteAll = function (params, options, callback) {
   var cypher_params = {};
 
@@ -266,34 +266,34 @@ var _deleteAll = function (params, options, callback) {
   callback(null, query, cypher_params);
 };
 
-// get a single person by id
-// var getById = Cypher(_matchByUUID, _singlePerson);
+// get a single domain by id
+// var getById = Cypher(_matchByUUID, _singleDomain);
 
-// get a single person by name
-var getByName = Cypher(_getViewByName, _singlePerson);
+// get a single domain by name
+var getByName = Cypher(_getViewByName, _singleDomain);
 
 // Get a author of a gist
-// var getAuthorByGist = Cypher(_getAuthorByGist, _singlePerson);
+// var getAuthorByGist = Cypher(_getAuthorByGist, _singleDomain);
 
 // get gist roles
 // var getRolesByGist = Cypher(_getRolesByGist, _manyRoles);
 
 // Get a author of a gist
-// var getCoActorsByPerson = Cypher(_getCoActorsByPerson, _manyPersons);
+// var getCoActorsByDomain = Cypher(_getCoActorsByDomain, _manyDomains);
 
-// get n random people
-var getRandom = Cypher(_getRandom, _manyPersons);
+// get n random domains
+var getRandom = Cypher(_getRandom, _manyDomains);
 
-// // get n random people
-// var getRandomWithFriends = Cypher(_getRandomWithFriends, _manyPersonsWithFriends);
+// // get n random domains
+// var getRandomWithFriends = Cypher(_getRandomWithFriends, _manyDomainsWithFriends);
 
-// get a person by id and update their name
-var updateName = Cypher(_updateName, _singlePerson);
+// get a domain by id and update their name
+var updateName = Cypher(_updateName, _singleDomain);
 
-// create a new person
-var create = Cypher(_create, _singlePerson);
+// create a new domain
+var create = Cypher(_create, _singleDomain);
 
-// create many new people
+// create many new domains
 var createMany = function (params, options, callback) {
   if (params.names && _.isArray(params.names)) {
     async.map(params.names, function (name, callback) {
@@ -301,9 +301,9 @@ var createMany = function (params, options, callback) {
     }, function (err, responses) {
       Cypher.mergeReponses(err, responses, callback);
     });
-  } else if (params.people && _.isArray(params.people)) {
-    async.map(params.people, function (person, callback) {
-      create(_.pick(person, 'name', 'id'), options, callback);
+  } else if (params.domains && _.isArray(params.domains)) {
+    async.map(params.domains, function (domain, callback) {
+      create(_.pick(domain, 'name', 'id'), options, callback);
     }, function (err, responses) {
       Cypher.mergeReponses(err, responses, callback);
     });
@@ -317,32 +317,32 @@ var createRandom = function (params, options, callback) {
   createMany({names: names}, options, callback);
 };
 
-// login a person
+// login a domain
 var login = create;
 
-// get all people
-var getAll = Cypher(_matchAll, _manyPersons);
+// get all domains
+var getAll = Cypher(_matchAll, _manyDomains);
 
-// get all people count
+// get all domains count
 var getAllCount = Cypher(_getAllCount, _singleCount);
 
-// delete a person by id
-var deletePerson = Cypher(_delete);
+// delete a domain by id
+var deleteDomain = Cypher(_delete);
 
-// delete a person by id
-var deleteAllPersons = Cypher(_deleteAll);
+// delete a domain by id
+var deleteAllDomains = Cypher(_deleteAll);
 
-// reset all people
-var resetPersons = function (params, options, callback) {
-  deleteAllPersons(null, options, function (err, response) {
+// reset all domains
+var resetDomains = function (params, options, callback) {
+  deleteAllDomains(null, options, function (err, response) {
     if (err) return callback(err, response);
     createRandom(params, options, function (err, secondResponse) {
       if (err) return Cypher.mergeRaws(err, [response, secondResponse], callback);
       manyFriendships({
-        people: secondResponse.results,
+        domains: secondResponse.results,
         friendships: params.friendships
       }, options, function (err, finalResponse) {
-        // this doesn't return all the people, just the ones with friends
+        // this doesn't return all the domains, just the ones with friends
         Cypher.mergeRaws(err, [response, secondResponse, finalResponse], callback);
       });
     });
@@ -356,6 +356,6 @@ module.exports = {
   // getById: getById,
   getByName: getByName,
   // getAuthorByGist: getAuthorByGist,
-  // getCoActorsByPerson: getCoActorsByPerson,
+  // getCoActorsByDomain: getCoActorsByDomain,
   // getRolesByGist: getRolesByGist
 };

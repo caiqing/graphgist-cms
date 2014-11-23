@@ -65,7 +65,7 @@ module.exports = function (app, port) {
 
   // Add models and methods to swagger
   swagger.addModels(models)
-  .addGet(routes.people.list)
+  .addGet(routes.domains.list)
   .addGet(routes.gists.list)
   .addGet(routes.gists.gistCount)
   .addGet(routes.gists.findById)
@@ -73,8 +73,8 @@ module.exports = function (app, port) {
   .addGet(routes.gists.findGistsByDateRange)
   .addGet(routes.gists.findGistsByActor)
   .addGet(routes.gists.findByGenre)
-  .addGet(routes.people.findPersonByAuthoredGist)
-  .addGet(routes.people.findByName);
+  .addGet(routes.domains.findPersonByAuthoredGist)
+  .addGet(routes.domains.findByName);
 
 
   // Configures the app's base path and api version.

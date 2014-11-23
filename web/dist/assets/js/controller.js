@@ -119,46 +119,6 @@ contentApp.controller('GistSubmitCtrl', ['$scope', '$routeParams',
     $('[required="required"]').closest('.form-group').find('.label-text').append(' <span class="required-star">*</span>')
   }]);
 
-// contentApp.directive('carouselactors', function() {
-// 	var res = {
-//      restrict : 'A',
-//      link     : function (scope, element, attrs) {
-//            scope.$watch(attrs.carouselactors, function(gist) {  
-//            	if(scope.gist != undefined ? scope.gist.actors != undefined ? scope.gist.actors.length > 0 : false : false)
-//            	{
-//            		gist = scope.gist;
-//            		var html = '';
-// 	            for (var i = 0; i < gist.actors.length; i++) {
-// 					var actorTitleLink = gist.actors[i].poster_image || '/assets/img/actors/' + gist.actors[i].name.replace('/', ' ') + '.jpg';
-// 	                 html += '<div class="item">' +
-// 						          '<div class="thumbnail">' +
-// 						            '<a href="#/people/' + gist.actors[i].name + '"><img src="' + actorTitleLink + '"/></a>' +
-// 						          '</div>' +
-// 						          '<span><a href="#/people/' + gist.actors[i].name + '">' + gist.actors[i].name + '</a></span>' +
-// 						        '</div>';
-
-// 	            }
-//             //src="assets/img/actors/' + actorTitleLink + '.jpg"
-//             	element[0].innerHTML = html;
-
-//             	setTimeout(function() {
-// 	            $(element).owlCarousel({
-// 					items : 7,
-// 					itemsDesktop : [1199,6],
-// 					itemsDesktopSmall : [980,5],
-// 					itemsTablet: [768,5],
-// 					itemsMobile: [479, 3]
-// 				});
-// 				Holder.run();
-// 	           }, 0);
-// 			}
-        	
-//         });
-//        }
-//    };
-//   return res;
-// });
-
 contentApp.directive('carouselrelatedgists', function() {
 	var res = {
      restrict : 'A',
@@ -220,23 +180,23 @@ contentApp.controller('GistItemCtrl', ['$scope', '$routeParams', '$http', '$temp
 	  	fetchGist();
   }]);
 
-contentApp.directive('carouselpeoplegists', function() {
+contentApp.directive('carouseldomainsgists', function() {
 	var res = {
      restrict : 'A',
      link     : function (scope, element, attrs) {
-           scope.$watch(attrs.carouselpeoplegists, function(people) {  
-           	console.log(scope.people);
-           	if(scope.people != undefined ? scope.people.gists != undefined ? scope.people.gists.length > 0 : false : false)
+           scope.$watch(attrs.carouseldomainsgists, function(domains) {  
+           	console.log(scope.domains);
+           	if(scope.domains != undefined ? scope.domains.gists != undefined ? scope.domains.gists.length > 0 : false : false)
            	{
-           		people = scope.people;
+           		domains = scope.domains;
            		var html = '';
-	            for (var i = 0; i < people.gists.length; i++) {
-	            	var relatedGistTitleLink = people.gists[i].poster_image || '/assets/img/posters/' + people.gists[i].title.replace('/', ' ') + '.jpg';
+	            for (var i = 0; i < domains.gists.length; i++) {
+	            	var relatedGistTitleLink = domains.gists[i].poster_image || '/assets/img/posters/' + domains.gists[i].title.replace('/', ' ') + '.jpg';
 	                 html += '<div class="item">' +
 						          '<div class="thumbnail">' +
-						            '<a href="#/gists/' + people.gists[i].title.replace('/', '%252F')  + '"><img src="' + relatedGistTitleLink +'"/></a>' +
+						            '<a href="#/gists/' + domains.gists[i].title.replace('/', '%252F')  + '"><img src="' + relatedGistTitleLink +'"/></a>' +
 						          '</div>' +
-						          '<span><a href="#/gists/' + people.gists[i].title.replace('/', '%252F')  + '">' + people.gists[i].title + '</a></span>' +
+						          '<span><a href="#/gists/' + domains.gists[i].title.replace('/', '%252F')  + '">' + domains.gists[i].title + '</a></span>' +
 						        '</div>';
 
 	            }
@@ -261,22 +221,22 @@ contentApp.directive('carouselpeoplegists', function() {
   return res;
 });
 
-contentApp.directive('carouselrelatedpeople', function() {
+contentApp.directive('carouselrelateddomains', function() {
 	var res = {
      restrict : 'A',
      link     : function (scope, element, attrs) {
-           scope.$watch(attrs.carouselrelatedpeople, function(people) {  
-           	if(scope.people != undefined ? scope.people.related != undefined ? scope.people.related.length > 0 : false : false)
+           scope.$watch(attrs.carouselrelateddomains, function(domains) {  
+           	if(scope.domains != undefined ? scope.domains.related != undefined ? scope.domains.related.length > 0 : false : false)
            	{
-           		people = scope.people;
+           		domains = scope.domains;
            		var html = '';
-	            for (var i = 0; i < people.related.length; i++) {
-					var actorTitleLink = people.related[i].related.poster_image || '/assets/img/actors/' + people.related[i].related.name.replace('/', ' ') + '.jpg';
+	            for (var i = 0; i < domains.related.length; i++) {
+					var actorTitleLink = domains.related[i].related.poster_image || '/assets/img/actors/' + domains.related[i].related.name.replace('/', ' ') + '.jpg';
 	                 html += '<div class="item">' +
 						          '<div class="thumbnail">' +
-						            '<a href="#/people/' + people.related[i].related.name + '"><img src="' + actorTitleLink + '"/></a>' +
+						            '<a href="#/domains/' + domains.related[i].related.name + '"><img src="' + actorTitleLink + '"/></a>' +
 						          '</div>' +
-						          '<span><a href="#/people/' + people.related[i].related.name + '">' + people.related[i].related.name + '</a></span>' +
+						          '<span><a href="#/domains/' + domains.related[i].related.name + '">' + domains.related[i].related.name + '</a></span>' +
 						        '</div>';
 
 	            }
@@ -303,14 +263,14 @@ contentApp.directive('carouselrelatedpeople', function() {
 
 contentApp.controller('PeopleItemCtrl', ['$scope', '$routeParams', '$http', '$templateCache',
   function($scope, $routeParams, $http, $templateCache) {
-  		console.log(API_URL+'/api/v0/people/name/' + encodeURIComponent(decodeURI(decodeURI($routeParams.peopleId))) + '?api_key=special-key&neo4j=false');
-  		$scope.url = API_URL+'/api/v0/people/name/' + encodeURIComponent(decodeURI(decodeURI($routeParams.peopleId))) + '?api_key=special-key&neo4j=false';
+  		console.log(API_URL+'/api/v0/domains/name/' + encodeURIComponent(decodeURI(decodeURI($routeParams.domainsId))) + '?api_key=special-key&neo4j=false');
+  		$scope.url = API_URL+'/api/v0/domains/name/' + encodeURIComponent(decodeURI(decodeURI($routeParams.domainsId))) + '?api_key=special-key&neo4j=false';
 	  	var fetchPeople = function()
 	  	{
 	  		$http({method: 'GET', url: $scope.url, cache: $templateCache}).
 			    success(function(data, status, headers, config) {
-			    	$scope.people = data;
-			    	$scope.people.poster_image = $scope.people.poster_image || '/assets/img/actors/' + $scope.people.name.replace('/', ' ') + '.jpg';
+			    	$scope.domains = data;
+			    	$scope.domains.poster_image = $scope.domains.poster_image || '/assets/img/actors/' + $scope.domains.name.replace('/', ' ') + '.jpg';
 			    }).
 			    error(function(data, status, headers, config) {
 			    // called asynchronously if an error occurs

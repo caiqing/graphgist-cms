@@ -1,6 +1,6 @@
-// people.js
+// domains.js
 
-var People = require('../models/people');
+var Domains = require('../models/domains');
 var sw = require("swagger-node-express");
 var param = sw.params;
 var url = require("url");
@@ -35,17 +35,17 @@ function parseBool (req, key) {
 
 exports.list = {
   'spec': {
-    "description" : "List all people",
-    "path" : "/people",
-    "notes" : "Returns all people",
-    "summary" : "Find all people",
+    "description" : "List all domains",
+    "path" : "/domains",
+    "notes" : "Returns all domains",
+    "summary" : "Find all domains",
     "method": "GET",
     "params" : [
       // param.query("friends", "Include friends", "boolean", false, false, "LIST[true, false]", "true")
     ],
     "responseClass" : "List[Domain]",
-    "errorResponses" : [swe.notFound('people')],
-    "nickname" : "getPeople"
+    "errorResponses" : [swe.notFound('domains')],
+    "nickname" : "getDomains"
   },
   'action': function (req, res) {
     // var friends = parseBool(req, 'friends');
@@ -55,13 +55,13 @@ exports.list = {
     var start = new Date();
 
     // if (friends) {
-    //   People.getAllWithFriends(null, options, function (err, response) {
-    //     if (err || !response.results) throw swe.notFound('people');
+    //   Domains.getAllWithFriends(null, options, function (err, response) {
+    //     if (err || !response.results) throw swe.notFound('domains');
     //     writeResponse(res, response, start);
     //   });
     // } else {
-      People.getAll(null, options, function (err, response) {
-        if (err || !response.results) throw swe.notFound('people');
+      Domains.getAll(null, options, function (err, response) {
+        if (err || !response.results) throw swe.notFound('domains');
         writeResponse(res, response, start);
       });
     // }
@@ -71,7 +71,7 @@ exports.list = {
 exports.findPersonByAuthoredGist = {
   'spec': {
     "description" : "Find a author",
-    "path" : "/people/author/gist/{title}",
+    "path" : "/domains/author/gist/{title}",
     "notes" : "Returns a person who directed a gist",
     "summary" : "Find person who directed a gist by title",
     "method": "GET",
@@ -101,7 +101,7 @@ exports.findPersonByAuthoredGist = {
     };
 
 
-    People.getAuthorByGist(params, options, callback);
+    Domains.getAuthorByGist(params, options, callback);
 
   }
 };
@@ -109,13 +109,13 @@ exports.findPersonByAuthoredGist = {
 exports.personCount = {
   'spec': {
     "description" : "Person count",
-    "path" : "/people/count",
+    "path" : "/domains/count",
     "notes" : "Person count",
     "summary" : "Person count",
     "method": "GET",
     "params" : [],
     "responseClass" : "Count",
-    "errorResponses" : [swe.notFound('people')],
+    "errorResponses" : [swe.notFound('domains')],
     "nickname" : "personCount"
   },
   'action': function (req, res) {
@@ -123,8 +123,8 @@ exports.personCount = {
       neo4j: parseBool(req, 'neo4j')
     };
     var start = new Date();
-    People.getAllCount(null, options, function (err, response) {
-      // if (err || !response.results) throw swe.notFound('people');
+    Domains.getAllCount(null, options, function (err, response) {
+      // if (err || !response.results) throw swe.notFound('domains');
       writeResponse(res, response, start);
     });
   }
@@ -132,7 +132,7 @@ exports.personCount = {
 
 exports.addPerson = {
   'spec': {
-    "path" : "/people",
+    "path" : "/domains",
     "notes" : "adds a person to the graph",
     "summary" : "Add a new person to the graph",
     "method": "POST",
@@ -152,7 +152,7 @@ exports.addPerson = {
     if (!names.length){
       throw swe.invalid('name');
     } else {
-      People.createMany({
+      Domains.createMany({
         names: names
       }, options, function (err, response) {
         if (err || !response.results) throw swe.invalid('input');
@@ -163,18 +163,18 @@ exports.addPerson = {
 };
 
 
-exports.addRandomPeople = {
+exports.addRandomDomains = {
   'spec': {
-    "path" : "/people/random/{n}",
-    "notes" : "adds many random people to the graph",
-    "summary" : "Add many random new people to the graph",
+    "path" : "/domains/random/{n}",
+    "notes" : "adds many random domains to the graph",
+    "summary" : "Add many random new domains to the graph",
     "method": "POST",
     "responseClass" : "List[Domain]",
     "params" : [
-      param.path("n", "Number of random people to be created", "integer", null, 1)
+      param.path("n", "Number of random domains to be created", "integer", null, 1)
     ],
     "errorResponses" : [swe.invalid('input')],
-    "nickname" : "addRandomPeople"
+    "nickname" : "addRandomDomains"
   },
   'action': function(req, res) {
     var options = {
@@ -185,7 +185,7 @@ exports.addRandomPeople = {
     if (!n){
       throw swe.invalid('input');
     } else {
-      People.createRandom({n:n}, options, function (err, response) {
+      Domains.createRandom({n:n}, options, function (err, response) {
         if (err || !response.results) throw swe.invalid('input');
         writeResponse(res, response, start);
       });
@@ -197,7 +197,7 @@ exports.addRandomPeople = {
 exports.findByName = {
   'spec': {
     "description" : "find a person",
-    "path" : "/people/name/{name}",
+    "path" : "/domains/name/{name}",
     "notes" : "Returns a person based on name",
     "summary" : "Find person by name",
     "method": "GET",
@@ -226,6 +226,6 @@ exports.findByName = {
       writeResponse(res, response, start);
     };
 
-    People.getByName(params, options, callback);
+    Domains.getByName(params, options, callback);
   }
 };
