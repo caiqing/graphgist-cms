@@ -103,8 +103,17 @@ contentApp.controller('GistListCtrl', ['$scope', '$http', '$templateCache',
 	  	fetchGists();
 	}]);
 
-contentApp.controller('GistSubmitCtrl', ['$scope',
-  function($scope) {
+contentApp.controller('GistSubmitCtrl', ['$scope', '$routeParams',
+  function($scope, $routeParams) {
+    var name, value;
+
+    for (name in $routeParams) {
+      value = $routeParams[name];
+
+      $('[name="'+ name +'"]').val(value);
+    }
+
+      
     $scope.tshirt_sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL']
 
     $('[required="required"]').closest('.form-group').find('.label-text').append(' <span class="required-star">*</span>')
