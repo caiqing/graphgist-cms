@@ -258,19 +258,27 @@ var _updateName = function (params, options, callback) {
 
 // creates the gist with cypher
 var _create = function (params, options, callback) {
-  var cypher_params = {
-    id: params.id || uuid(),
-    name: params.name
-  };
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ gist name?
+  var cypher_params = {};
+
+  var key, value, set_parts = [];
+  
+  console.log({params: params});
+  for ( key in params ) {
+    if ( params[key] !== '' )
+      set_parts.push('gist.'+ key +'={'+ key +'}');
+
+    cypher_params[key] = params[key];
+  }
+  cypher_params.id = params.id || uuid();
+
+  console.log({set_parts: set_parts});
   var query = [
-    'MERGE (gist:Gist {name: {name}, id: {id}})',
-    'ON CREATE',
+    'CREATE (gist:Gist)',
     'SET gist.created = timestamp()',
-    'ON MATCH',
-    'SET gist.lastLogin = timestamp()',
-    'RETURN gist as gist'
-  ].join('\n');
+    'SET gist.id = {id}',
+    'SET '+ set_parts.join(', '),
+    'RETURN gist'
+  ].join('\n')
 
   callback(null, query, cypher_params);
 };
@@ -393,5 +401,7 @@ module.exports = {
   getByTitle: getByTitle,
   // getByDateRange: getByDateRange,
 //  getByActor: getByActor,
-  getByGenre: getByGenre
+  getByGenre: getByGenre,
+
+  create: create
 };

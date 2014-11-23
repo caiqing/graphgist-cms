@@ -18,6 +18,7 @@ module.exports = function (app, port) {
     // just using json for the api
     subpath.use(express.json());
     subpath.use(express.methodOverride());
+    subpath.use(express.bodyParser());
   });
 
   app.configure(function () {
@@ -73,6 +74,7 @@ module.exports = function (app, port) {
   .addGet(routes.gists.findGistsByDateRange)
   .addGet(routes.gists.findGistsByActor)
   .addGet(routes.gists.findByGenre)
+  .addPost(routes.gists.createGist)
   .addGet(routes.domains.findPersonByAuthoredGist)
   .addGet(routes.domains.findByName);
 

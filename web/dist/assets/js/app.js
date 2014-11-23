@@ -4,6 +4,7 @@
 
 var contentApp = angular.module('contentApp', [
   'ngRoute',
+  'ngResource',
   'contentappControllers'
 ]);
 

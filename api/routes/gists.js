@@ -266,3 +266,33 @@ exports.findGistsByActor = {
 
   }
 };
+
+exports.createGist = {
+  spec: {
+    description: "Create a gist submission",
+    path: "/gists",
+    method: "POST",
+    notes: "Create a gist submission",
+    summary: "Create a gist submission",
+    responseClass: "Gist",
+    errorResponses : [swe.invalid('body')],
+    nickname: "createGist"
+  },
+  action: function (req, res) {
+    // Validate so that nobody is submitting sneaky data
+    valid_keys = ['url', 'title', 'category', 'description', 'image_url',
+                  'submitter_name', 'submitter_twitter', 'submitter_postal_address', 'submitter_email', 'submitter_tshirt_size', 'submitter_tshirt_size_other']
+
+    if (_(_(req.body).keys()).difference(valid_keys).length) {
+      throw swe.invalid('body')
+    }
+
+    Gists.create(_(req.body).extend({candidate: true}), {}, function (err, query, data) {
+      if (err) {
+        throw err;
+      } else {
+        writeResponse(res, query, data);
+      }
+    });
+  }
+}
