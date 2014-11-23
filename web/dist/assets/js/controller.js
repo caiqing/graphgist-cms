@@ -105,7 +105,9 @@ contentApp.controller('GistListCtrl', ['$scope', '$http', '$templateCache',
 
 contentApp.controller('GistSubmitCtrl', ['$scope',
   function($scope) {
-      $scope.tshirt_sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL']
+    $scope.tshirt_sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL']
+
+    $('[required="required"]').closest('.form-group').find('.label-text').append(' <span class="required-star">*</span>')
   }]);
 
 // contentApp.directive('carouselactors', function() {
