@@ -51,8 +51,8 @@ contentApp.directive('carousel', function() {
 	            	if ($.inArray(genre, gists[i].genres) != -1) {
 	            	var gistTitleLink = gists[i].poster_image || '/assets/img/posters/' + gists[i].title.replace('/', ' ') + '.jpg';
 	                 html += '<div class="item">' +
-                      '<a class="carousel-gists thumbnail" href="index.html#/gists/' + gists[i].title.replace('/', '%252F') + '" style="background-image: url('+ gistTitleLink +')"></a>' +
-						          '<span><a href="index.html#/gists/' + gists[i].title.replace('/', '%252F') + '">' + gists[i].title + '</a></span>' +
+                      '<a class="carousel-gists thumbnail" href="#/gists/' + gists[i].title.replace('/', '%252F') + '" style="background-image: url('+ gistTitleLink +')"></a>' +
+						          '<span><a href="#/gists/' + gists[i].title.replace('/', '%252F') + '">' + gists[i].title + '</a></span>' +
 						        '</div>';
 						    };
 	            }
@@ -123,9 +123,9 @@ contentApp.controller('GistSubmitCtrl', ['$scope',
 // 					var actorTitleLink = gist.actors[i].poster_image || '/assets/img/actors/' + gist.actors[i].name.replace('/', ' ') + '.jpg';
 // 	                 html += '<div class="item">' +
 // 						          '<div class="thumbnail">' +
-// 						            '<a href="index.html#/people/' + gist.actors[i].name + '"><img src="' + actorTitleLink + '"/></a>' +
+// 						            '<a href="#/people/' + gist.actors[i].name + '"><img src="' + actorTitleLink + '"/></a>' +
 // 						          '</div>' +
-// 						          '<span><a href="index.html#/people/' + gist.actors[i].name + '">' + gist.actors[i].name + '</a></span>' +
+// 						          '<span><a href="#/people/' + gist.actors[i].name + '">' + gist.actors[i].name + '</a></span>' +
 // 						        '</div>';
 
 // 	            }
@@ -162,8 +162,8 @@ contentApp.directive('carouselrelatedgists', function() {
 	            for (var i = 0; i < gist.related.length; i++) {
 					var relatedGistTitleLink = gist.related[i].related.poster_image || '/assets/img/posters/' + gist.related[i].related.title.replace('/', ' ') + '.jpg';
 	                 html += '<div class="item">' +
-                      '<a class="carousel-gists thumbnail" href="index.html#/gists/' + gist.related[i].related.title.replace('/', '%252F') + '" style="background-image: url('+ relatedGistTitleLink +')"></a>' +
-						          '<span><a href="index.html#/gists/' + gist.related[i].related.title.replace('/', '%252F')  + '">' + gist.related[i].related.title + '</a></span>' +
+                      '<a class="carousel-gists thumbnail" href="#/gists/' + gist.related[i].related.title.replace('/', '%252F') + '" style="background-image: url('+ relatedGistTitleLink +')"></a>' +
+						          '<span><a href="#/gists/' + gist.related[i].related.title.replace('/', '%252F')  + '">' + gist.related[i].related.title + '</a></span>' +
 						        '</div>';
 
 	            }
@@ -225,9 +225,9 @@ contentApp.directive('carouselpeoplegists', function() {
 	            	var relatedGistTitleLink = people.gists[i].poster_image || '/assets/img/posters/' + people.gists[i].title.replace('/', ' ') + '.jpg';
 	                 html += '<div class="item">' +
 						          '<div class="thumbnail">' +
-						            '<a href="index.html#/gists/' + people.gists[i].title.replace('/', '%252F')  + '"><img src="' + relatedGistTitleLink +'"/></a>' +
+						            '<a href="#/gists/' + people.gists[i].title.replace('/', '%252F')  + '"><img src="' + relatedGistTitleLink +'"/></a>' +
 						          '</div>' +
-						          '<span><a href="index.html#/gists/' + people.gists[i].title.replace('/', '%252F')  + '">' + people.gists[i].title + '</a></span>' +
+						          '<span><a href="#/gists/' + people.gists[i].title.replace('/', '%252F')  + '">' + people.gists[i].title + '</a></span>' +
 						        '</div>';
 
 	            }
@@ -265,9 +265,9 @@ contentApp.directive('carouselrelatedpeople', function() {
 					var actorTitleLink = people.related[i].related.poster_image || '/assets/img/actors/' + people.related[i].related.name.replace('/', ' ') + '.jpg';
 	                 html += '<div class="item">' +
 						          '<div class="thumbnail">' +
-						            '<a href="index.html#/people/' + people.related[i].related.name + '"><img src="' + actorTitleLink + '"/></a>' +
+						            '<a href="#/people/' + people.related[i].related.name + '"><img src="' + actorTitleLink + '"/></a>' +
 						          '</div>' +
-						          '<span><a href="index.html#/people/' + people.related[i].related.name + '">' + people.related[i].related.name + '</a></span>' +
+						          '<span><a href="#/people/' + people.related[i].related.name + '">' + people.related[i].related.name + '</a></span>' +
 						        '</div>';
 
 	            }

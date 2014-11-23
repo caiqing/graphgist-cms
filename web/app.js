@@ -13,9 +13,6 @@ module.exports = function (app, api_port) {
 
       res.render(__dirname + '/dist/index.html.jade', {api_port: api_port, api_url: api_url});
     });
-    app.get('/index.html', function (req, res) {
-      res.render(__dirname + '/dist/index.html.jade', {api_port: api_port});
-    });
     app.use('/dist/assets', express.static(__dirname + '/dist/assets'));
     app.use(express.static(__dirname + '/dist'));
   });

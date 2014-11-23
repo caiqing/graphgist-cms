@@ -39,10 +39,10 @@
                   <div class="panel-heading">Duration: <span class="panel-heading">{{gist.duration + ' min'}}</span></div>
                 </li> -->
                 <li class="list-group-item">
-                  <div class="panel-heading">Domains: <span class="panel-heading genre-list"><span ng-repeat="genre in gist.genres | orderBy:'toString()'"><a href="/index.html#/people/{{genre.toString()}}">{{genre.toString()}}{{{true: '', false: ', '}[$last]}}</a></span></span></div>
+                  <div class="panel-heading">Domains: <span class="panel-heading genre-list"><span ng-repeat="genre in gist.genres | orderBy:'toString()'"><a href="/#/people/{{genre.toString()}}">{{genre.toString()}}{{{true: '', false: ', '}[$last]}}</a></span></span></div>
                 </li>
                 <li class="list-group-item">
-                  <div class="panel-heading">Use Cases: <span class="panel-heading genre-list"><span ng-repeat="usecase in gist.usecases | orderBy:'toString()'"><a href="/index.html#/people/{{usecase.toString()}}">{{usecase}}{{{true: '', false: ', '}[$last]}}</a></span></span></div>
+                  <div class="panel-heading">Use Cases: <span class="panel-heading genre-list"><span ng-repeat="usecase in gist.usecases | orderBy:'toString()'"><a href="/#/people/{{usecase.toString()}}">{{usecase}}{{{true: '', false: ', '}[$last]}}</a></span></span></div>
                 </li>
                 <li class="list-group-item">
                   <div class="panel-heading">Authored By: <span class="panel-heading genre-list"><span ng-repeat="writer in gist.writers">{{writer}}{{{true: '', false: ', '}[$last]}}</span></span></div>
