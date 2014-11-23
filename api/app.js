@@ -74,8 +74,6 @@ module.exports = function (app, port) {
   .addGet(routes.gists.findGistsByActor)
   .addGet(routes.gists.findByGenre)
   .addGet(routes.people.findPersonByAuthoredGist)
-  .addGet(routes.people.findActorsByCoActor)
-  .addGet(routes.people.findRolesByGist)
   .addGet(routes.people.findByName);
 
 
