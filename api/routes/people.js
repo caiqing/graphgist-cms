@@ -68,10 +68,10 @@ exports.list = {
   }
 };
 
-exports.findPersonByDirectedGist = {
+exports.findPersonByAuthoredGist = {
   'spec': {
-    "description" : "Find a director",
-    "path" : "/people/director/gist/{title}",
+    "description" : "Find a author",
+    "path" : "/people/author/gist/{title}",
     "notes" : "Returns a person who directed a gist",
     "summary" : "Find person who directed a gist by title",
     "method": "GET",
@@ -80,7 +80,7 @@ exports.findPersonByDirectedGist = {
     ],
     "responseClass" : "Domain",
     "errorResponses" : [swe.invalid('title'), swe.notFound('person')],
-    "nickname" : "getPersonByDirectedGist"
+    "nickname" : "getPersonByAuthoredGist"
   },
   'action': function (req,res) {
     var title = req.params.title;
@@ -101,7 +101,7 @@ exports.findPersonByDirectedGist = {
     };
 
 
-    People.getDirectorByGist(params, options, callback);
+    People.getAuthorByGist(params, options, callback);
 
   }
 };

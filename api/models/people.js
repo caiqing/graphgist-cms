@@ -95,7 +95,7 @@ var _matchBy = function (keys, params, options, callback) {
 
 
 
-var _getDirectorByGist = function (params, options, callback) {
+var _getAuthorByGist = function (params, options, callback) {
   var cypher_params = {
     title: params.title
   };
@@ -272,13 +272,13 @@ var _deleteAll = function (params, options, callback) {
 // get a single person by name
 var getByName = Cypher(_getViewByName, _singlePerson);
 
-// Get a director of a gist
-// var getDirectorByGist = Cypher(_getDirectorByGist, _singlePerson);
+// Get a author of a gist
+// var getAuthorByGist = Cypher(_getAuthorByGist, _singlePerson);
 
 // get gist roles
 // var getRolesByGist = Cypher(_getRolesByGist, _manyRoles);
 
-// Get a director of a gist
+// Get a author of a gist
 // var getCoActorsByPerson = Cypher(_getCoActorsByPerson, _manyPersons);
 
 // get n random people
@@ -355,7 +355,7 @@ module.exports = {
   getAll: getAll,
   // getById: getById,
   getByName: getByName,
-  // getDirectorByGist: getDirectorByGist,
+  // getAuthorByGist: getAuthorByGist,
   // getCoActorsByPerson: getCoActorsByPerson,
   // getRolesByGist: getRolesByGist
 };

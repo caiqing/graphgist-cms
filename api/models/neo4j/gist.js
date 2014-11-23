@@ -18,15 +18,15 @@ Gist.prototype.genres = function (genre) {
   return this.genre;
 };
 
-Gist.prototype.director = function (director) {
-    if (director) {
-    if (director.name) {
-      this.director = director;
-    } else if (director.data) {
-      this.director = _.extend(director.data);
+Gist.prototype.author = function (author) {
+    if (author) {
+    if (author.name) {
+      this.author = author;
+    } else if (author.data) {
+      this.author = _.extend(author.data);
     }
   }
-  return this.director;
+  return this.author;
 };
 
 Gist.prototype.writer = function (writer) {
