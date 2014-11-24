@@ -15,9 +15,10 @@ module.exports = function (app, port) {
 
   // configure /api/v0 subpath for api versioning
   subpath.configure(function () {
-    // just using json for the api
+    // for using json for the api
     subpath.use(express.json());
     subpath.use(express.methodOverride());
+    // For getting POST bodies
     subpath.use(express.bodyParser());
   });
 

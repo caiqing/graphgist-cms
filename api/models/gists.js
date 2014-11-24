@@ -263,6 +263,14 @@ var _updateName = function (params, options, callback) {
 };
 
 // creates the gist with cypher
+// Takes an arbitrary params object and all key/values
+//  from the params will be copied into the object
+//  (unless the value === '')
+//
+// An `id` property will be assigned to the Gist if none is specified
+// The `created` property will also be set to the current timestamp
+//
+// options aren't used
 var _create = function (params, options, callback) {
   var cypher_params = {};
 
