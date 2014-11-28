@@ -51,7 +51,7 @@ contentApp.directive('carousel', function() {
 	            	if ($.inArray(genre, gists[i].genres) != -1) {
 	            	var gistTitleLink = gists[i].poster_image || '/assets/img/posters/' + gists[i].title.replace('/', ' ') + '.jpg';
 	                 html += '<div class="item">' +
-                      '<a class="carousel-gists thumbnail" href="#/gists/' + gists[i].title.replace('/', '%252F') + '/summary" style="background-image: url('+ gistTitleLink +')"></a>' +
+                      '<a class="carousel-gists thumbnail" href="#/gists/' + gists[i].title.replace('/', '%252F') + '/summary" style="background-image: url('+ encodeURI(gistTitleLink) +')"></a>' +
 						          '<span><a href="#/gists/' + gists[i].title.replace('/', '%252F') + '/summary">' + gists[i].title + '</a></span>' +
 						        '</div>';
 						    };
@@ -131,7 +131,7 @@ contentApp.directive('carouselrelatedgists', function() {
 	            for (var i = 0; i < gist.related.length; i++) {
 					var relatedGistTitleLink = gist.related[i].related.poster_image || '/assets/img/posters/' + gist.related[i].related.title.replace('/', ' ') + '.jpg';
 	                 html += '<div class="item">' +
-                      '<a class="carousel-gists thumbnail" href="#/gists/' + gist.related[i].related.title.replace('/', '%252F') + '/summary" style="background-image: url('+ relatedGistTitleLink +')"></a>' +
+                      '<a class="carousel-gists thumbnail" href="#/gists/' + gist.related[i].related.title.replace('/', '%252F') + '/summary" style="background-image: url('+ encodeURI(relatedGistTitleLink) +')"></a>' +
 						          '<span><a href="#/gists/' + gist.related[i].related.title.replace('/', '%252F')  + '/summary">' + gist.related[i].related.title + '</a></span>' +
 						        '</div>';
 
