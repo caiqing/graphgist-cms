@@ -103,8 +103,8 @@ contentApp.controller('GistListCtrl', ['$scope', '$http', '$templateCache',
 	  	fetchGists();
 	}]);
 
-contentApp.controller('GistSubmitCtrl', ['$scope', '$routeParams',
-  function($scope, $routeParams) {
+contentApp.controller('GistSubmitCtrl', ['$scope', '$routeParams', '$location',
+  function($scope, $routeParams, $location) {
     var name, value;
 
     for (name in $routeParams) {
@@ -117,6 +117,26 @@ contentApp.controller('GistSubmitCtrl', ['$scope', '$routeParams',
     $scope.tshirt_sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL']
 
     $('[required="required"]').closest('.form-group').find('.label-text').append(' <span class="required-star">*</span>')
+
+    $scope.submit = function () {
+      var form_data = {};
+
+      $('form').serializeArray().forEach(function (input) {
+        form_data[input.name] = input.value;
+      });
+
+      $.ajax({
+        url: '/api/v0/gists?api_key=special-key&neo4j=true',
+        type: 'POST',
+        data: form_data
+      }).done(function () {
+        $location.path('/gists/submit/thank_you');
+        $scope.$apply();
+      }).error(function () {
+        alert("There was an error submitting your gist");
+      });
+    };
+
   }]);
 
 contentApp.directive('carouselrelatedgists', function() {
@@ -179,20 +199,21 @@ contentApp.controller('GistItemCtrl', ['$scope', '$routeParams', '$http', '$temp
 	  	fetchGist();
   }]);
 
-contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$timeout',
-  function($scope, $routeParams, $timeout) {
+contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval',
+  function($scope, $routeParams, $interval) {
     $scope.getTemplateUrl = function () {
       return('/gists/' + $routeParams.gistId + '.html');
     }
-  }]);
 
-var gist_body_interval = setInterval(function() {
-  console.log('interval');
-    if ( $('#gist-body').html() ) {
-      renderGraphGist();
-      clearInterval(gist_body_interval);
-    }
-  }, 100);
+    var gist_body_interval = $interval(function() {
+      console.log('interval');
+        if ( $('#gist-body').html() ) {
+          renderGraphGist();
+          clearInterval(gist_body_interval);
+        }
+      }, 100);
+
+  }]);
 
 contentApp.directive('carouseldomainsgists', function() {
 	var res = {
