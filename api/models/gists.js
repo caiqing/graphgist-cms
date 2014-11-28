@@ -97,7 +97,7 @@ var _matchBy = function (keys, params, options, callback) {
 
   var query = [
     'MATCH (gist:Gist)',
-    'WHERE gist.candidate IS NULL',
+    'WHERE gist.status = "live"',
     Cypher.where('gist', keys),
     'RETURN gist  AS gist'
   ].join('\n');
@@ -139,7 +139,7 @@ var _getGistsWithGenres = function (params, options, callback) {
   var cypher_params = {};
   var query = [
     'MATCH (gist:Gist)',
-    'WHERE gist.candidate IS NULL',
+    'WHERE gist.status = "live"',
     'WITH gist',
     'OPTIONAL MATCH (domain)<-[:HAS_DOMAIN]-(gist)',
     'WITH gist, domain', 
@@ -161,7 +161,7 @@ var _getGistByTitle = function (params, options, callback) {
     // 'ORDER BY actorgistsweight DESC',
     // 'WITH gist, collect({name: actor.name, poster_image: actor.poster_image, weight: actorgistsweight}) as actors', 
     'MATCH (gist:Gist {title: {title} })-[:HAS_DOMAIN]->(domain)',
-    'WHERE gist.candidate IS NULL',
+    'WHERE gist.status = "live"',
     'WITH gist, collect(domain.name) as domains',
     'MATCH (usecase)<-[:HAS_USECASE]-(gist)',
     'WITH gist, domains, collect(usecase.name) as usecases',
@@ -188,7 +188,7 @@ var _matchByGenre = function (params, options, callback) {
 
   var query = [
     'MATCH (gist:Gist)-[:HAS_DOMAIN]->(domain)',
-    'WHERE gist.candidate IS NULL',
+    'WHERE gist.status = "live"',
     'WHERE domain.name = {name}',
     'RETURN gist as gist'
   ].join('\n');
@@ -225,7 +225,7 @@ var _getRandom = function (params, options, callback) {
 
   var query = [
     'MATCH (gist:Gist)',
-    'WHERE gist.candidate IS NULL',
+    'WHERE gist.status = "live"',
     'RETURN gist as gist, rand() as rnd',
     'ORDER BY rnd',
     'LIMIT {n}'
@@ -239,7 +239,7 @@ var _getAllCount = function (params, options, callback) {
 
   var query = [
     'MATCH (gist:Gist)',
-    'WHERE gist.candidate IS NULL',
+    'WHERE gist.status = "live"',
     'RETURN COUNT(gist) as c'
   ].join('\n');
 

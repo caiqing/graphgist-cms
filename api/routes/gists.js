@@ -287,7 +287,7 @@ exports.createGist = {
       throw swe.invalid('body')
     }
 
-    Gists.create(_(req.body).extend({candidate: true}), {}, function (err, query, data) {
+    Gists.create(_(req.body).extend({status: 'candidate'}), {}, function (err, query, data) {
       if (err) {
         throw err;
       } else {

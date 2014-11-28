@@ -6,3 +6,6 @@ MATCH (n) WHERE n.duration IS NOT NULL SET n.duration = NULL
 
 MATCH (n) WHERE n.released IS NOT NULL SET n.released = NULL
 
+
+
+MATCH (gist:Gist) SET gist.status='live'
