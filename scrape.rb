@@ -17,6 +17,8 @@ begin
         wait.until do
           begin
             !browser.find_element(:css, 'div#content img').attribute('src').match(/loading\.gif$/)
+          rescue Selenium::WebDriver::Error::StaleElementReferenceError
+            true
           rescue Selenium::WebDriver::Error::NoSuchElementError
             browser.find_element(:css, 'div#content div.alert') rescue nil
           end
