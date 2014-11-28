@@ -15,6 +15,9 @@ contentApp.config(['$routeProvider',
         templateUrl: 'assets/partials/home.html',
         controller: 'GistListCtrl'
       }).
+      when('/gists/about', {
+        templateUrl: 'templates/gist-about'
+      }).
       when('/gists/submit', {
         templateUrl: 'assets/partials/gist-submit.html',
         controller: 'GistSubmitCtrl'

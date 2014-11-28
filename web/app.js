@@ -19,6 +19,12 @@ module.exports = function (app, api_port) {
       res.render(__dirname + '/dist/index.html.jade', {api_port: api_port, api_url: api_url});
     });
 
+    app.get('/templates/:template', function (req, res) {
+      if (!req.params.template.match(/[a-z0-9\-_]/i)) throw 'Invalid template'
+
+      res.render(__dirname + '/dist/assets/partials/'+ req.params.template +'.html.jade', {});
+    });
+
     app.get('/gists/:id.:format?',function (req, res) {
         var id = req.params.id;
         load_gist.load_gist(id, app.locals.load_cache, function(err, data) {
