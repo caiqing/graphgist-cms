@@ -20,6 +20,10 @@ contentApp.config(['$routeProvider',
         controller: 'GistSubmitCtrl'
       }).
       when('/gists/:gistId', {
+        template : '<div id="gist" ng-include="getTemplateUrl()"></div>',
+        controller: 'GistCtrl'
+      }).
+      when('/gists/:gistId/summary', {
         templateUrl: 'assets/partials/gist-detail.html',
         controller: 'GistItemCtrl'
       }).

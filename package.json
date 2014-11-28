@@ -43,7 +43,14 @@
     "should": ">= 0.6.3",
     "random-name": ">=0.1.0",
     "node-phantom": "~0.2.5",
-    "socket.io": "0.9.16"
+    "socket.io": "0.9.16",
+    "asciidoctor.js": "1.5.x",
+
+    "request": "2.14.0",
+    "js-base64":"2.1.5"
+
+
+
   },
   "license": "MIT"
 }

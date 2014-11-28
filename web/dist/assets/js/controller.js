@@ -51,8 +51,8 @@ contentApp.directive('carousel', function() {
 	            	if ($.inArray(genre, gists[i].genres) != -1) {
 	            	var gistTitleLink = gists[i].poster_image || '/assets/img/posters/' + gists[i].title.replace('/', ' ') + '.jpg';
 	                 html += '<div class="item">' +
-                      '<a class="carousel-gists thumbnail" href="#/gists/' + gists[i].title.replace('/', '%252F') + '" style="background-image: url('+ gistTitleLink +')"></a>' +
-						          '<span><a href="#/gists/' + gists[i].title.replace('/', '%252F') + '">' + gists[i].title + '</a></span>' +
+                      '<a class="carousel-gists thumbnail" href="#/gists/' + gists[i].title.replace('/', '%252F') + '/summary" style="background-image: url('+ gistTitleLink +')"></a>' +
+						          '<span><a href="#/gists/' + gists[i].title.replace('/', '%252F') + '/summary">' + gists[i].title + '</a></span>' +
 						        '</div>';
 						    };
 	            }
@@ -131,8 +131,8 @@ contentApp.directive('carouselrelatedgists', function() {
 	            for (var i = 0; i < gist.related.length; i++) {
 					var relatedGistTitleLink = gist.related[i].related.poster_image || '/assets/img/posters/' + gist.related[i].related.title.replace('/', ' ') + '.jpg';
 	                 html += '<div class="item">' +
-                      '<a class="carousel-gists thumbnail" href="#/gists/' + gist.related[i].related.title.replace('/', '%252F') + '" style="background-image: url('+ relatedGistTitleLink +')"></a>' +
-						          '<span><a href="#/gists/' + gist.related[i].related.title.replace('/', '%252F')  + '">' + gist.related[i].related.title + '</a></span>' +
+                      '<a class="carousel-gists thumbnail" href="#/gists/' + gist.related[i].related.title.replace('/', '%252F') + '/summary" style="background-image: url('+ relatedGistTitleLink +')"></a>' +
+						          '<span><a href="#/gists/' + gist.related[i].related.title.replace('/', '%252F')  + '/summary">' + gist.related[i].related.title + '</a></span>' +
 						        '</div>';
 
 	            }
@@ -161,7 +161,6 @@ contentApp.directive('carouselrelatedgists', function() {
 
 contentApp.controller('GistItemCtrl', ['$scope', '$routeParams', '$http', '$templateCache',
   function($scope, $routeParams, $http, $templateCache) {
-  		console.log(API_URL+'/api/v0/gists/title/' + encodeURIComponent(decodeURI(decodeURI($routeParams.gistId))) + '?api_key=special-key&neo4j=false');
   		$scope.url = API_URL+'/api/v0/gists/title/' + encodeURIComponent(decodeURI(decodeURI($routeParams.gistId))) + '?api_key=special-key&neo4j=false';
 	  	var fetchGist = function()
 	  	{
@@ -180,12 +179,26 @@ contentApp.controller('GistItemCtrl', ['$scope', '$routeParams', '$http', '$temp
 	  	fetchGist();
   }]);
 
+contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$timeout',
+  function($scope, $routeParams, $timeout) {
+    $scope.getTemplateUrl = function () {
+      return('/gists/' + $routeParams.gistId + '.html');
+    }
+  }]);
+
+var gist_body_interval = setInterval(function() {
+  console.log('interval');
+    if ( $('#gist-body').html() ) {
+      renderGraphGist();
+      clearInterval(gist_body_interval);
+    }
+  }, 100);
+
 contentApp.directive('carouseldomainsgists', function() {
 	var res = {
      restrict : 'A',
      link     : function (scope, element, attrs) {
            scope.$watch(attrs.carouseldomainsgists, function(domains) {  
-           	console.log(scope.domains);
            	if(scope.domains != undefined ? scope.domains.gists != undefined ? scope.domains.gists.length > 0 : false : false)
            	{
            		domains = scope.domains;
@@ -194,9 +207,9 @@ contentApp.directive('carouseldomainsgists', function() {
 	            	var relatedGistTitleLink = domains.gists[i].poster_image || '/assets/img/posters/' + domains.gists[i].title.replace('/', ' ') + '.jpg';
 	                 html += '<div class="item">' +
 						          '<div class="thumbnail">' +
-						            '<a href="#/gists/' + domains.gists[i].title.replace('/', '%252F')  + '"><img src="' + relatedGistTitleLink +'"/></a>' +
+						            '<a href="#/gists/' + domains.gists[i].title.replace('/', '%252F')  + '/summary"><img src="' + relatedGistTitleLink +'"/></a>' +
 						          '</div>' +
-						          '<span><a href="#/gists/' + domains.gists[i].title.replace('/', '%252F')  + '">' + domains.gists[i].title + '</a></span>' +
+						          '<span><a href="#/gists/' + domains.gists[i].title.replace('/', '%252F')  + '/summary">' + domains.gists[i].title + '</a></span>' +
 						        '</div>';
 
 	            }
@@ -263,7 +276,6 @@ contentApp.directive('carouselrelateddomains', function() {
 
 contentApp.controller('PeopleItemCtrl', ['$scope', '$routeParams', '$http', '$templateCache',
   function($scope, $routeParams, $http, $templateCache) {
-  		console.log(API_URL+'/api/v0/domains/name/' + encodeURIComponent(decodeURI(decodeURI($routeParams.domainsId))) + '?api_key=special-key&neo4j=false');
   		$scope.url = API_URL+'/api/v0/domains/name/' + encodeURIComponent(decodeURI(decodeURI($routeParams.domainsId))) + '?api_key=special-key&neo4j=false';
 	  	var fetchPeople = function()
 	  	{
