@@ -5,3 +5,9 @@
   background-repeat: no-repeat;
   background-position: center;
 }
+
+code {
+  max-height: 300px;
+  overflow-y: scroll;
+  display: block;
+}
