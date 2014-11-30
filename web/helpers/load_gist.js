@@ -34,32 +34,60 @@ var DEFAULT_SOURCE = 'github-neo4j-contrib/gists/meta/Home.adoc';
 var VALID_GIST = /^[0-9a-f]{5,32}\/?$/;
 
 var github_personal_token=process.env.GITHUB_TOKEN;
-var GITHUB_OPTIONS = {
+
+var github_request = request.defaults({
     headers: {'User-Agent': 'neo4j.org'}, json: true,
     auth: {user: github_personal_token, pass: 'x-oauth-basic'},
-    encoding: "UTF-8" };
+    encoding: "UTF-8" });
 
-function fetchGithubGist(gist, callback) {
-    if (!VALID_GIST.test(gist)) {
-        callback('The gist id is malformed: ' + gist);
-        return;
+
+//var CACHE_TTL = 1000*60*15;
+var CACHE_TTL = 1000 * 10;
+
+function request_with_cache(request, cache, cache_id, callback) {
+  // Local cache
+  if (cache[cache_id] && cache[cache_id].time > Date.now() - CACHE_TTL) {
+    return callback(null, cache[cache_id].data);
+  }
+
+  // HTTP cache
+  var etag;
+  if (cache[cache_id]) etag = cache[cache_id].etag;
+
+  request({headers: {'If-None-Match': etag}}, function (err, resp, data) {
+    var result = data;
+    if (!err) {
+      if (resp.statusCode == 304) {
+        cache[cache_id].time = Date.now();
+        result = cache[cache_id].data;
+      } else if (resp.statusCode == 200) {
+        cache[cache_id] = {data: data, time: Date.now(), etag: resp.headers.etag};
+      }
     }
-    var url = 'https://api.github.com/gists/' + gist.replace("/", "");
-    request(url, GITHUB_OPTIONS ,
-        function (err, resp, data) {
-            if (err) {
-                console.log("Could not load gist from " + url,err);
-                return callback(err, "Could not load gist from " + url);
-            }
-            var file = data.files[Object.keys(data.files)[0]]; // todo check for content-type asciidoc or suffix
-            var content = file.content;
-            var link = data.html_url;
-            callback(null, content, link);
-        }
-    );
+    callback(err, result);
+  });
 }
 
-function fetchGithubFile(id, callback) {
+function fetchGithubGist(id, cache, callback) {
+    if (!VALID_GIST.test(id)) {
+        return callback('The gist id is malformed: ' + id);
+    }
+    var url = 'https://api.github.com/gists/' + id.replace("/", "");
+
+    var r = github_request.defaults({url: url});
+
+    request_with_cache(r, cache, id, function (err, data) {
+      if (err) {
+        console.log("Could not load gist from " + url, err);
+        return callback(err, "Could not load gist from " + url);
+      }
+      var file = data.files[Object.keys(data.files)[0]]; // todo check for content-type asciidoc or suffix
+      var content = file.content;
+      callback(null, content);
+    });
+}
+
+function fetchGithubFile(id, cache, callback) {
     var decoded = decodeURIComponent(id);
 
     decoded = decoded.replace(/\/contents\//, '//');
@@ -74,44 +102,46 @@ function fetchGithubFile(id, callback) {
 
 
     console.log("fetching", url);
-    request(url, merge({qs: "ref=" + branch},GITHUB_OPTIONS),
-        function (err, resp, data) {
-            if (err) {
-                console.log(err);
-                callback("Could not load gist from " + url+ " "+err);
-                return;
-            }
+    var r = github_request.defaults({url: url, qs: "ref=" + branch});
 
-            var content = Base64.decode(data.content);
-            var link = data.html_url;
-            var imagesdir = 'https://raw.github.com/' + parts[0] + '/' + parts[1]
-                + '/' + branch + '/' + data.path.substring(0, -data.name.length);
-            // console.log("got", content);
+    request_with_cache(r, cache, id, function (err, data) {
+      if (err) {
+        console.log(err);
+        callback("Could not load gist from " + url+ " "+err);
+        return;
+      }
 
-            callback(null, content, link, imagesdir); // todo images
-        }
-    );
-}
+      var content = Base64.decode(data.content);
+      var imagesdir = 'https://raw.github.com/' + parts[0] + '/' + parts[1]
+          + '/' + branch + '/' + data.path.substring(0, -data.name.length);
+      // console.log("got", content);
 
-function fetchDropboxFile(id, callback) {
-    var url = DROPBOX_PUBLIC_BASE_URL + decodeURIComponent(id);
-    fetchAnyUrl(url, callback);
-}
-
-function fetchAnyUrl(id, callback) {
-    console.log('fetchAnyUrl', id);
-    var url = decodeURIComponent(id);
-    request(url, {Headers: {accept: "text/plain"}}, function (err, resp, data) {
-        callback(err, data, id);
+      callback(null, content, imagesdir); // todo images
     });
 }
 
-function fetchLocalSnippet(id, callback) {
-    var url = GRAPHGIST_BASE_URL + id + '.adoc';
-    fetchAnyUrl(url, callback);
+function fetchAnyUrl(id, cache, callback) {
+    console.log('fetchAnyUrl', id);
+    var url = decodeURIComponent(id);
+    var r = request.defaults({url: url, headers: {accept: "text/plain"}});
+
+    request_with_cache(r, cache, id, function (err, data) {
+      callback(err, data, id);
+    });
 }
 
-var CACHE_TTL = 1000*60*15;
+
+function fetchDropboxFile(id, cache, callback) {
+    var url = DROPBOX_PUBLIC_BASE_URL + decodeURIComponent(id);
+    fetchAnyUrl(url, cache, callback);
+}
+
+function fetchLocalSnippet(id, cache, callback) {
+    var url = GRAPHGIST_BASE_URL + id + '.adoc';
+    fetchAnyUrl(url, cache, callback);
+}
+
+
 
 exports.load_gist = function (id, cache, callback) {
 
@@ -125,10 +155,7 @@ exports.load_gist = function (id, cache, callback) {
             id = id.substring(0, idCut);
         }
     }
-    var entry = cache[id];
-    if (entry && entry.time > Date.now() - CACHE_TTL) {
-        return callback(null,entry.content,entry.link);
-    }
+
     var fetcher = fetchGithubGist;
     if (id.length > 8 && id.substr(0, 8) === 'dropbox-') {
         fetcher = fetchDropboxFile;
@@ -146,12 +173,8 @@ exports.load_gist = function (id, cache, callback) {
             fetcher = fetchLocalSnippet;
         }
     }
-    fetcher(id, function(err, content, link) {
-        if (!err) {
-            cache[id] = {content: content, link: link, time: Date.now()}
-        }
-        callback(err,content,link);
-    });
+
+    fetcher(id, cache, callback);
 };
 
 exports.preProcessHTML = function (content) {
