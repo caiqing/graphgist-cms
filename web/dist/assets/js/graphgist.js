@@ -68,17 +68,21 @@ function GraphGist($) {
     });
 
     renderGraphGist = function () {
-      renderContent($('#gist-body').html(), 'http://localhost:5000/#/gists/ca811daa580aee95bd07', '');
+      console.log('calling renderContent');
+      renderContent($('#gist').html(), 'http://localhost:5000/#/gists/ca811daa580aee95bd07', '');
     }
 
     function renderContent(originalContent, link, imagesdir) {
         var version = '2.1';
         var consoleUrl = CONSOLE_VERSIONS[version in CONSOLE_VERSIONS ? version : DEFAULT_VERSION];
         //postProcessPage();
-        CypherConsole({'url': consoleUrl}, function (conslr) {
+        CypherConsole({'url': consoleUrl, contentId: 'gist'}, function (conslr) {
             consolr = conslr;
+            console.log('gonna execute sum queries');
             executeQueries(function () {
+                console.log('gonna init a console');
                 initConsole(function () {
+                    console.log('gonna render some graphs');
                     renderGraphs();
                     renderTables();
                 }, function () {
@@ -270,7 +274,6 @@ function GraphGist($) {
     }
 
     function executeQueries(callbackAfter) {
-      console.log('calling executeQueries');
         var statements = [];
         var $wrappers = [];
         var receivedResults = 0;

@@ -1,0 +1,14 @@
+.container
+
+  .row
+    div
+      ol.breadcrumb
+        li
+          a(href="#") Home
+        li
+          a(href="/#/gists") GraphGists
+        li.active {{gist.title}}
+
+
+  .row
+    #gist(ng-include="getTemplateUrl()")

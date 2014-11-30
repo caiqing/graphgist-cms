@@ -27,7 +27,10 @@ module.exports = function (app, api_port) {
 
     app.get('/gists/:id.:format?',function (req, res) {
         var id = req.params.id;
-        load_gist.load_gist(id, app.locals.load_cache, function(err, data) {
+
+        var cache = req.query.skip_cache ? {} : app.locals.load_cache;
+
+        load_gist.load_gist(id, cache, function(err, data) {
             if (err) {
                 console.log("Error loading graphgist", id, err);
                 res.send(404,"Error loading graphgist from: "+ id +" "+ err)

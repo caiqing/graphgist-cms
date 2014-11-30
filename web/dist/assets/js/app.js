@@ -6,7 +6,26 @@ var contentApp = angular.module('contentApp', [
   'ngRoute',
   'ngResource',
   'contentappControllers'
-]);
+]).run(function ($rootScope) {
+  $rootScope.UTIL = {
+
+    // Maybe not the best place for this.
+    // Is there a way to get helpers that can load resources themselves?
+    loadGist: function (url, $http, $scope, $templateCache) {
+      $http({method: 'GET', url: url, cache: $templateCache}).
+        success(function(data, status, headers, config) {
+          $scope.gist = data;
+          $scope.gist.poster_image = $scope.gist.poster_image || '/assets/img/posters/' + $scope.gist.title.replace('/', ' ') + '.jpg';
+          $scope.gist.poster_image = $scope.gist.poster_image.replace("w185", "w300");
+        }).
+        error(function(data, status, headers, config) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+        });
+    }
+
+  }
+});
 
 contentApp.config(['$routeProvider',
   function($routeProvider) {
@@ -26,7 +45,7 @@ contentApp.config(['$routeProvider',
         templateUrl: 'assets/partials/gist-submit-thank-you.html'
       }).
       when('/gists/:gistId', {
-        template : '<div id="gist" ng-include="getTemplateUrl()"></div>',
+        templateUrl : 'templates/gist',
         controller: 'GistCtrl'
       }).
       when('/gists/:gistId/summary', {

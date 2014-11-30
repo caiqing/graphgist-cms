@@ -105,19 +105,20 @@ var _matchBy = function (keys, params, options, callback) {
   callback(null, query, cypher_params);
 };
 
-// var _matchById = function (params, options, callback) {
-//   var cypher_params = {
-//     n: parseInt(params.id || 1)
-//   };
+var _matchById = function (params, options, callback) {
+  var cypher_params = {
+    id: '.*'+ params.id +'.*'
+  };
 
-//   var query = [
-//     'MATCH (gist:Gist)',
-//     'WHERE id(gist) = {n}',
-//     'RETURN gist'
-//   ].join('\n');
+  var query = [
+    'MATCH (gist:Gist)',
+    'WHERE gist.url =~ {id}',
+    'RETURN gist'
+  ].join('\n');
 
-//   callback(null, query, cypher_params);
-// };
+  console.log({query: query});
+  callback(null, query, cypher_params);
+};
 
 
 // var _getByDateRange = function (params, options, callback) {
@@ -329,7 +330,7 @@ var _deleteAll = function (params, options, callback) {
 
 
 // get a single gist by id
-// var getById = Cypher(_matchById, _singleGist);
+var getById = Cypher(_matchById, _singleGist);
 
 // Get by date range
 // var getByDateRange = Cypher(_getByDateRange, _manyGists);
@@ -411,7 +412,7 @@ var resetGists = function (params, options, callback) {
 
 module.exports = {
   getAll: getManyGistsWithGenres,
-  // getById: getById,
+  getById: getById,
   getByTitle: getByTitle,
   // getByDateRange: getByDateRange,
 //  getByActor: getByActor,

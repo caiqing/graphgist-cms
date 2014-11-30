@@ -182,36 +182,26 @@ contentApp.directive('carouselrelatedgists', function() {
 contentApp.controller('GistItemCtrl', ['$scope', '$routeParams', '$http', '$templateCache',
   function($scope, $routeParams, $http, $templateCache) {
   		$scope.url = API_URL+'/api/v0/gists/title/' + encodeURIComponent(decodeURI(decodeURI($routeParams.gistId))) + '?api_key=special-key&neo4j=false';
-	  	var fetchGist = function()
-	  	{
-	  		$http({method: 'GET', url: $scope.url, cache: $templateCache}).
-			    success(function(data, status, headers, config) {
-			    	$scope.gist = data;
-			    	$scope.gist.poster_image = $scope.gist.poster_image || '/assets/img/posters/' + $scope.gist.title.replace('/', ' ') + '.jpg';
-			    	$scope.gist.poster_image = $scope.gist.poster_image.replace("w185", "w300");
-			    }).
-			    error(function(data, status, headers, config) {
-			    // called asynchronously if an error occurs
-			    // or server returns response with an error status.
-			    });
-	  	}
 
-	  	fetchGist();
+      $scope.UTIL.loadGist($scope.url, $http, $scope, $templateCache)
   }]);
 
-contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval',
-  function($scope, $routeParams, $interval) {
+contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval', '$http', '$templateCache',
+  function($scope, $routeParams, $interval, $http, $templateCache) {
     $scope.getTemplateUrl = function () {
       return('/gists/' + $routeParams.gistId + '.html');
     }
 
+    $scope.url = API_URL+'/api/v0/gists/' + $routeParams.gistId + '?api_key=special-key&neo4j=false';
+
+    $scope.UTIL.loadGist($scope.url, $http, $scope, $templateCache)
+
     var gist_body_interval = $interval(function() {
-      console.log('interval');
-        if ( $('#gist-body').html() ) {
-          renderGraphGist();
-          clearInterval(gist_body_interval);
-        }
-      }, 100);
+      if ( $('#gist').html() ) {
+        renderGraphGist();
+        $interval.cancel(gist_body_interval);
+      }
+    }, 100);
 
   }]);
 

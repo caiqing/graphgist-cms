@@ -101,12 +101,10 @@ function fetchGithubFile(id, cache, callback) {
     var url = 'https://api.github.com/repos/' + parts[0] + '/' + parts[1] + '/contents/' + parts.slice(pathPartsIndex).join('/');
 
 
-    console.log("fetching", url);
     var r = github_request.defaults({url: url, qs: "ref=" + branch});
 
     request_with_cache(r, cache, id, function (err, data) {
       if (err) {
-        console.log(err);
         callback("Could not load gist from " + url+ " "+err);
         return;
       }
@@ -114,14 +112,12 @@ function fetchGithubFile(id, cache, callback) {
       var content = Base64.decode(data.content);
       var imagesdir = 'https://raw.github.com/' + parts[0] + '/' + parts[1]
           + '/' + branch + '/' + data.path.substring(0, -data.name.length);
-      // console.log("got", content);
 
       callback(null, content, imagesdir); // todo images
     });
 }
 
 function fetchAnyUrl(id, cache, callback) {
-    console.log('fetchAnyUrl', id);
     var url = decodeURIComponent(id);
     var r = request.defaults({url: url, headers: {accept: "text/plain"}});
 
@@ -144,7 +140,6 @@ function fetchLocalSnippet(id, cache, callback) {
 
 
 exports.load_gist = function (id, cache, callback) {
-
     if (id.length < 2) {
         id = DEFAULT_SOURCE;
     }
