@@ -515,7 +515,7 @@ function GraphGist($, options) {
         $(selector, context).each(
             function () {
                 $(this).nextAll('div.listingblock').children('div').children('pre.highlight')
-                    .children('code.cypher').first().each(function () {
+                    .children('code.language-cypher').first().each(function () {
                         operation(this);
                     });
             });
