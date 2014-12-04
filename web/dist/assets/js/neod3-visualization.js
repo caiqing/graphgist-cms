@@ -149,7 +149,8 @@ function Neod3Renderer() {
         for (var i = 0; i < links.length; i++) {
             links[i].source = links[i].start;
             links[i].target = links[i].end;
-            links[i].properties = props(links[i]);
+//            debugger
+            links[i].properties = extract_props(links[i]);
         }
         var nodeStyles = node_styles(nodes);
         var styleSheet = style_sheet(nodeStyles, styleContents);

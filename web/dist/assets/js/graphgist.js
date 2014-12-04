@@ -13,13 +13,14 @@
 
 'use strict';
 
-GraphGist(jQuery);
+var GraphGistRenderer = GraphGist(jQuery, {preProcess: false});
 
-var renderGraphGist;
+var Opal = {};
 
-console.log(1234);
-function GraphGist($) {
-  console.log(1235);
+function GraphGist($, options) {
+    if (typeof options !== 'undefined') options = {}
+    if (typeof options.preProcess !== 'undefined') options.preProcess = true
+
     if ('support' in $) {
         $.support.cors = true;
     }
@@ -36,7 +37,6 @@ function GraphGist($) {
     var $VISUALIZATION = $('<div/>').addClass('visualization');
     var VISUALIZATION_HEIGHT = 400;
     var $TABLE_CONTAINER = $('<div/>').addClass('result-table');
-//    var ASCIIDOCTOR_OPTIONS = Opal.hash('attributes', [ 'notitle!' ], 'attribute-missing', 'drop');
     var DEFAULT_SOURCE = 'github-neo4j-contrib%2Fgists%2F%2Fmeta%2FHome.adoc'
     var $VISUALIZATION_ICONS = $('<div class="visualization-icons"><i class="icon-fullscreen fullscreen-icon" title="Toggle fullscreen mode"></i></div>');
     var $I = $('<i/>');
@@ -64,25 +64,47 @@ function GraphGist($) {
     var $gistId = undefined;
     var consolr = undefined;
 
-    $(document).ready(function () {
-    });
+    return({renderContent: renderContent});
 
-    renderGraphGist = function () {
-      console.log('calling renderContent');
-      renderContent($('#gist').html(), 'http://localhost:5000/#/gists/ca811daa580aee95bd07', '');
-    }
+    function renderContent(content, link, imagesdir) {
+        $content = $('#content');
+        $gistId = $('#gist-id');
 
-    function renderContent(originalContent, link, imagesdir) {
-        var version = '2.1';
+        $('#gist_link').attr('href', link).removeClass('disabled');
+        $content.empty();
+
+        if (options.preProcess) {
+          console.log('Pre processing gist');
+          var asciidoctor_options = Opal.hash('attributes', [ 'notitle!' ], 'attribute-missing', 'drop');
+          var content = preProcessContents(content);
+          if (imagesdir) {
+              // probably not supported yet due to a bug
+              //asciidoctor_options = Opal.hash('attributes', [ 'notitle!', 'imagesdir=' + imagesdir ]);
+          }
+          var generatedHtml = undefined;
+          try {
+              generatedHtml = Opal.Asciidoctor.$render(content, asciidoctor_options);
+          }
+          catch (e) {
+              errorMessage('Error while parsing the AsciiDoc source - ' + e.name + ':' + '<p>' + e.message + '</p>');
+              return;
+          }
+        }
+
+        $content.html(content);
+        if ('initSocial' in window) {
+            initSocial(initAndGetHeading());
+            share();
+        }
+        window.setTimeout(function () {
+            initDisqus($content);
+        }, 5 * 1000);
+        var version = postProcessPage();
         var consoleUrl = CONSOLE_VERSIONS[version in CONSOLE_VERSIONS ? version : DEFAULT_VERSION];
-        //postProcessPage();
-        CypherConsole({'url': consoleUrl, contentId: 'gist'}, function (conslr) {
+        CypherConsole({'url': consoleUrl}, function (conslr) {
             consolr = conslr;
-            console.log('gonna execute sum queries');
             executeQueries(function () {
-                console.log('gonna init a console');
                 initConsole(function () {
-                    console.log('gonna render some graphs');
                     renderGraphs();
                     renderTables();
                 }, function () {
@@ -105,11 +127,26 @@ function GraphGist($) {
             $status.addClass('label-success');
         }
         DotWrapper($).scan();
-        //initDisqus($content);
+        initDisqus($content);
+    }
+
+    function preProcessContents(content) {
+        var sanitized = content
+            .replace(
+            /^\/\/\s*?console/m,
+            '++++\n<p class="console"><span class="loading"><i class="icon-cogs"></i> Running queries, preparing the console!</span></p>\n++++\n');
+        sanitized = sanitized.replace(/^\/\/\s*?hide/gm, '++++\n<span class="hide-query"></span>\n++++\n');
+        sanitized = sanitized.replace(/^\/\/\s*?setup/gm, '++++\n<span class="setup"></span>\n++++\n');
+        sanitized = sanitized.replace(/^\/\/\s*?graph_result.*/gm, '++++\n<h5 class="graph-visualization" graph-mode="result"><img alt="loading" class="loading" src="http://gist.neo4j.org/images/loading.gif"></h5>\n++++\n');
+        sanitized = sanitized.replace(/^\/\/\s*?graph.*/gm, '++++\n<h5 class="graph-visualization"><img alt="loading" src="http://gist.neo4j.org/images/loading.gif" class="loading"></h5>\n++++\n');
+        sanitized = sanitized.replace(/^\/\/\s*?output.*/gm, '++++\n<span class="query-output"></span>\n++++\n');
+        sanitized = sanitized.replace(/^\/\/\s*?table.*/gm, '++++\n<h5 class="result-table"></h5>\n++++\n');
+        sanitized += '\n[subs="attributes"]\n++++\n<span id="metadata"\n author="{author}"\n version="{neo4j-version}"\n twitter="{twitter}"\n tags="{tags}"\n/>\n++++\n';
+        return sanitized;
     }
 
     function processMathJAX() {
-        //MathJax.Hub.Typeset();
+        MathJax.Hub.Typeset();
     }
 
     function formUrl(url, title, author, twitter) {
@@ -138,7 +175,6 @@ function GraphGist($) {
     }
 
     function postProcessPage() {
-        $content = $('#gist');
         var $meta = $('#metadata', $content);
         var version = $meta.attr('version'), tags = $meta.attr('tags'), author = $meta.attr('author'), twitter = $meta.attr('twitter');
         if (tags === '{tags}') {
@@ -183,7 +219,7 @@ function GraphGist($) {
             window.location.href = window.location.href.replace(/($|#.+?$)/, '#' + $(this).attr('id'))
         });
 
-        processMathJAX();
+        //processMathJAX();
         findQuery('span.hide-query', $content, function (codeElement) {
             $(codeElement.parentNode).addClass('hide-query');
         });
@@ -194,21 +230,17 @@ function GraphGist($) {
             $(codeElement.parentNode).data('show-output', true);
         });
         var number = 0;
-
         $('code', $content).each(function (index, el) {
             var $el = $(el);
-            console.log($el);
             if ($el.hasClass('language-cypher')) {
                 number++;
                 var $parent = $el.parent();
                 $parent.addClass('with-buttons');
                 $el.attr('data-lang', 'cypher');
                 $parent.prepend('<h5>Query ' + number + '</h5>');
-
                 $el.wrap($WRAPPER).each(function () {
                     $el.parent().data('query', $el.text());
                 });
-
                 var $toggleQuery = $QUERY_TOGGLE_BUTTON.clone();
                 $parent.append($toggleQuery);
                 $toggleQuery.click(function () {
@@ -226,18 +258,15 @@ function GraphGist($) {
                     toggler($wrapper, $toggleQuery, 'hide');
                 }
             } else if ($el.hasClass('sql')) {
-              console.log(112);
                 $el.attr('data-lang', 'sql');
             } else if ($el.hasClass('java')) {
-              console.log(113);
               $el.attr('data-lang', 'java');
             } else if ($el.hasClass('xml')) {
-              console.log(114);
               $el.attr('data-lang', 'xml');
             }
         });
 
-        //CodeMirror.colorize();
+        CodeMirror.colorize();
 
         $('table').addClass('table'); // bootstrap formatting
 
@@ -277,7 +306,6 @@ function GraphGist($) {
         var statements = [];
         var $wrappers = [];
         var receivedResults = 0;
-        console.log({wrappers: $('div.query-wrapper')});
         $('div.query-wrapper').each(function (index, element) {
             var $wrapper = $(element);
             var number = index + 1;
@@ -286,7 +314,7 @@ function GraphGist($) {
             statements.push(statement);
             $wrappers.push($wrapper);
         });
-        console.log({statements: statements});
+        console.log({'statements.length': statements.length});
         if (statements.length > 0) {
             consolr.query(statements, success, error);
         } else {

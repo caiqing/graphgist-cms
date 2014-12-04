@@ -38,7 +38,7 @@ function CypherConsole(config, ready) {
     function createConsole(ready, elementClass, contentId) {
         if ($('code.language-cypher').length > 0) {
             var $element = $('p.' + elementClass).first();
-            if ($element.length === 0) {
+            if ($element.length !== 1) {
                 //no console defined in the document
                 $element = $('<p/>').addClass(elementClass);
                 $('#' + contentId).append($element);
@@ -68,20 +68,15 @@ function CypherConsole(config, ready) {
             }
             window.setTimeout(function () {
                 try {
-                    console.log(1);
-                    debugger
                     if (iframeWindow.location && iframeWindow.location.href) {
-                      console.log(2);
                         var consoleLocation = iframeWindow.location.href;
-                        console.log(3);
                         if (consoleLocation.indexOf('neo4j') === -1 && consoleLocation.indexOf('localhost') === -1) {
-                            console.log(4);
                             $iframe.replaceWith('<div class="alert alert-error"><h4>Error!</h4>The console can not be loaded. Please turn off ad blockers and reload the page!</div>');
                         }
                     }
                 } catch (err) {
                     // for debugging only
-                    console.log(err)
+                    // console.log(err)
                 }
             }, 2000);
         });
