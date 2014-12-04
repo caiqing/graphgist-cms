@@ -17,13 +17,13 @@ function CypherConsole(config, ready) {
 
     var $IFRAME = $('<iframe/>').attr('id', 'console').addClass('cypherdoc-console');
     var $IFRAME_WRAPPER = $('<div/>').attr('id', 'console-wrapper');
-    var RESIZE_OUT_ICON = 'icon-resize-full';
-    var RESIZE_IN_ICON = 'icon-resize-small';
-    var $RESIZE_BUTTON = $('<a class="btn btn-small btn-primary resize-toggle"><i class="' + RESIZE_OUT_ICON + '"></i></a>');
+    var RESIZE_OUT_ICON = 'glyphicon glyphicon-resize-full';
+    var RESIZE_IN_ICON = 'glyphicon glyphicon-resize-small';
+    var $RESIZE_BUTTON = $('<a class="btn btn-sm btn-primary resize-toggle"><i class="' + RESIZE_OUT_ICON + '"></i></a>');
     var $RESIZE_VERTICAL_BUTTON = $('<span class="resize-vertical-handle ui-resizable-handle ui-resizable-s"><span/></span>');
-    var $PLAY_BUTTON = $('<a class="run-query btn btn-small btn-success" data-toggle="tooltip" title="Execute in the console." href="#"><i class="icon-play"></i></a>');
-    var $EDIT_BUTTON = $('<a class="edit-query btn btn-small" data-toggle="tooltip" title="Edit in the console." href="#"><i class="icon-edit"></i></a>');
-    var $TOGGLE_CONSOLE_HIDE_BUTTON = $('<a class="btn btn-small show-console-toggle" data-toggle="tooltip"  title="Show or hide a Neo4j Console in order to try the examples in the GraphGist live."><i class="icon-edit-sign"></i> Show/Hide Live Console</a>');
+    var $PLAY_BUTTON = $('<a class="run-query btn btn-sm btn-default btn-success" data-toggle="tooltip" title="Execute in the console." href="#"><i class="glyphicon glyphicon-play"></i></a>');
+    var $EDIT_BUTTON = $('<a class="edit-query btn btn-sm btn-default" data-toggle="tooltip" title="Edit in the console." href="#"><i class="glyphicon glyphicon-edit"></i></a>');
+    var $TOGGLE_CONSOLE_HIDE_BUTTON = $('<a class="btn btn-sm btn-default show-console-toggle" data-toggle="tooltip"  title="Show or hide a Neo4j Console in order to try the examples in the GraphGist live."><i class="glyphicon glyphicon-pencil"></i> Show/Hide Live Console</a>');
 
     var $resizeOverlay = $('<div id="resize-overlay"/>');
 
