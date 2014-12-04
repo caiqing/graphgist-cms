@@ -219,7 +219,7 @@ function GraphGist($, options) {
             window.location.href = window.location.href.replace(/($|#.+?$)/, '#' + $(this).attr('id'))
         });
 
-        //processMathJAX();
+        processMathJAX();
         findQuery('span.hide-query', $content, function (codeElement) {
             $(codeElement.parentNode).addClass('hide-query');
         });
