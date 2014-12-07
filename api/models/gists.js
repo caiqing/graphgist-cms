@@ -107,7 +107,7 @@ var _matchBy = function (keys, params, options, callback) {
 
 var _matchById = function (params, options, callback) {
   var cypher_params = {
-    id: '.*'+ params.id +'.*'
+    id: '.*'+ params.id.replace('?', '\\?') +'.*'
   };
 
   var query = [
@@ -116,7 +116,6 @@ var _matchById = function (params, options, callback) {
     'RETURN gist'
   ].join('\n');
 
-  console.log({query: query});
   callback(null, query, cypher_params);
 };
 
@@ -155,7 +154,7 @@ var _getGistByTitle = function (params, options, callback) {
   var cypher_params = {
     title: params.title
   };
-  console.log(cypher_params.title);
+
   var query = [
     // 'MATCH (gist:Gist {title: {title} })<-[:ACTED_IN]-(actor)',
     // 'WITH gist, actor, length((actor)-[:ACTED_IN]->()) as actorgistsweight',
@@ -277,7 +276,6 @@ var _create = function (params, options, callback) {
 
   var key, value, set_parts = [];
   
-  console.log({params: params});
   for ( key in params ) {
     if ( params[key] !== '' )
       set_parts.push('gist.'+ key +'={'+ key +'}');
@@ -286,7 +284,6 @@ var _create = function (params, options, callback) {
   }
   cypher_params.id = params.id || uuid();
 
-  console.log({set_parts: set_parts});
   var query = [
     'CREATE (gist:Gist)',
     'SET gist.created = timestamp()',

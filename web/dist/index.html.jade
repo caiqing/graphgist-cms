@@ -11,11 +11,16 @@ html(lang="en", ng-app="contentApp")
 
     meta(name="twitter:site", content="@neo4j")
     meta(name="twitter:domain", content="http://neo4j.org")
-    meta(name="twitter:creator", content="@<%=item['twitter']%>")
-    meta(name="twitter:title", content="<%=item['title']%>")
-    meta(name="twitter:description", content="<%=item['introText']%>")
-    meta(name="twitter:card", content="<%=item['img'] ? 'summary_large_image':'summary' %>")
-    meta(name="twitter:image:src", content="<%=item['img']||asset('img/neo4j/neo4j-logo.png') %>")
+    if gist.submitter_twitter
+      meta(name="twitter:creator", content="@"+ gist.submitter_twitter)
+    if gist.title
+      meta(name="twitter:title", content=gist.title)
+    if gist.description
+      meta(name="twitter:description", content=gist.description)
+
+    meta(name="twitter:card", content=(gist.poster_image ? 'summary_large_image' : 'summary'))
+
+    meta(name="twitter:image:src", content=(gist.poster_image || '/assets/img/neo4j/neo4j-logo.png'))
 
     title Neo4j Gists
 

@@ -1,7 +1,8 @@
 var express = require('express'),
     http = require('http'),
     asciidoctor = require('asciidoctor.js')().Asciidoctor(true),
-    load_gist = require("./helpers/load_gist.js");
+    load_gist = require("./helpers/load_gist.js"),
+    Gists = require('../api/models/gists');
 
 module.exports = function (app, api_port) {
   app.use(express.logger());
@@ -16,7 +17,26 @@ module.exports = function (app, api_port) {
     app.get('/', function (req, res) {
       api_url = (app.settings.env == 'development') ? ('http://localhost:'+ api_port) : ''
 
-      res.render(__dirname + '/dist/index.html.jade', {api_port: api_port, api_url: api_url});
+      var gist;
+
+      var render = function (err, data) {
+        if (err) {
+          console.log("Error loading graphgist", err);
+          res.send(404,"Error loading graphgist: "+ err)
+        } else {
+          res.render(__dirname + '/dist/index.html.jade', {api_port: api_port, api_url: api_url, gist: data});
+        }
+      }
+
+      if (typeof(req.query._escaped_fragment_) === 'string' &&
+          (match = req.query._escaped_fragment_.toString().match(/^\/gists\/(.*)/))) {
+        Gists.getById({id: decodeURIComponent(match[1])}, {}, function (err, data) {
+          render(err, data.results || {});
+        });
+      } else {
+        render(null, {});
+      }
+
     });
 
     app.get('/templates/:template', function (req, res) {
