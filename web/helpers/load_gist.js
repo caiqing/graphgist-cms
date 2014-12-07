@@ -152,6 +152,10 @@ function transformThirdPartyURLs(id) {
     // 8650212
     if (match = id.match(/.*gist\.github\.com\/([^#]+)/)) id = match[1]
 
+    // https://github.com/neo4j-contrib/gists/blob/master/other/BankFraudDetection.adoc
+    // https://github.com/neo4j-contrib/gists/raw/master/other/BankFraudDetection.adoc
+    if (id.match(/github\.com/)) id = id.replace('/blob/', '/raw/')
+
     // http://beta.etherpad.org/p/IudqLHvuRj
     // http://beta.etherpad.org/p/IudqLHvuRj/export/txt
     if (id.match('etherpad') && !id.match(/export/)) {
