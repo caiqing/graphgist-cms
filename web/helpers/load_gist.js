@@ -161,7 +161,7 @@ exports.load_gist = function (id, cache, callback) {
         id = id.substr(7);
     }
     else if (!VALID_GIST.test(id)) {
-        fetcher = (id.indexOf('%3A%2F%2F') !== -1) ? fetchAnyUrl : fetchLocalSnippet
+        fetcher = (id.indexOf('://') !== -1) ? fetchAnyUrl : fetchLocalSnippet
     }
 
     fetcher(id, cache, callback);

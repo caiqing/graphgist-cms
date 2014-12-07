@@ -188,25 +188,23 @@ contentApp.controller('GistItemCtrl', ['$scope', '$routeParams', '$http', '$temp
 
 contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval', '$http', '$templateCache',
   function($scope, $routeParams, $interval, $http, $templateCache) {
+    var gistId = decodeURIComponent($routeParams.gistId);
 
-    $scope.url = API_URL+'/api/v0/gists/' + $routeParams.gistId + '?api_key=special-key&neo4j=false';
+    $scope.url = API_URL+'/api/v0/gists/' + encodeURIComponent(encodeURIComponent(gistId)) + '?api_key=special-key&neo4j=false';
 
     $scope.UTIL.loadGist($scope.url, $http, $scope, $templateCache)
 
     $scope.$on('$viewContentLoaded', function () {
 
-      console.log({val: $routeParams.gistId});
       $.ajax({
-        url: '/gists/' + $routeParams.gistId + '.html',
+        url: '/gists/' + encodeURIComponent(gistId) + '.html',
         type: 'GET'
       }).done(function (content) {
 //        var gist = new Gist($, content);
 //        gist.getGistAndRenderPage(renderContent, DEFAULT_SOURCE);
 
-        console.log('done!');
         GraphGistRenderer.renderContent(content, '', '');
       }).fail(function (error) {
-        console.log('fail!');
         console.log({error: arguments});
       });
 

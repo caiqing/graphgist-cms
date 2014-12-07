@@ -96,7 +96,8 @@ exports.findById = {
     "nickname" : "getGistById"
   },
   'action': function (req,res) {
-    var id = req.params.id;
+    var id = decodeURIComponent(req.params.id);
+
     var options = {
       neo4j: parseBool(req, 'neo4j')
     };
