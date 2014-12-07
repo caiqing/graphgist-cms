@@ -41,6 +41,50 @@ html(lang="en", ng-app="contentApp")
 
     script var API_URL = '#{api_url}';
 
+    style.
+      #gist-link{
+        /*background: #989898;*/
+        color: black;
+        font-size:15px;
+      }
+      #gist-link:hover{
+        /*background: #989898;*/
+        color: #989898;
+      }
+
+  body
+
+    // Static navbar
+    div(role="navigation").navbar.navbar-default.navbar-static-top
+      div.container
+        div.navbar-header
+          button(type="button", data-toggle="collapse", data-target=".navbar-collapse").navbar-toggle
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+
+          div.logo-well
+            img(id="logo", alt="Neo4j World's Leading Graph Database", src="assets/img/logo-white.svg")
+
+          a(href="#/gists").navbar-brand
+            div.brand Neo4j GraphGists
+
+        div.navbar-collapse.collapse
+          ul.nav.navbar-nav
+            li: a(href="#/gists/about") What is a GraphGist?
+            li: a(href="#/gists/submit") Submit a GraphGist
+            li: a(href="https://github.com/neo4j-contrib/graphgist-cms") GitHub Project
+            li: a(href="http://www.neo4j.com") Neo4j 2.1.5
+            li &nbsp;
+
+    div(ng-view)
+
+    div#mydiv
+        img(src="assets/img/AjaxLoader.gif").ajax-loader
+
+
+
     script(src="assets/js/holder.js")
     script(src="assets/lib/angular/angular.js")
     script(src="assets/lib/angular/angular-route.js")
@@ -68,48 +112,6 @@ html(lang="en", ng-app="contentApp")
     script(src="//platform.twitter.com/widgets.js")
     script(src="assets/js/social.js")
     script(src="assets/js/ga.js")
-
-    style.
-      #gist-link{
-        /*background: #989898;*/
-        color: black;
-        font-size:15px;
-      }
-      #gist-link:hover{
-        /*background: #989898;*/
-        color: #989898;
-      }
-
-  body
-
-    // Static navbar
-    div(role="navigation").navbar.navbar-default.navbar-static-top
-      div.container
-        div.navbar-header
-          button(type="button", data-toggle="collapse", data-target=".navbar-collapse").navbar-toggle
-            span.sr-only Toggle navigation
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-
-          div.logo-well
-            img(id="logo", alt="Neo4j World's Leading Graph Database", src="assets/img/logo-white.svg")
-
-          a(href="#").navbar-brand
-            div.brand Neo4j GraphGists
-
-        div.navbar-collapse.collapse
-          ul.nav.navbar-nav
-            li: a(href="#/gists/about") What is a GraphGist?
-            li: a(href="https://github.com/neo4j-contrib/graphgist-cms") GitHub Project
-            li: a(href="http://www.neo4j.com") Neo4j 2.1.5
-            li &nbsp;
-            li: a(href="#/gists/submit") Submit a GraphGist
-
-    div(ng-view)
-
-    div#mydiv
-        img(src="assets/img/AjaxLoader.gif").ajax-loader
 
     // Bootstrap core JavaScript
 
