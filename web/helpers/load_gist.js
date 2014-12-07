@@ -144,11 +144,13 @@ function fetchLocalSnippet(id, cache, callback) {
 function transformThirdPartyURLs(id) {
     // http://gist.neo4j.org/?8650212
     // 8650212
-    id = id.replace(/.*gist\.neo4j\.org\/\?/, '')
+    var match;
+    
+    if (match = id.match(/.*gist\.neo4j\.org\/\?([^#]+)/)) id = match[1]
 
     // https://gist.github.com/8650212  
     // 8650212
-    id = id.replace(/.*gist\.github\.com\//, '')
+    if (match = id.match(/.*gist\.github\.com\/([^#]+)/)) id = match[1]
 
     // http://beta.etherpad.org/p/IudqLHvuRj
     // http://beta.etherpad.org/p/IudqLHvuRj/export/txt
