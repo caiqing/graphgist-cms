@@ -16,7 +16,7 @@ html(lang="en", ng-app="contentApp")
     if gist.title
       meta(name="twitter:title", content=gist.title)
     if gist.description
-      meta(name="twitter:description", content=gist.description)
+      meta(name="twitter:description", content=gist.summary)
 
     meta(name="twitter:card", content=(gist.poster_image ? 'summary_large_image' : 'summary'))
 
