@@ -49,11 +49,7 @@ contentApp.directive('carousel', function() {
            		var html = '';
 	            for (var i = 0; i < gists.length; i++) {
 	            	if ($.inArray(genre, gists[i].genres) != -1) {
-	            	var gistTitleLink = gists[i].poster_image || '/assets/img/posters/' + gists[i].title.replace('/', ' ') + '.jpg';
-	                 html += '<div class="item">' +
-                      '<a class="carousel-gists thumbnail" href="#/gists/' + gists[i].title.replace('/', '%252F') + '/summary" style="background-image: url('+ encodeURI(gistTitleLink) +')"></a>' +
-						          '<span><a href="#/gists/' + gists[i].title.replace('/', '%252F') + '/summary">' + gists[i].title + '</a></span>' +
-						        '</div>';
+                   html += scope.UTIL.gistTemplate(gists[i])
 						    };
 	            }
             
@@ -151,8 +147,8 @@ contentApp.directive('carouselrelatedgists', function() {
 	            for (var i = 0; i < gist.related.length; i++) {
 					var relatedGistTitleLink = gist.related[i].related.poster_image || '/assets/img/posters/' + gist.related[i].related.title.replace('/', ' ') + '.jpg';
 	                 html += '<div class="item">' +
-                      '<a class="carousel-gists thumbnail" href="#/gists/' + gist.related[i].related.title.replace('/', '%252F') + '/summary" style="background-image: url('+ encodeURI(relatedGistTitleLink) +')"></a>' +
-						          '<span><a href="#/gists/' + gist.related[i].related.title.replace('/', '%252F')  + '/summary">' + gist.related[i].related.title + '</a></span>' +
+                      '<a class="carousel-gists thumbnail" href="#!/gists/' + gist.related[i].related.title.replace('/', '%252F') + '/summary" style="background-image: url('+ encodeURI(relatedGistTitleLink) +')"></a>' +
+						          '<span><a href="#!/gists/' + gist.related[i].related.title.replace('/', '%252F')  + '/summary">' + gist.related[i].related.title + '</a></span>' +
 						        '</div>';
 
 	            }
@@ -234,9 +230,9 @@ contentApp.directive('carouseldomainsgists', function() {
 	            	var relatedGistTitleLink = domains.gists[i].poster_image || '/assets/img/posters/' + domains.gists[i].title.replace('/', ' ') + '.jpg';
 	                 html += '<div class="item">' +
 						          '<div class="thumbnail">' +
-						            '<a href="#/gists/' + domains.gists[i].title.replace('/', '%252F')  + '/summary"><img src="' + relatedGistTitleLink +'"/></a>' +
+						            '<a href="#!/gists/' + domains.gists[i].title.replace('/', '%252F')  + '/summary"><img src="' + relatedGistTitleLink +'"/></a>' +
 						          '</div>' +
-						          '<span><a href="#/gists/' + domains.gists[i].title.replace('/', '%252F')  + '/summary">' + domains.gists[i].title + '</a></span>' +
+						          '<span><a href="#!/gists/' + domains.gists[i].title.replace('/', '%252F')  + '/summary">' + domains.gists[i].title + '</a></span>' +
 						        '</div>';
 
 	            }
@@ -274,9 +270,9 @@ contentApp.directive('carouselrelateddomains', function() {
 					var actorTitleLink = domains.related[i].related.poster_image || '/assets/img/actors/' + domains.related[i].related.name.replace('/', ' ') + '.jpg';
 	                 html += '<div class="item">' +
 						          '<div class="thumbnail">' +
-						            '<a href="#/domains/' + domains.related[i].related.name + '"><img src="' + actorTitleLink + '"/></a>' +
+						            '<a href="#!/domains/' + domains.related[i].related.name + '"><img src="' + actorTitleLink + '"/></a>' +
 						          '</div>' +
-						          '<span><a href="#/domains/' + domains.related[i].related.name + '">' + domains.related[i].related.name + '</a></span>' +
+						          '<span><a href="#!/domains/' + domains.related[i].related.name + '">' + domains.related[i].related.name + '</a></span>' +
 						        '</div>';
 
 	            }

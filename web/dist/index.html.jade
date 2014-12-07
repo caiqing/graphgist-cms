@@ -9,6 +9,14 @@ html(lang="en", ng-app="contentApp")
     meta(name="author", content="")
     link(rel="shortcut icon", href="assets/ico/favicon.ico")
 
+    meta(name="twitter:site", content="@neo4j")
+    meta(name="twitter:domain", content="http://neo4j.org")
+    meta(name="twitter:creator", content="@<%=item['twitter']%>")
+    meta(name="twitter:title", content="<%=item['title']%>")
+    meta(name="twitter:description", content="<%=item['introText']%>")
+    meta(name="twitter:card", content="<%=item['img'] ? 'summary_large_image':'summary' %>")
+    meta(name="twitter:image:src", content="<%=item['img']||asset('img/neo4j/neo4j-logo.png') %>")
+
     title Neo4j Gists
 
     link(type="text/css", rel="stylesheet", href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600,700")
@@ -67,13 +75,13 @@ html(lang="en", ng-app="contentApp")
           div.logo-well
             img(id="logo", alt="Neo4j World's Leading Graph Database", src="assets/img/logo-white.svg")
 
-          a(href="#/gists").navbar-brand
+          a(href="#!/gists").navbar-brand
             div.brand Neo4j GraphGists
 
         div.navbar-collapse.collapse
           ul.nav.navbar-nav
-            li: a(href="#/gists/about") What is a GraphGist?
-            li: a(href="#/gists/submit") Submit a GraphGist
+            li: a(href="#!/gists/about") What is a GraphGist?
+            li: a(href="#!/gists/submit") Submit a GraphGist
             li: a(href="https://github.com/neo4j-contrib/graphgist-cms") GitHub Project
             li: a(href="http://www.neo4j.com") Neo4j 2.1.5
             li &nbsp;

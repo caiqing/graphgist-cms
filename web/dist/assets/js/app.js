@@ -1,7 +1,6 @@
 'use strict';
 //1.set up routes
 /* App Module */
-
 var contentApp = angular.module('contentApp', [
   'ngRoute',
   'ngResource',
@@ -28,16 +27,19 @@ var contentApp = angular.module('contentApp', [
       var gistTitleLink = gist.poster_image || '/assets/img/posters/' + gist.title.replace('/', ' ') + '.jpg';
 
       return('<div class="item">' +
-        '<a class="carousel-gists thumbnail" href="#/gists/' + encodeURIComponent(encodeURIComponent(gist.url)) + '" style="background-image: url('+ encodeURI(gistTitleLink) +')"></a>' +
-        '<span><a href="#/gists/' + gist.title.replace('/', '%252F') + '/summary">' + gist.title + '</a></span>' +
+        '<a class="carousel-gists thumbnail" href="#!/gists/' + encodeURIComponent(encodeURIComponent(gist.url)) + '" style="background-image: url('+ encodeURI(gistTitleLink) +')"></a>' +
+        '<span><a href="#!/gists/' + gist.title.replace('/', '%252F') + '/summary">' + gist.title + '</a></span>' +
       '</div>');
     }
 
   }
 });
 
-contentApp.config(['$routeProvider',
-  function($routeProvider) {
+contentApp.config(['$routeProvider', '$locationProvider',
+  function($routeProvider, $locationProvider) {
+    $locationProvider.html5Mode(false);
+    $locationProvider.hashPrefix('!');
+
     $routeProvider.
       when('/gists', {
         templateUrl: 'assets/partials/home.html',
