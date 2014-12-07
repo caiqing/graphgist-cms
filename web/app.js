@@ -28,6 +28,11 @@ module.exports = function (app, api_port) {
     app.get('/gists/:id.:format?',function (req, res) {
         var id = req.params.id;
 
+        if ( req.params.format !== 'html' ) {
+          id = id + '.' + req.params.format;
+          req.params.format = null;
+        }
+
         var cache = req.query.skip_cache ? {} : app.locals.load_cache;
 
         load_gist.load_gist(id, cache, function(err, data) {

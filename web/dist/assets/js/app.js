@@ -22,6 +22,15 @@ var contentApp = angular.module('contentApp', [
         // called asynchronously if an error occurs
         // or server returns response with an error status.
         });
+    },
+
+    gistTemplate: function (gist) {
+      var gistTitleLink = gist.poster_image || '/assets/img/posters/' + gist.title.replace('/', ' ') + '.jpg';
+
+      return('<div class="item">' +
+        '<a class="carousel-gists thumbnail" href="#/gists/' + encodeURIComponent(encodeURIComponent(gist.url)) + '" style="background-image: url('+ encodeURI(gistTitleLink) +')"></a>' +
+        '<span><a href="#/gists/' + gist.title.replace('/', '%252F') + '/summary">' + gist.title + '</a></span>' +
+      '</div>');
     }
 
   }

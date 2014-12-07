@@ -138,6 +138,36 @@ function fetchLocalSnippet(id, cache, callback) {
 }
 
 
+// Allows for the use of URLs which lead to a user-friendly
+// shared page for the file, but which can be directly transformed
+// to a raw file
+function transformThirdPartyURLs(id) {
+    // http://gist.neo4j.org/?8650212
+    // 8650212
+    id = id.replace(/.*gist\.neo4j\.org\/\?/, '')
+
+    // https://gist.github.com/8650212  
+    // 8650212
+    id = id.replace(/.*gist\.github\.com\//, '')
+
+    // http://beta.etherpad.org/p/IudqLHvuRj
+    // http://beta.etherpad.org/p/IudqLHvuRj/export/txt
+    if (id.match('etherpad') && !id.match(/export/)) {
+      id = id + '/export/txt'
+    }
+
+    // https://copy.com/7MuhBZKFDsCIPNLp/analysis.txt
+    // https://copy.com/s/7MuhBZKFDsCIPNLp/analysis.txt
+    id.replace(/copy\.com\/s\//, 'copy.com/')
+
+    // http://pastebin.com/Nx3hDshq
+    // http://pastebin.com/raw.php?i=Nx3hDshq
+    if (id.match('pastebin') && !id.match('raw')) {
+      id = id.replace('pastebin\.com/', 'pastebin.com/raw.pdp?i=')
+    }
+
+    return(id);
+}
 
 exports.load_gist = function (id, cache, callback) {
     if (id.length < 2) {
@@ -150,6 +180,8 @@ exports.load_gist = function (id, cache, callback) {
             id = id.substring(0, idCut);
         }
     }
+
+    id = transformThirdPartyURLs(id)
 
     var fetcher = fetchGithubGist;
     if (id.length > 8 && id.substr(0, 8) === 'dropbox-') {
