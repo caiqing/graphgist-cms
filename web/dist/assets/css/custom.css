@@ -11,3 +11,11 @@ code {
   overflow-y: scroll;
   display: block;
 }
+
+.panel p {
+  margin-bottom: 1em;
+}
+
+a {
+  color: #4C7ADD;
+}

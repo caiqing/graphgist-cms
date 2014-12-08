@@ -30,7 +30,7 @@ var contentApp = angular.module('contentApp', [
 
       return('<div class="item">' +
         '<a class="carousel-gists thumbnail" href="#!/gists/' + gistId + '" style="background-image: url('+ encodeURI(gistTitleLink) +')"></a>' +
-        '<span><a href="#!/gists/' + gist.title.replace('/', '%252F') + '/summary">' + gist.title + '</a></span>' +
+        '<span><a href="#!/gists/'+ gistId +'">' + gist.title + '</a></span>' +
       '</div>');
     }
 
@@ -49,6 +49,9 @@ contentApp.config(['$routeProvider', '$locationProvider',
       }).
       when('/gists/about', {
         templateUrl: 'templates/gist-about'
+      }).
+      when('/gists/challenge', {
+        templateUrl: 'templates/gist-challenge'
       }).
       when('/gists/submit', {
         templateUrl: 'assets/partials/gist-submit.html',
