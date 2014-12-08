@@ -107,12 +107,13 @@ var _matchBy = function (keys, params, options, callback) {
 
 var _matchById = function (params, options, callback) {
   var cypher_params = {
-    id: '.*'+ params.id.replace('?', '\\?') +'.*'
+    id: params.id.replace('?', '\\?'),
+    id_match: '.*'+ params.id.replace('?', '\\?') +'.*'
   };
 
   var query = [
     'MATCH (gist:Gist)',
-    'WHERE gist.url =~ {id}',
+    'WHERE gist.id = {id} OR gist.url =~ {id_match}',
     'RETURN gist'
   ].join('\n');
 

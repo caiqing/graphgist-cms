@@ -52,7 +52,7 @@ contentApp.directive('carousel', function() {
                    html += scope.UTIL.gistTemplate(gists[i])
 						    };
 	            }
-            
+
             	element[0].innerHTML = html;
 
             	setTimeout(function() {

@@ -26,8 +26,10 @@ var contentApp = angular.module('contentApp', [
     gistTemplate: function (gist) {
       var gistTitleLink = gist.poster_image || '/assets/img/posters/' + gist.title.replace('/', ' ') + '.jpg';
 
+      var gistId = gist.id || encodeURIComponent(encodeURIComponent(gist.url));
+
       return('<div class="item">' +
-        '<a class="carousel-gists thumbnail" href="#!/gists/' + encodeURIComponent(encodeURIComponent(gist.url)) + '" style="background-image: url('+ encodeURI(gistTitleLink) +')"></a>' +
+        '<a class="carousel-gists thumbnail" href="#!/gists/' + gistId + '" style="background-image: url('+ encodeURI(gistTitleLink) +')"></a>' +
         '<span><a href="#!/gists/' + gist.title.replace('/', '%252F') + '/summary">' + gist.title + '</a></span>' +
       '</div>');
     }

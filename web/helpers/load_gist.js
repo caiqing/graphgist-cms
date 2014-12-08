@@ -19,6 +19,8 @@ var merge = require("./utils").merge;
 
 var Base64 = require('js-base64').Base64;
 
+var Gists = require('../../api/models/gists');
+
 var types = ['dropbox-user','dropbox-shared','github-gist','github-repo','graphgist','url'];
 
 var GRAPHGIST_BASE_URL = 'http://gist.neo4j.org/gists/';
@@ -81,6 +83,7 @@ function fetchGithubGist(id, cache, callback) {
         console.log("Could not load gist from " + url, err);
         return callback(err, "Could not load gist from " + url);
       }
+
       var file = data.files[Object.keys(data.files)[0]]; // todo check for content-type asciidoc or suffix
       var content = file.content;
       callback(null, content);
@@ -141,7 +144,7 @@ function fetchLocalSnippet(id, cache, callback) {
 // Allows for the use of URLs which lead to a user-friendly
 // shared page for the file, but which can be directly transformed
 // to a raw file
-function transformThirdPartyURLs(id) {
+exports.transformThirdPartyURLs = function transformThirdPartyURLs(id) {
     // http://gist.neo4j.org/?8650212
     // 8650212
     var match;
@@ -187,22 +190,31 @@ exports.load_gist = function (id, cache, callback) {
         }
     }
 
-    id = transformThirdPartyURLs(id)
+    Gists.getById({id: id}, {}, function (err, data) {
+      var gist = data.results;
 
-    var fetcher = fetchGithubGist;
-    if (id.length > 8 && id.substr(0, 8) === 'dropbox-') {
-        fetcher = fetchDropboxFile;
-        id = id.substr(8);
-    }
-    else if (id.length > 7 && id.substr(0, 7) === 'github-') {
-        fetcher = fetchGithubFile;
-        id = id.substr(7);
-    }
-    else if (!VALID_GIST.test(id)) {
-        fetcher = (id.indexOf('://') !== -1) ? fetchAnyUrl : fetchLocalSnippet
-    }
+      if (!err) {
+        if (gist.id) id = gist.url
+      }
 
-    fetcher(id, cache, callback);
+      id = exports.transformThirdPartyURLs(id);
+
+      var fetcher = fetchGithubGist;
+      if (id.length > 8 && id.substr(0, 8) === 'dropbox-') {
+          fetcher = fetchDropboxFile;
+          id = id.substr(8);
+      }
+      else if (id.length > 7 && id.substr(0, 7) === 'github-') {
+          fetcher = fetchGithubFile;
+          id = id.substr(7);
+      }
+      else if (!VALID_GIST.test(id)) {
+          fetcher = (id.indexOf('://') !== -1) ? fetchAnyUrl : fetchLocalSnippet
+      }
+
+      fetcher(id, cache, callback);
+
+    });
 };
 
 exports.preProcessHTML = function (content) {
