@@ -58,7 +58,9 @@ var _singleGistWithGenres = function (results, callback) {
 // return many gists
 var _manyGists = function (results, callback) {
   var gists = _.map(results, function (result) {
-    return new Gist(result.gist);
+    var gist = result.gist;
+    if (result.genres) { gist.data = _(gist.data).extend({genres: result.genres}) }
+    return new Gist(gist);
   });
 
   callback(null, gists);
@@ -95,11 +97,13 @@ var _singleCount = function (results, callback) {
 var _matchBy = function (keys, params, options, callback) {
   var cypher_params = _.pick(params, keys);
 
+  if (!cypher_params.status) cypher_params.status = 'live'
+
   var query = [
     'MATCH (gist:Gist)',
-    'WHERE gist.status = "live"',
+    'OPTIONAL MATCH (domain)<-[:HAS_DOMAIN]-(gist)',
     Cypher.where('gist', keys),
-    'RETURN gist  AS gist'
+    'RETURN gist AS gist, collect(domain.name) AS genres'
   ].join('\n');
 
   callback(null, query, cypher_params);
@@ -296,6 +300,30 @@ var _create = function (params, options, callback) {
   callback(null, query, cypher_params);
 };
 
+
+var _update = function (params, options, callback) {
+  var cypher_params = {};
+
+  var key, value, set_parts = [];
+
+  for ( key in params ) {
+    if ( params[key] !== '' )
+      set_parts.push('gist.'+ key +'={'+ key +'}');
+
+    cypher_params[key] = params[key];
+  }
+
+  var query = [
+    'MATCH (gist:Gist {id: {id}})',
+    'SET gist.updated = timestamp()',
+    'SET '+ set_parts.join(', '),
+    'RETURN gist'
+  ].join('\n');
+
+  callback(null, query, cypher_params);
+}
+
+
 // delete the gist and any relationships with cypher
 var _delete = function (params, options, callback) {
   var cypher_params = {
@@ -350,6 +378,9 @@ var getManyGistsWithGenres = Cypher(_getGistsWithGenres, _manyGistsWithGenres);
 // create a new gist
 var create = Cypher(_create, _singleGist);
 
+// update a gist
+var update = Cypher(_update, _singleGist);
+
 // create many new gists
 var createMany = function (params, options, callback) {
   if (params.names && _.isArray(params.names)) {
@@ -379,6 +410,8 @@ var login = create;
 
 // get all gists
 var getAll = Cypher(_matchAll, _manyGists);
+
+var getByStatus = Cypher(_.partial(_matchBy, ['status']), _manyGists);
 
 // get all gists count
 var getAllCount = Cypher(_getAllCount, _singleCount);
@@ -412,9 +445,11 @@ module.exports = {
   getAll: getManyGistsWithGenres,
   getById: getById,
   getByTitle: getByTitle,
+  getByStatus: getByStatus,
   // getByDateRange: getByDateRange,
 //  getByActor: getByActor,
   getByGenre: getByGenre,
 
-  create: create
+  create: create,
+  update: update
 };

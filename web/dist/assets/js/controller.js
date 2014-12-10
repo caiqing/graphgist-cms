@@ -48,7 +48,9 @@ contentApp.directive('carousel', function() {
            		var genre = element.attr('data-genre');
            		var html = '';
 	            for (var i = 0; i < gists.length; i++) {
+                console.log({genres: gists[i].genres});
 	            	if ($.inArray(genre, gists[i].genres) != -1) {
+                  console.log('inArray');
                    html += scope.UTIL.gistTemplate(gists[i])
 						    };
 	            }
@@ -215,6 +217,42 @@ contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval', '$http
       }
     }, 100);
 
+  }]);
+
+contentApp.controller('GistManageCtrl', ['$scope', '$routeParams', '$http',
+  function($scope, $routeParams, $http) {
+    
+    $http({method: 'GET', url: '/api/v0/gists?status=candidate'}).
+      success(function(data, status, headers, config) {
+        $scope.gists = data;
+      }).
+      error(function(data, status, headers, config) {
+        alert('Error in loading gists!');
+      });
+  }]);
+
+contentApp.controller('GistManageGistCtrl', ['$scope', '$routeParams', '$http',
+  function($scope, $routeParams, $http) {
+    $scope.status_options = ['live', 'candidate'];
+
+    $http({method: 'GET', url: '/api/v0/gists/'+ $routeParams.id}).
+      success(function(data, status, headers, config) {
+        $scope.gist = data;
+      }).
+      error(function(data, status, headers, config) {
+        alert('Error in loading gist!');
+      });
+
+    $scope.submit = function () {
+      $http({method: 'PUT', url: '/api/v0/gists/'+ $routeParams.id + '?api_key=special-key&neo4j=true', data: _($scope.gist).omit('updated').value()}).
+        success(function(data, status, headers, config) {
+          $scope.gist = data;
+        }).
+        error(function(data, status, headers, config) {
+          alert('Error in update gist!');
+        });
+
+    }
   }]);
 
 contentApp.directive('carouseldomainsgists', function() {

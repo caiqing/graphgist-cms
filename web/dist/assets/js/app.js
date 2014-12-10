@@ -60,6 +60,14 @@ contentApp.config(['$routeProvider', '$locationProvider',
       when('/gists/submit/thank_you', {
         templateUrl: 'assets/partials/gist-submit-thank-you.html'
       }).
+      when('/gists/manage', {
+        templateUrl: 'templates/gist-manage',
+        controller: 'GistManageCtrl'
+      }).
+      when('/gists/manage/:id', {
+        templateUrl: 'templates/gist-manage-gist',
+        controller: 'GistManageGistCtrl'
+      }).
       when('/gists/:gistId', {
         templateUrl : 'templates/gist',
         controller: 'GistCtrl'
@@ -68,6 +76,7 @@ contentApp.config(['$routeProvider', '$locationProvider',
         templateUrl: 'assets/partials/gist-detail.html',
         controller: 'GistItemCtrl'
       }).
+
       when('/domains/:domainsId', {
         templateUrl: 'assets/partials/domains-detail.html',
         controller: 'PeopleItemCtrl'

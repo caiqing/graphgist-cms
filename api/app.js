@@ -76,6 +76,7 @@ module.exports = function (app, port) {
   .addGet(routes.gists.findGistsByActor)
   .addGet(routes.gists.findByGenre)
   .addPost(routes.gists.createGist)
+  .addPut(routes.gists.updateGist)
   .addGet(routes.domains.findPersonByAuthoredGist)
   .addGet(routes.domains.findByName);
 

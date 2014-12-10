@@ -1,0 +1,10 @@
+
+h1 Pending approval
+
+table
+  tr(ng-repeat="gist in gists")
+    td
+      a(href="#!/gists/manage/{{gist.id}}") Edit
+    td {{gist.id}}
+    td {{gist.title}}
+    td {{gist.summary}}
