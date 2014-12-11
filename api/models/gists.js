@@ -25,6 +25,15 @@ function _randomNames (n) {
 }
 
 
+function _populateResults (results) {
+  _.each(results, function (result) {
+    _.each(['genres', 'usecases', 'writers', 'keywords', 'related'], function (key) {
+      if (result[key]) { result.gist.data[key] = result[key] }
+    });
+  });
+
+}
+
 /**
  *  Result Functions
  *  to be combined with queries using _.partial()
@@ -33,6 +42,7 @@ function _randomNames (n) {
 // return a single gist
 var _singleGist = function (results, callback) {
   if (results.length) {
+    _populateResults(results);
     callback(null, new Gist(results[0].gist));
   } else {
     callback(null, null);
@@ -57,10 +67,9 @@ var _singleGistWithGenres = function (results, callback) {
 
 // return many gists
 var _manyGists = function (results, callback) {
+  _populateResults(results);
   var gists = _.map(results, function (result) {
-    var gist = result.gist;
-    if (result.genres) { gist.data = _(gist.data).extend({genres: result.genres}) }
-    return new Gist(gist);
+    return new Gist(result.gist);
   });
 
   callback(null, gists);
@@ -93,19 +102,40 @@ var _singleCount = function (results, callback) {
  *  to be combined with result functions using _.partial()
  */
 
+function populatedGistQuery(whereClause) {
+  var query = [
+    'MATCH (gist:Gist)',
+    whereClause,
+    'WITH gist',
+    'OPTIONAL MATCH (gist)-[:HAS_KEYWORD]->(keyword)<-[:HAS_KEYWORD]-(related_gist)',
+    'WITH gist, related_gist, count(DISTINCT keyword.name) AS keyword_count',
+    'ORDER BY keyword_count DESC',
+    'WITH gist, collect(DISTINCT { related: { title: related_gist.title, poster_image: related_gist.poster_image, url: related_gist.url }, weight: keyword_count }) as related',
+    'OPTIONAL MATCH (gist)-[:HAS_DOMAIN]->(domain)',
+    'OPTIONAL MATCH (gist)-[:HAS_USECASE]->(usecase)',
+    'OPTIONAL MATCH (writer)-[:WRITER_OF]->(gist)',
+    'OPTIONAL MATCH (gist)-[:HAS_KEYWORD]->(keyword)',
+    'RETURN gist, collect(DISTINCT domain.name) AS genres, collect(DISTINCT usecase.name) AS usecases, collect(DISTINCT writer.name) AS writers, collect(DISTINCT keyword.name) AS keywords, related'
+  ]
+
+  return(query.join('\n'))
+}
+
+//    'MATCH (gist)-[:HAS_KEYWORD]->(keyword)<-[:HAS_KEYWORD]-(gists:Gist)',
+//    'WITH DISTINCT gists as related, count(DISTINCT keyword.name) as keywords, gist, domains, usecases, writers',
+//    'ORDER BY keywords DESC',
+//    'WITH collect(DISTINCT { related: { title: related.title, poster_image: related.poster_image }, weight: keywords }) as related, gist, domains, usecases, writers',
+//    'MATCH (gist)-[:HAS_KEYWORD]->(keyword)',
+//    'WITH keyword, related, gist, domains, usecases, writers',
+//    'LIMIT 10',
+//    'RETURN related, collect(keyword.name) as keywords, gist as gist, domains as genres, usecases, writers'
 
 var _matchBy = function (keys, params, options, callback) {
   var cypher_params = _.pick(params, keys);
 
   if (!cypher_params.status) cypher_params.status = 'live'
 
-  var query = [
-    'MATCH (gist:Gist)',
-    'OPTIONAL MATCH (domain)<-[:HAS_DOMAIN]-(gist)',
-    Cypher.where('gist', keys),
-    'RETURN gist AS gist, collect(domain.name) AS genres'
-  ].join('\n');
-
+  var query = populatedGistQuery(Cypher.where('gist', keys));
   callback(null, query, cypher_params);
 };
 
@@ -115,12 +145,7 @@ var _matchById = function (params, options, callback) {
     id_match: '.*'+ params.id.replace('?', '\\?') +'.*'
   };
 
-  var query = [
-    'MATCH (gist:Gist)',
-    'WHERE gist.id = {id} OR gist.url =~ {id_match}',
-    'RETURN gist'
-  ].join('\n');
-
+  var query = populatedGistQuery('WHERE gist.id = {id} OR gist.url =~ {id_match}');
   callback(null, query, cypher_params);
 };
 

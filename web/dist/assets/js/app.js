@@ -29,8 +29,8 @@ var contentApp = angular.module('contentApp', [
       var gistId = gist.id || encodeURIComponent(encodeURIComponent(gist.url));
 
       return('<div class="item">' +
-        '<a class="carousel-gists thumbnail" href="#!/gists/' + gistId + '" style="background-image: url('+ encodeURI(gistTitleLink) +')"></a>' +
-        '<span><a href="#!/gists/'+ gistId +'">' + gist.title + '</a></span>' +
+        '<a class="carousel-gists thumbnail" href="#!/gists/' + gistId + '/summary" style="background-image: url('+ encodeURI(gistTitleLink) +')"></a>' +
+        '<span><a href="#!/gists/'+ gistId +'/summary">' + gist.title + '</a></span>' +
       '</div>');
     }
 

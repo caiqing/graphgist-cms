@@ -18,8 +18,8 @@
         <div class="row">
           <div class="col-md-12">
             <!-- <ul class="nav nav-pills item-nav">
-              <li class="active"><a href="#">Details</a></li>
-              <li><a href="#">Related</a></li>
+              <li class="active"><a href="#!">Details</a></li>
+              <li><a href="#!">Related</a></li>
             </ul> -->
             <div class="panel panel-default">
               <!-- Default panel contents -->
@@ -39,10 +39,10 @@
                   <div class="panel-heading">Duration: <span class="panel-heading">{{gist.duration + ' min'}}</span></div>
                 </li> -->
                 <li class="list-group-item">
-                  <div class="panel-heading">Domains: <span class="panel-heading genre-list"><span ng-repeat="genre in gist.genres | orderBy:'toString()'"><a href="/#/domains/{{genre.toString()}}">{{genre.toString()}}{{{true: '', false: ', '}[$last]}}</a></span></span></div>
+                  <div class="panel-heading">Domains: <span class="panel-heading genre-list"><span ng-repeat="genre in gist.genres | orderBy:'toString()'"><a href="/#!/domains/{{genre.toString()}}">{{genre.toString()}}{{{true: '', false: ', '}[$last]}}</a></span></span></div>
                 </li>
                 <li class="list-group-item">
-                  <div class="panel-heading">Use Cases: <span class="panel-heading genre-list"><span ng-repeat="usecase in gist.usecases | orderBy:'toString()'"><a href="/#/domains/{{usecase.toString()}}">{{usecase}}{{{true: '', false: ', '}[$last]}}</a></span></span></div>
+                  <div class="panel-heading">Use Cases: <span class="panel-heading genre-list"><span ng-repeat="usecase in gist.usecases | orderBy:'toString()'"><a href="/#!/domains/{{usecase.toString()}}">{{usecase}}{{{true: '', false: ', '}[$last]}}</a></span></span></div>
                 </li>
                 <li class="list-group-item">
                   <div class="panel-heading">Authored By: <span class="panel-heading genre-list"><span ng-repeat="writer in gist.writers">{{writer}}{{{true: '', false: ', '}[$last]}}</span></span></div>
@@ -89,7 +89,7 @@
                 <div class="row">
                   <!-- <div class="item-label col-md-3">Tagline:</div> -->
                   <br>
-                  <div class="item-label col-md-12 brand"><a id="gist-link" ng-href="{{gist.url}}">Go to GraphGist page ></a></div>
+                  <div class="item-label col-md-12 brand"><a id="gist-link" ng-href="/#!/gists/{{gist.id}}">Go to GraphGist page ></a></div>
                 </div>
                 <br>
 <!--                 <div class="row">

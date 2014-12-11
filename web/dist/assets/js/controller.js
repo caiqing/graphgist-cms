@@ -147,11 +147,8 @@ contentApp.directive('carouselrelatedgists', function() {
            		gist = scope.gist;
            		var html = '';
 	            for (var i = 0; i < gist.related.length; i++) {
-					var relatedGistTitleLink = gist.related[i].related.poster_image || '/assets/img/posters/' + gist.related[i].related.title.replace('/', ' ') + '.jpg';
-	                 html += '<div class="item">' +
-                      '<a class="carousel-gists thumbnail" href="#!/gists/' + gist.related[i].related.title.replace('/', '%252F') + '/summary" style="background-image: url('+ encodeURI(relatedGistTitleLink) +')"></a>' +
-						          '<span><a href="#!/gists/' + gist.related[i].related.title.replace('/', '%252F')  + '/summary">' + gist.related[i].related.title + '</a></span>' +
-						        '</div>';
+                var relatedGistTitleLink = gist.related[i].related.poster_image || '/assets/img/posters/' + gist.related[i].related.title.replace('/', ' ') + '.jpg';
+                html += scope.UTIL.gistTemplate(gist.related[i].related)
 
 	            }
 
@@ -179,7 +176,7 @@ contentApp.directive('carouselrelatedgists', function() {
 
 contentApp.controller('GistItemCtrl', ['$scope', '$routeParams', '$http', '$templateCache',
   function($scope, $routeParams, $http, $templateCache) {
-  		$scope.url = API_URL+'/api/v0/gists/title/' + encodeURIComponent(decodeURI(decodeURI($routeParams.gistId))) + '?api_key=special-key&neo4j=false';
+  		$scope.url = API_URL+'/api/v0/gists/' + encodeURIComponent(decodeURI(decodeURI($routeParams.gistId))) + '?api_key=special-key&neo4j=false';
 
       $scope.UTIL.loadGist($scope.url, $http, $scope, $templateCache)
   }]);
