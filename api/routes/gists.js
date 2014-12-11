@@ -268,7 +268,7 @@ exports.findGistsByActor = {
   }
 };
 
-var VALID_CREATE_KEYS = ['url', 'title', 'category', 'description', 'image_url',
+var VALID_CREATE_KEYS = ['url', 'title', 'category', 'summary', 'image_url',
                          'submitter_name', 'submitter_twitter', 'submitter_postal_address', 'submitter_email', 'submitter_tshirt_size', 'submitter_tshirt_size_other'];
 
 basicAuth = require('../../basic_auth');
@@ -317,7 +317,7 @@ exports.updateGist = {
     function (req, res) {
       // Validate so that nobody is submitting sneaky data
 
-      var valid_update_keys = VALID_CREATE_KEYS.concat(['id', 'summary', 'poster_image', 'rated', 'status']);
+      var valid_update_keys = VALID_CREATE_KEYS.concat(['id', 'poster_image', 'rated', 'status']);
       var invalid_keys = _(_(req.body).keys()).difference(valid_update_keys);
       if (invalid_keys.length) {
         console.log({invalid_keys: invalid_keys});
