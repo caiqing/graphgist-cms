@@ -9,26 +9,25 @@
         li.active What is a GraphGist?
 
   .row
-    h1 Live, Interactive Graph Models - Neo4j GraphGist
-
-    .container
-      p With Neo4j GraphGists you can describe and model your domain in a simple text file and render it as a rich, interactive page in any browser. Perfect to document a specific domain, use-case, question or graph problem.
-
-      p To learn about interesting existing models created by other Neo4j users look at the impressive collection that is listed below.
-
-
-
+  .container
     .panel.panel-default
       .panel-heading
-        p GraphGist Introduction
+        h2 What is a Graph Gist?
 
       .panel-body
         img(src="http://assets.neo4j.org/img/still/graphgist.jpg" class="side-thumb")
 
         .container
+          p With Neo4j GraphGists you can describe and model your domain in a simple text file and render it as a rich, interactive page in any browser. Perfect to document a specific domain, use-case, question or graph problem.
+
           p Documenting your graph domain model has never been easier. A GraphGist is just a simple AsciiDoc text file, and can be hosted in a GitHub Gist or any other place with an accessible URL. It will be rendered as an interactive page in your browser.
 
-          p You can explore those pages, read and understand them and try out the provided use-case queries on a live graph. We want to encourage you to model a domain that you know or like in a graph model and describe it interactively in a GraphGist.
+          p You can explore those pages, read and understand them and try out the provided use-case queries on a live graph. We want to encourage you to model a domain that 
+           em you know or like 
+            in a graph model and describe it interactively in a GraphGist.
+
+          p To learn about interesting existing models created by other Neo4j users browse the 
+            a(href="/") impressive collection.
 
     .panel.panel-default
       .panel-heading
@@ -37,7 +36,7 @@
       .panel-body
         a(href="http://player.vimeo.com/video/74279113?badge=0&byline=0&portrait=0&title=0")
           img(src="http://assets.neo4j.org/img/still/graphgist_video.jpg" data-src="http://player.vimeo.com/video/74279113?badge=0&amp;byline=0&amp;portrait=0&amp;title=0" naptha_cursor="region").side-thumb
-        ul
+        ol
           li Find a great domain (Music, Dating, Comics, Healthcare, Politics, Sciences, ...)
           li Whiteboard a good example graph model.
           li Determine interesting use-cases.
@@ -48,31 +47,22 @@
             |).
           li Store it as a 
             a(href="http://gist.github.com/") GitHub Gist
-          li Submit your GraphGist via this form and get a T-Shirt for every original model
+          li Submit your GraphGist via 
+             a(href="/gists/submit") this form 
+             and get a T-Shirt for every original model
 
-        a(href="http://player.vimeo.com/video/74279113?badge=0&byline=0&portrait=0&title=0") Watch the video »
+        a(href="http://player.vimeo.com/video/74279113?badge=0&byline=0&portrait=0&title=0") 
+          strong Watch the video to learn more!
 
     .panel.panel-default
       .panel-heading
         p GraphGist Challenges
 
       .panel-body
-        p The best way gathering great graph models is to ask your community. That's why we already ran two challenges to find interesting ideas for GraphGists with tremendous results.
-
-        p The first challenge in September 2013 had 17 submissions and 3 winners.
-
-        p Our GraphGist Winter Challenge (Dec 2013-Jan 2014) asked for contributions in 10 categories. We got an impressive 65 submissions. Here are the winners per category
-
-        p But we don't stop here. There will be more challenges. And you can even win now.
-
-        p Every original Graph Model that is submitted via this form will get a personalized Neo4j T-Shirt from us.
-
-    .panel.panel-default
-      .panel-heading
-        p Data Modeling with Graphs
-
-      .panel-body
-        p Data modeling with Graphs is fun. Just take your real-world data, a whiteboard and draw the connections that are important. There are
+        <p>The best way gathering great graph models is to ask your community.             That's why we already ran two challenges to find interesting ideas for GraphGists with tremendous results.</p>            
+        <p>The first challenge in September 2013 had <a href="https://github.com/neo4j-contrib/graphgist/wiki#wiki-graphgist-september-challenge-submissions">17 submissions</a> and <a href="http://blog.neo4j.org/2013/10/the-first-graphgist-challenge-completed.html">3 winners</a>.<br>            Our GraphGist Winter Challenge (Dec 2013-Jan 2014) asked for contributions in 10 categories. We got an impressive <a href="https://github.com/neo4j-contrib/graphgist/wiki#wiki-graphgist-winter-challenge-submissions---categories">65 submissions</a>. Here are the <a href="http://blog.neo4j.org/2014/02/graph-gist-winter-challenge-winners.html">winners per category</a></p>
+        <p>Currently the <a href="#!/gists/challenge"><strong>Winter Challenge 2014 offers new prizes</strong></a>. Don't hesitate to participate!</p>
+        <!--p>But we don't stop here. There will be more challenges. And you can even win now.<br> Every original Graph Model that is <a href="/gists/submit"">submitted via this form</a> will get a personalized Neo4j T-Shirt from us.</p-->
 
 style.
   .side-thumb {
@@ -86,4 +76,17 @@ style.
   .side-thumb:hover {
     cursor: pointer;
     border: .2em solid #00546a;
+  }
+
+  .panel-heading {
+    font-weight: bold;
+    font-size: 1.3em;
+  }
+
+  .panel-body {
+    font-size: 1.2em;
+  }
+  h1 {
+    margin-top: 1em;
+    margin-bottom: 1em;
   }
