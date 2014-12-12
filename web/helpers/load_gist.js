@@ -24,9 +24,12 @@ var Gists = require('../../api/models/gists');
 var types = ['dropbox-user','dropbox-shared','github-gist','github-repo','graphgist','url'];
 
 var GRAPHGIST_BASE_URL = 'http://gist.neo4j.org/gists/';
-var DROPBOX_PUBLIC_BASE_URL = 'https://dl.dropboxusercontent.com/u/';
+
+var DROPBOX_PUBLIC_BASE_URL = 'https://www.dropbox.com/u/';
+var DROPBOX_PUBLIC_API_BASE_URL = 'https://dl.dropboxusercontent.com/u/';
 var DROPBOX_PRIVATE_BASE_URL = 'https://www.dropbox.com/s/';
 var DROPBOX_PRIVATE_API_BASE_URL = 'https://dl.dropboxusercontent.com/s/';
+
 var GITHUB_BASE_URL = 'https://github.com/';
 var GITHUB_API_BASE_URL = 'https://api.github.com/repos/';
 var GITHUB_GIST_BASE_URL = 'https://gist.github.com/';
@@ -66,6 +69,8 @@ function request_with_cache(request, cache, cache_id, callback) {
         cache[cache_id] = {data: data, time: Date.now(), etag: resp.headers.etag};
       }
     }
+    if ( resp.statusCode != 200 && resp.statusCode != 304 ) result = 'Could not retrieve gist from URL'
+
     callback(err, result);
   });
 }
@@ -118,14 +123,14 @@ function fetchGithubFile(id, cache, callback) {
     });
 }
 
-function fetchPublicDropboxFile(id, success, error) {
+function fetchPublicDropboxFile(id, cache, callback) {
     id = id.substr(8);
-    fetchDropboxFile(id, success, error, DROPBOX_PUBLIC_BASE_URL);
+    fetchDropboxFile(id, cache, callback, DROPBOX_PUBLIC_API_BASE_URL);
 }
 
-function fetchPrivateDropboxFile(id, success, error) {
+function fetchPrivateDropboxFile(id, cache, callback) {
     id = id.substr(9);
-    fetchDropboxFile(id, success, error, DROPBOX_PRIVATE_API_BASE_URL);
+    fetchDropboxFile(id, cache, callback, DROPBOX_PRIVATE_API_BASE_URL);
 }
 
 
@@ -139,8 +144,8 @@ function fetchAnyUrl(id, cache, callback) {
 }
 
 
-function fetchDropboxFile(id, cache, callback) {
-    var url = DROPBOX_PUBLIC_BASE_URL + decodeURIComponent(id);
+function fetchDropboxFile(id, cache, callback, base_url) {
+    var url = base_url + decodeURIComponent(id);
     fetchAnyUrl(url, cache, callback);
 }
 
