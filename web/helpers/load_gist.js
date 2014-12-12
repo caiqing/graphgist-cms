@@ -92,7 +92,6 @@ function fetchGithubGist(id, cache, callback) {
 
 function fetchGithubFile(id, cache, callback) {
     var decoded = decodeURIComponent(id);
-
     decoded = decoded.replace(/\/contents\//, '//');
     var parts = decoded.split('/');
     var branch = 'master';
@@ -103,8 +102,7 @@ function fetchGithubFile(id, cache, callback) {
     }
     var url = 'https://api.github.com/repos/' + parts[0] + '/' + parts[1] + '/contents/' + parts.slice(pathPartsIndex).join('/');
 
-
-    var r = github_request.defaults({url: url, qs: "ref=" + branch});
+    var r = github_request.defaults({url: url, qs: {ref: branch}});
 
     request_with_cache(r, cache, id, function (err, data) {
       if (err) {
@@ -119,6 +117,17 @@ function fetchGithubFile(id, cache, callback) {
       callback(null, content, imagesdir); // todo images
     });
 }
+
+function fetchPublicDropboxFile(id, success, error) {
+    id = id.substr(8);
+    fetchDropboxFile(id, success, error, DROPBOX_PUBLIC_BASE_URL);
+}
+
+function fetchPrivateDropboxFile(id, success, error) {
+    id = id.substr(9);
+    fetchDropboxFile(id, success, error, DROPBOX_PRIVATE_API_BASE_URL);
+}
+
 
 function fetchAnyUrl(id, cache, callback) {
     var url = decodeURIComponent(id);
@@ -193,16 +202,19 @@ exports.load_gist = function (id, cache, callback) {
     Gists.getById({id: id}, {}, function (err, data) {
       var gist = data.results;
 
-      if (!err) {
-        if (gist.id) id = gist.url
+      if (!err && gist && gist.id) {
+        id = gist.url
       }
 
       id = exports.transformThirdPartyURLs(id);
 
       var fetcher = fetchGithubGist;
       if (id.length > 8 && id.substr(0, 8) === 'dropbox-') {
-          fetcher = fetchDropboxFile;
+          fetcher = fetchPublicDropboxFile;
           id = id.substr(8);
+      }
+      else if (id.length > 9 && id.substr(0, 9) === 'dropboxs-') {
+          fetcher = fetchPrivateDropboxFile;
       }
       else if (id.length > 7 && id.substr(0, 7) === 'github-') {
           fetcher = fetchGithubFile;

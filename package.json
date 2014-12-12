@@ -46,7 +46,7 @@
     "socket.io": "0.9.16",
     "asciidoctor.js": "1.5.x",
 
-    "request": "2.49.x",
+    "request": "2.51.x",
     "js-base64":"2.1.5"
 
 

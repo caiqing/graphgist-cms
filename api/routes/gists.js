@@ -111,7 +111,7 @@ exports.findById = {
 
     var callback = function (err, response) {
       if (err) throw swe.notFound('gist');
-      writeResponse(res, response, start);
+      writeResponse(res, response.results ? response : '', start);
     };
 
 

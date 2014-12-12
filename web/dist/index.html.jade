@@ -91,11 +91,15 @@ html(lang="en", ng-app="contentApp")
             li: a(href="http://www.neo4j.com") Neo4j
             li &nbsp;
 
-    div(ng-view)
+            li
+              form.navbar-form
+                div.form-group
+                  input(type="text", id="gist-id", placeholder="GitHub Gist/ File / Dropbox URL").form-control
+
+    div(ng-view)#content
 
     div#mydiv
         img(src="assets/img/AjaxLoader.gif").ajax-loader
-
 
 
     script(src="assets/js/holder.js")

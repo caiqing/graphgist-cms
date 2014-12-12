@@ -64,6 +64,15 @@ function GraphGist($, options) {
     var $gistId = undefined;
     var consolr = undefined;
 
+    $(document).ready(function () {
+        $content = $('#content');
+        $gistId = $('#gist-id');
+        var gist = new Gist($, $content);
+        //gist.getGistAndRenderPage(renderContent, DEFAULT_SOURCE);
+        $gistId.keydown(gist.readSourceId);
+    });
+
+
     return({renderContent: renderContent});
 
     function renderContent(content, link, imagesdir) {

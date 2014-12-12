@@ -48,9 +48,7 @@ contentApp.directive('carousel', function() {
            		var genre = element.attr('data-genre');
            		var html = '';
 	            for (var i = 0; i < gists.length; i++) {
-                console.log({genres: gists[i].genres});
 	            	if ($.inArray(genre, gists[i].genres) != -1) {
-                  console.log('inArray');
                    html += scope.UTIL.gistTemplate(gists[i])
 						    };
 	            }

@@ -134,7 +134,7 @@ function Gist($, $content) {
                 // in case a GraphGist URL was pasted by mistake!
                 gist = gist.substr(1);
             }
-            window.location.assign('?' + gist);
+            window.location.assign('/#!/gists/' + encodeURIComponent(gist));
         }
     }
 

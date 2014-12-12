@@ -13,9 +13,13 @@ var contentApp = angular.module('contentApp', [
     loadGist: function (url, $http, $scope, $templateCache) {
       $http({method: 'GET', url: url, cache: $templateCache}).
         success(function(data, status, headers, config) {
-          $scope.gist = data;
-          $scope.gist.poster_image = $scope.gist.poster_image || '/assets/img/posters/' + $scope.gist.title.replace('/', ' ') + '.jpg';
-          $scope.gist.poster_image = $scope.gist.poster_image.replace("w185", "w300");
+          if (data.length) {
+            $scope.gist = data;
+            $scope.gist.poster_image = $scope.gist.poster_image || ($scope.gist.title ? '/assets/img/posters/' + $scope.gist.title.replace('/', ' ') + '.jpg' : '');
+            $scope.gist.poster_image = $scope.gist.poster_image.replace("w185", "w300");
+          } else {
+            $scope.gist = $scope.gist || {};
+          }
         }).
         error(function(data, status, headers, config) {
         // called asynchronously if an error occurs
