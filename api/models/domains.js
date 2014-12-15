@@ -153,7 +153,7 @@ var _getViewByName = function (params, options, callback) {
     'OPTIONAL MATCH (tag)<-[:HAS_USECASE|HAS_DOMAIN]-(gist)-[:HAS_USECASE|HAS_DOMAIN]->(tags)',
     'WITH DISTINCT { name: tags.name, poster_image: tags.poster_image } as related, count(DISTINCT gists) as weight, gist, tag',
     'ORDER BY weight DESC',
-    'RETURN collect(DISTINCT { title: gist.title, poster_image: gist.poster_image }) as gist, collect(DISTINCT { related: related, weight: weight }) as related, tag as domain'
+    'RETURN collect(DISTINCT { title: gist.title, poster_image: gist.poster_image, id: gist.id }) as gist, collect(DISTINCT { related: related, weight: weight }) as related, tag as domain'
   ].join('\n');
 
   callback(null, query, cypher_params);
