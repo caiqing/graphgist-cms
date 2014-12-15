@@ -9,3 +9,19 @@ MATCH (n) WHERE n.released IS NOT NULL SET n.released = NULL
 
 
 MATCH (gist:Gist) SET gist.status='live'
+
+
+
+
+
+
+
+CREATE (d:Usecase {name: 'Relational Models', description: 'When the ridged structure of tables has become too much and you need to put your data into a graph.', list: ['Moving away entirely from a relational database', 'supplimenting part of your relational database with the power of graphs']})
+
+CREATE (d:Usecase {name: 'Impact Analysis', description: ''})
+
+CREATE (d:Usecase {name: 'Content and Asset Management', description: 'What better way to store information about everything than with a simple and flexible graph model?'})
+
+CREATE (d:Usecase {name: 'Graph Search and Insights', description: ''})
+
+MATCH (d:Usecase) WHERE NOT(d:Tag) SET d:Tag
