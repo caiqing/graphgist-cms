@@ -155,25 +155,26 @@ function Gist($, $content) {
                     baseUrl: ['https://beta.etherpad.org/', 'https://piratepad.ca/p/', 'https://factor.cc/pad/p/', 'https://pad.systemli.org/p/', 'https://pad.fnordig.de/p/',
                         'https://notes.typo3.org/p/', 'https://pad.lqdn.fr/p/', 'https://pad.okfn.org/p/', 'https://beta.publishwith.me/p/', 'https://tihlde.org/etherpad/p/',
                         'https://tihlde.org/pad/p/', 'https://etherpad.wikimedia.org/p/', 'https://etherpad.fr/p/', 'https://piratenpad.de/p/', 'https://bitpad.co.nz/p/',
+                        'http://beta.etherpad.org/',
                         'http://notas.dados.gov.br/p/', 'http://free.primarypad.com/p/', 'http://board.net/p/', 'https://pad.odoo.com/p/', 'http://pad.planka.nu/p/',
                         'http://qikpad.co.uk/p/', 'http://pad.tn/p/', 'http://lite4.framapad.org/p/', 'http://pad.hdc.pw/p/'],
                     parse: function (gist, parts, baseUrl) {
                         if (gist.length <= baseUrl.length) {
                             return {'error': 'No pad id in the URL.'};
                         }
-                        var baseParts = baseUrl.split('/');
+                        var baseParts = gist.split('/');
                         var pad = parts[baseParts.length - 1];
                         if (pad.length < 1) {
                             return {'error': 'Missing pad id in the URL.'};
                         }
-                        var basePrefix = baseUrl.indexOf('https') === 0 ? 'eps' : 'ep';
+                        var basePrefix = gist.indexOf('https') === 0 ? 'eps' : 'ep';
                         var prefix = '';
-                        if (baseUrl.indexOf('/p/') !== -1) {
+                        if (gist.indexOf('/p/') !== -1) {
                             prefix = 'p';
                         } // intentionally no else
-                        if (baseUrl.indexOf('/pad/p/') !== -1) {
+                        if (gist.indexOf('/pad/p/') !== -1) {
                             prefix = 'pp';
-                        } else if (baseUrl.indexOf('/etherpad/p/') !== -1) {
+                        } else if (gist.indexOf('/etherpad/p/') !== -1) {
                             prefix = 'ep';
                         }
                         prefix = basePrefix + prefix + '-';
