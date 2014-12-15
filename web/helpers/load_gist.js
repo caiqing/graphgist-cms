@@ -135,6 +135,40 @@ function fetchLocalSnippet(id, cache, callback) {
 }
 
 
+exports.transformThirdPartyURLs = function transformThirdPartyURLs(id) {
+    // http://gist.neo4j.org/?8650212
+    // 8650212
+    var match;
+    
+    if (match = id.match(/.*gist\.neo4j\.org\/\?([^#]+)/)) id = match[1]
+
+    // https://gist.github.com/8650212  
+    // 8650212
+    if (match = id.match(/.*gist\.github\.com\/([^#]+)/)) id = match[1]
+
+    // https://github.com/neo4j-contrib/gists/blob/master/other/BankFraudDetection.adoc
+    // https://github.com/neo4j-contrib/gists/raw/master/other/BankFraudDetection.adoc
+    if (id.match(/github\.com/)) id = id.replace('/blob/', '/raw/')
+
+    // http://beta.etherpad.org/p/IudqLHvuRj
+    // http://beta.etherpad.org/p/IudqLHvuRj/export/txt
+    //if (id.match('etherpad') && !id.match(/export/)) {
+    //  id = id + '/export/txt'
+    //}
+
+    // https://copy.com/7MuhBZKFDsCIPNLp/analysis.txt
+    // https://copy.com/s/7MuhBZKFDsCIPNLp/analysis.txt
+    //id.replace(/copy\.com\/s\//, 'copy.com/')
+
+    // http://pastebin.com/Nx3hDshq
+    // http://pastebin.com/raw.php?i=Nx3hDshq
+    if (id.match('pastebin') && !id.match('raw')) {
+      id = id.replace('pastebin\.com/', 'pastebin.com/raw.pdp?i=')
+    }
+
+    return(id);
+}
+
 exports.load_gist = function (id, cache, callback) {
     if (id.length < 2) {
         id = DEFAULT_SOURCE;
@@ -150,12 +184,13 @@ exports.load_gist = function (id, cache, callback) {
     Gists.getById({id: id}, {}, function (err, data) {
       var gist = data.results;
 
-      var fetcher = null;
+      var fetcher = fetchGithubGist;
 
       if (!err && gist && gist.id) {
         id = gist.url
-        fetcher = fetchFromUrl;
       }
+
+      id = exports.transformThirdPartyURLs(id);
 
       for (var fetch in internal.fetchers) {
           if (id.indexOf(fetch) === 0) {
