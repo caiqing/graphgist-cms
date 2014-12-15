@@ -150,11 +150,12 @@ exports.load_gist = function (id, cache, callback) {
     Gists.getById({id: id}, {}, function (err, data) {
       var gist = data.results;
 
+      var fetcher = null;
+
       if (!err && gist && gist.id) {
         id = gist.url
+        fetcher = fetchFromUrl;
       }
-
-      var fetcher = fetchGithubGist;
 
       for (var fetch in internal.fetchers) {
           if (id.indexOf(fetch) === 0) {
@@ -164,7 +165,7 @@ exports.load_gist = function (id, cache, callback) {
       }
       if (!fetcher) {
           if (!VALID_GIST.test(id) && id.indexOf('%3A%2F%2F') !== -1) {
-              fetcher = fetchAnyUrl;
+              fetcher = fetchFromUrl;
           } else {
               fetcher = fetchGithubGist;
           }
