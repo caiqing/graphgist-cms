@@ -18,10 +18,14 @@ function Gist($, $content) {
     var DROPBOX_PUBLIC_BASE_URL = 'https://dl.dropboxusercontent.com/u/';
     var DROPBOX_PRIVATE_BASE_URL = 'https://www.dropbox.com/s/';
     var DROPBOX_PRIVATE_API_BASE_URL = 'https://dl.dropboxusercontent.com/s/';
+    var RISEUP_BASE_URL = 'https://pad.riseup.net/p/';
+    var RISEUP_EXPORT_POSTFIX = '/export/txt';
+    var COPY_COM_PUBLIC_LINK = 'https://copy.com/';
 
     var VALID_GIST = /^[0-9a-f]{5,32}\/?$/;
 
     return {'getGistAndRenderPage': getGistAndRenderPage, 'readSourceId': readSourceId};
+
 
     function getGistAndRenderPage(renderer, defaultSource) {
         var id = window.location.search;
@@ -90,52 +94,135 @@ function Gist($, $content) {
     }
 
     function readSourceId(event) {
-        var $target = $(event.target);
-        if (event.which === 13 || event.which === 9) {
-            event.preventDefault();
-            $target.blur();
-            var gist = $.trim($target.val());
-            if (gist.indexOf('/') !== -1) {
-                var dropboxPublicBaseLen = DROPBOX_PUBLIC_BASE_URL.length;
-                var dropboxPrivateBaseLen = DROPBOX_PRIVATE_BASE_URL.length;
-                if (gist.length > dropboxPublicBaseLen && gist.substr(0, dropboxPublicBaseLen) === DROPBOX_PUBLIC_BASE_URL) {
-                    gist = 'dropbox-' + encodeURIComponent(gist.substr(dropboxPublicBaseLen));
+        var internal = {};
+        internal['sourceParsers'] = {
+            'GitHub Gist': {
+                baseUrl: 'https://gist.github.com/',
+                parse: function (gist, parts) {
+                    return useGithubGist(4, parts.length - 1, parts);
                 }
-                else if (gist.length > dropboxPrivateBaseLen && gist.substr(0, dropboxPrivateBaseLen) === DROPBOX_PRIVATE_BASE_URL) {
-                    gist = 'dropboxs-' + encodeURIComponent(gist.substr(dropboxPrivateBaseLen));
+            },
+            'Raw GitHub Gist': {
+                baseUrl: 'https://gist.githubusercontent.com/',
+                parse: function (gist, parts) {
+                    return useGithubGist(5, 4, parts);
                 }
-                else if (gist.length > 30 && (gist.substr(0, 19) === 'https://github.com/' || gist.substr(0, 23) === 'https://raw.github.com/')
-                    ) {
-                    var parts = gist.split('/');
-                    var isRaw = parts[2] === 'raw.github.com';
-                    var pathIndex = isRaw ? 6 : 7;
-                    var branchIndex = isRaw ? 5 : 6;
-                    if (parts.length >= pathIndex) {
-                        gist = 'github-' + parts[3] + '/' + parts[4];
-                        if (parts[branchIndex] !== 'master') {
-                            gist += '/' + parts[branchIndex];
+            },
+            'GitHub Repository File': {
+                baseUrl: 'https://github.com/',
+                parse: function (gist, parts) {
+                    return useGithubRepoParts({'branch': 6, 'path': 7}, parts);
+                }
+            },
+            'Raw GitHub Repository File': {
+                baseUrl: ['https://raw.github.com/', 'https://raw.githubusercontent.com/'],
+                parse: function (gist, parts) {
+                    return useGithubRepoParts({'branch': 5, 'path': 6}, parts);
+                }
+            },
+            'Public Dropbox File': {
+                baseUrl: DROPBOX_PUBLIC_BASE_URL,
+                parse: function (gist, parts, baseUrl) {
+                    return useRestOfTheUrl('dropbox-', baseUrl, gist);
+                }
+            },
+            'Shared Private Dropbox File': {
+                baseUrl: DROPBOX_PRIVATE_BASE_URL,
+                parse: function (gist, parts, baseUrl) {
+                    return useRestOfTheUrl('dropboxs-', baseUrl, gist);
+                }
+            },
+            'Copy.com Public Link': {
+                baseUrl: COPY_COM_PUBLIC_LINK,
+                parse: function (gist, parts, baseUrl) {
+                    return useRestOfTheUrl('copy-', baseUrl, gist);
+                }
+            },
+            'Riseup Pad': {
+                baseUrl: RISEUP_BASE_URL,
+                parse: function (gist, parts) {
+                    if (parts.length < 5) {
+                        return {'error': 'No pad id in the URL.'};
+                    }
+                    var pad = parts[4];
+                    if (pad.length < 1) {
+                        return {'error': 'Missing pad id in the URL.'};
+                    }
+                    return {'id': 'riseup-' + pad};
+                }
+                },
+                'Etherpad': {
+                    baseUrl: ['https://beta.etherpad.org/', 'https://piratepad.ca/p/', 'https://factor.cc/pad/p/', 'https://pad.systemli.org/p/', 'https://pad.fnordig.de/p/',
+                        'https://notes.typo3.org/p/', 'https://pad.lqdn.fr/p/', 'https://pad.okfn.org/p/', 'https://beta.publishwith.me/p/', 'https://tihlde.org/etherpad/p/',
+                        'https://tihlde.org/pad/p/', 'https://etherpad.wikimedia.org/p/', 'https://etherpad.fr/p/', 'https://piratenpad.de/p/', 'https://bitpad.co.nz/p/',
+                        'http://notas.dados.gov.br/p/', 'http://free.primarypad.com/p/', 'http://board.net/p/', 'https://pad.odoo.com/p/', 'http://pad.planka.nu/p/',
+                        'http://qikpad.co.uk/p/', 'http://pad.tn/p/', 'http://lite4.framapad.org/p/', 'http://pad.hdc.pw/p/'],
+                    parse: function (gist, parts, baseUrl) {
+                        if (gist.length <= baseUrl.length) {
+                            return {'error': 'No pad id in the URL.'};
                         }
-                        gist += '//' + parts.slice(pathIndex).join('/');
-                    } // else pretend it's a raw URL - encoding needed in both cases
+                        var baseParts = baseUrl.split('/');
+                        var pad = parts[baseParts.length - 1];
+                        if (pad.length < 1) {
+                            return {'error': 'Missing pad id in the URL.'};
+                        }
+                        var basePrefix = baseUrl.indexOf('https') === 0 ? 'eps' : 'ep';
+                        var prefix = '';
+                        if (baseUrl.indexOf('/p/') !== -1) {
+                            prefix = 'p';
+                        } // intentionally no else
+                        if (baseUrl.indexOf('/pad/p/') !== -1) {
+                            prefix = 'pp';
+                        } else if (baseUrl.indexOf('/etherpad/p/') !== -1) {
+                            prefix = 'ep';
+                        }
+                        prefix = basePrefix + prefix + '-';
+                        return {'id': prefix + baseParts[2] + '-' + pad};
+                    }
+                }
+            };
+
+        if (event.which !== 13 && event.which !== 9) {
+            return;
+        }
+        event.preventDefault();
+        var $target = $(event.target);
+        $target.blur();
+        var gist = $.trim($target.val());
+        if (gist.indexOf('/') !== -1) {
+            var parts = gist.split('/');
+            for (var sourceParserName in internal.sourceParsers) {
+                var sourceParser = internal.sourceParsers[sourceParserName];
+                var baseUrls = sourceParser.baseUrl;
+                if (!Array.isArray(baseUrls)) {
+                    baseUrls = [baseUrls];
+                }
+                for (var j = 0; j < baseUrls.length; j++) {
+                    var baseUrl = baseUrls[j];
+                    if (gist.indexOf(baseUrl) === 0) {
+                        var result = sourceParser.parse(gist, parts, baseUrl);
+                        if ('error' in result && result.error) {
+                            errorMessage('Error when parsing "' + gist + '" as a ' + sourceParserName + '.\n' + result.error);
+                        } else if ('id' in result) {
+                            window.location.assign('/#!/gists/' + encodeURIComponent(result.id));
+                        }
+                        return;
+                    }
+                }
+            }
+            if (gist.indexOf('?') !== -1) {
+                // in case a DocGist URL was pasted
+                gist = gist.split('?').pop();
+            } else {
+                if (gist.indexOf('://') !== -1) {
                     gist = encodeURIComponent(gist);
                 }
                 else {
-                    var pos = gist.lastIndexOf('/');
-                    var endOfUrl = gist.substr(pos + 1);
-                    if (gist.indexOf('://') !== -1 && !VALID_GIST.test(endOfUrl)) {
-                        gist = encodeURIComponent(gist);
-                    }
-                    else {
-                        gist = endOfUrl;
-                    }
+                    errorMessage('Do not know how to parse "' + gist + '" as a DocGist source URL.');
                 }
             }
-            if (gist.charAt(0) === '?') {
-                // in case a GraphGist URL was pasted by mistake!
-                gist = gist.substr(1);
-            }
-            window.location.assign('/#!/gists/' + encodeURIComponent(gist));
         }
+        window.location.assign('/#!/gists/' + encodeURIComponent(gist));
     }
 
     function fetchGithubGist(gist, success, error) {
@@ -245,6 +332,13 @@ function Gist($, $content) {
         });
     }
 
+    function useRestOfTheUrl(prefix, baseUrl, gist) {
+        if (gist.length <= baseUrl.length) {
+            return {'error': 'Missing content in the URL.'};
+        }
+        return {'id': prefix + encodeURIComponent(gist.substr(baseUrl.length))};
+    }
+
     function fetchLocalSnippet(id, success, error) {
         var url = './gists/' + id + '.adoc';
         $.ajax({
@@ -259,6 +353,7 @@ function Gist($, $content) {
             }
         });
     }
+
 
     function errorMessage(message, gist) {
         var messageText;

@@ -35,6 +35,10 @@ var GITHUB_API_BASE_URL = 'https://api.github.com/repos/';
 var GITHUB_GIST_BASE_URL = 'https://gist.github.com/';
 var GITHUB_GIST_API_BASE_URL = 'https://api.github.com/gists/';
 
+var RISEUP_BASE_URL = 'https://pad.riseup.net/p/';
+var RISEUP_EXPORT_POSTFIX = '/export/txt';
+var COPY_COM_PUBLIC_LINK = 'https://copy.com/';
+
 var DEFAULT_SOURCE = 'github-neo4j-contrib/gists/meta/Home.adoc';
 var VALID_GIST = /^[0-9a-f]{5,32}\/?$/;
 
@@ -123,35 +127,11 @@ function fetchGithubFile(id, cache, callback) {
     });
 }
 
-function fetchPublicDropboxFile(id, cache, callback) {
-    id = id.substr(8);
-    fetchDropboxFile(id, cache, callback, DROPBOX_PUBLIC_API_BASE_URL);
-}
 
-function fetchPrivateDropboxFile(id, cache, callback) {
-    id = id.substr(9);
-    fetchDropboxFile(id, cache, callback, DROPBOX_PRIVATE_API_BASE_URL);
-}
-
-
-function fetchAnyUrl(id, cache, callback) {
-    var url = decodeURIComponent(id);
-    var r = request.defaults({url: url, headers: {accept: "text/plain"}});
-
-    request_with_cache(r, cache, id, function (err, data) {
-      callback(err, data, id);
-    });
-}
-
-
-function fetchDropboxFile(id, cache, callback, base_url) {
-    var url = base_url + decodeURIComponent(id);
-    fetchAnyUrl(url, cache, callback);
-}
 
 function fetchLocalSnippet(id, cache, callback) {
     var url = GRAPHGIST_BASE_URL + id + '.adoc';
-    fetchAnyUrl(url, cache, callback);
+    fetchFromUrl(url, cache, callback);
 }
 
 
@@ -214,19 +194,19 @@ exports.load_gist = function (id, cache, callback) {
       id = exports.transformThirdPartyURLs(id);
 
       var fetcher = fetchGithubGist;
-      if (id.length > 8 && id.substr(0, 8) === 'dropbox-') {
-          fetcher = fetchPublicDropboxFile;
-          id = id.substr(8);
+
+      for (var fetch in internal.fetchers) {
+          if (id.indexOf(fetch) === 0) {
+              fetcher = internal.fetchers[fetch];
+              break;
+          }
       }
-      else if (id.length > 9 && id.substr(0, 9) === 'dropboxs-') {
-          fetcher = fetchPrivateDropboxFile;
-      }
-      else if (id.length > 7 && id.substr(0, 7) === 'github-') {
-          fetcher = fetchGithubFile;
-          id = id.substr(7);
-      }
-      else if (!VALID_GIST.test(id)) {
-          fetcher = (id.indexOf('://') !== -1) ? fetchAnyUrl : fetchLocalSnippet
+      if (!fetcher) {
+          if (!VALID_GIST.test(id) && id.indexOf('%3A%2F%2F') !== -1) {
+              fetcher = fetchAnyUrl;
+          } else {
+              fetcher = fetchGithubGist;
+          }
       }
 
       fetcher(id, cache, callback);
@@ -302,6 +282,105 @@ function buildGraphGistUrlInfo(url) {
         return {source:source, url: GRAPHGIST_BASE_URL + source, type:"graphgist"}; // local
     }
     return {id:decoded, url:decoded, type:"any"};
+}
+
+
+
+
+
+var internal = {};
+internal['fetchers'] = {
+    'github-': fetchGithubFile,
+    'dropbox-': fetchPublicDropboxFile,
+    'dropboxs-': fetchPrivateDropboxFile,
+    'copy-': fetchCopyComPublicLink,
+    'riseup-': fetchRiseupFile,
+    'eps-': fetchSecureEtherpadFile,
+    'epsp-': fetchSecureEtherpadPDirFile,
+    'epspp-': fetchSecureEtherpadPadPDirFile,
+    'epsep-': fetchSecureEtherpadPadEtherpadDirFile,
+    'epp-': fetchEtherpadPDirFile
+};
+
+
+
+// Fetchers
+
+function fetchPublicDropboxFile(id, cache, callback) {
+    id = id.substr(8);
+    fetchDropboxFile(id, cache, callback, DROPBOX_PUBLIC_API_BASE_URL);
+}
+
+function fetchPrivateDropboxFile(id, cache, callback) {
+    id = id.substr(9);
+    fetchDropboxFile(id, cache, callback, DROPBOX_PRIVATE_API_BASE_URL);
+}
+
+function fetchDropboxFile(id, cache, callback, base_url) {
+    var url = base_url + decodeURIComponent(id);
+    fetchFromUrl(url, cache, callback);
+}
+
+function fetchCopyComPublicLink(id, cache, callback) {
+    id = id.substr(5);
+    fetchFromUrl(COPY_COM_PUBLIC_LINK + decodeURIComponent(id), cache, callback);
+}
+
+function fetchRiseupFile(id, cache, callback) {
+    id = id.substr(7);
+    var webUrl = RISEUP_BASE_URL + decodeURIComponent(id);
+    fetchFromUrl(webUrl + RISEUP_EXPORT_POSTFIX, cache, callback, webUrl);
+}
+
+function fetchSecureEtherpadFile(id, cache, callback) {
+    fetchEtherpad(id, cache, callback, true);
+}
+
+function fetchSecureEtherpadPDirFile(id, cache, callback) {
+    fetchEtherpad(id, cache, callback, true, 'p');
+}
+
+function fetchSecureEtherpadPadPDirFile(id, cache, callback) {
+    fetchEtherpad(id, cache, callback, true, 'pad/p');
+}
+
+function fetchSecureEtherpadPadEtherpadDirFile(id, cache, callback) {
+    fetchEtherpad(id, cache, callback, true, 'etherpad/p');
+}
+
+function fetchEtherpadPDirFile(id, cache, callback) {
+    fetchEtherpad(id, cache, callback, false, 'p');
+}
+
+function fetchEtherpad(id, cache, callback, secure, dir, exportPostfix) {
+    var idParts = id.split('-');
+    var host = idParts[1];
+    var pad = idParts.slice(2).join('-');
+    var webUrl = (secure ? 'https' : 'http') + '://' + host + '/' + (dir ? dir + '/' : '') + decodeURIComponent(pad);
+    var exportUrl = webUrl + (exportPostfix ? exportPostfix : '/export/txt');
+    fetchFromUrl(exportUrl, cache, callback, webUrl);
+}
+
+function fetchFromUrl(id, cache, callback) {
+    var url = decodeURIComponent(id);
+    var r = request.defaults({url: url, headers: {accept: "text/plain"}});
+
+    request_with_cache(r, cache, id, function (err, data) {
+      callback(err, data, id);
+    });
+}
+// End of fetchers
+
+function errorMessage(message, gist) {
+    var messageText;
+    if (gist) {
+        messageText = 'Something went wrong fetching the DocGist "' + gist + '":<p>' + message + '</p>';
+    }
+    else {
+        messageText = message;
+    }
+
+    console.log('GIST LOAD ERROR: ' + messageText);
 }
 
 
