@@ -263,9 +263,9 @@ contentApp.directive('carouseldomainsgists', function() {
 	            	var relatedGistTitleLink = domains.gists[i].poster_image || '/assets/img/posters/' + domains.gists[i].title.replace('/', ' ') + '.jpg';
 	                 html += '<div class="item">' +
 						          '<div class="thumbnail">' +
-						            '<a href="#!/gists/' + domains.gists[i].title.replace('/', '%252F')  + '/summary"><img src="' + relatedGistTitleLink +'"/></a>' +
+						            '<a href="#!/gists/' + domains.gists[i].id  + '/summary"><img src="' + relatedGistTitleLink +'"/></a>' +
 						          '</div>' +
-						          '<span><a href="#!/gists/' + domains.gists[i].title.replace('/', '%252F')  + '/summary">' + domains.gists[i].title + '</a></span>' +
+						          '<span><a href="#!/gists/' + domains.gists[i].id  + '/summary">' + domains.gists[i].title + '</a></span>' +
 						        '</div>';
 
 	            }
