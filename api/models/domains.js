@@ -35,8 +35,8 @@ function _randomNames (n) {
 var _singleDomain = function (results, callback) {
   if (results.length) {
     var domain = new Domain(results[0].domain);
-    domain.gists = results[0].gist;
-    domain.related = results[0].related;
+    domain.related_gists = results[0].related_gists;
+    domain.related_domains = results[0].related_domains;
     callback(null, domain);
   } else {
     callback(null, null);
@@ -149,12 +149,12 @@ var _getViewByName = function (params, options, callback) {
     // 'MATCH (node)', 
     // 'WHERE node:Domain OR node:UseCase AND node.name= {name}',
     // 'WITH node',
-    'MATCH (tag:Tag {name: {name}})',  
+    'MATCH (tag:Tag {name: {name}})',
     'OPTIONAL MATCH (tag)--(gist:Gist)',
-    'OPTIONAL MATCH (tag)<-[:HAS_USECASE|HAS_DOMAIN]-(related_gist)-[:HAS_USECASE|HAS_DOMAIN]->(tags)',
-    'WITH DISTINCT { name: tags.name, poster_image: tags.poster_image } as related, count(DISTINCT gist) as weight, related_gist, tag',
+    'OPTIONAL MATCH (tag)<-[:HAS_USECASE|HAS_DOMAIN]-(related_gist)-[:HAS_USECASE|HAS_DOMAIN]->(other_tag)',
+    'WITH DISTINCT { name: other_tag.name, poster_image: other_tag.poster_image } as related_domain, count(DISTINCT gist) as weight, related_gist, tag',
     'ORDER BY weight DESC',
-    'RETURN collect(DISTINCT { title: related_gist.title, poster_image: related_gist.poster_image, id: related_gist.id }) as related_gist, collect(DISTINCT { related: related, weight: weight }) as related, tag as domain'
+    'RETURN collect(DISTINCT { title: related_gist.title, poster_image: related_gist.poster_image, id: related_gist.id }) as related_gists, collect(DISTINCT { related_domain: related_domain, weight: weight }) as related_domains, tag as domain'
   ].join('\n');
 
   callback(null, query, cypher_params);

@@ -41,41 +41,41 @@ contentApp.directive('carousel', function() {
 	var res = {
      restrict : 'A',
      link     : function (scope, element, attrs) {
-           scope.$watch(attrs.carousel, function(gists) {  
-           	if(scope.gists.length > 0)
-           	{
-           		gists = scope.gists;
-           		var genre = element.attr('data-genre');
-           		var html = '';
-	            for (var i = 0; i < gists.length; i++) {
-	            	if ($.inArray(genre, gists[i].genres) != -1) {
-                   html += scope.UTIL.gistTemplate(gists[i])
-						    };
-	            }
+                  scope.$watch(attrs.carousel, function(gists) {  
+                    var html = '';
+                    if(scope.gists.length > 0) {
+                      gists = scope.gists;
+                      var genre = element.attr('data-genre');
+                      for (var i = 0; i < gists.length; i++) {
+                        if ($.inArray(genre, gists[i].genres) != -1) {
+                          html += scope.UTIL.gistTemplate(gists[i])
+                        };
+                      }
 
-            	element[0].innerHTML = html;
 
-            	setTimeout(function() {
-	            $(element).owlCarousel({
-						items : 8,
-						itemsDesktop : [1199,6],
-						itemsDesktopSmall : [980,5],
-						itemsTablet: [768,4],
-						itemsMobile: [479, 2]
-					});
+                      setTimeout(function() {
+                        $(element).owlCarousel({
+                          items : 8,
+                          itemsDesktop : [1199,6],
+                          itemsDesktopSmall : [980,5],
+                          itemsTablet: [768,4],
+                          itemsMobile: [479, 2]
+                        });
 
-            	$("#owl-example").owlCarousel({
-					    items : 3,
-					    itemsDesktop : [1199,3],
-					    itemsDesktopSmall : [980,3],
-					    itemsTablet: [768,2]
-					});
-	           }, 0);
-			}
-        	
-        });
-       }
-   };
+                        $("#owl-example").owlCarousel({
+                          items : 3,
+                          itemsDesktop : [1199,3],
+                          itemsDesktopSmall : [980,3],
+                          itemsTablet: [768,2]
+                        });
+                      }, 0);
+                    } else {
+                      html = 'No gists found';
+                    }
+                    element[0].innerHTML = html;
+                  });
+                }
+  };
   return res;
 });
 
@@ -136,18 +136,20 @@ contentApp.controller('GistSubmitCtrl', ['$scope', '$routeParams', '$location',
   }]);
 
 contentApp.directive('carouselrelatedgists', function() {
-	var res = {
+	return({
      restrict : 'A',
+     scope: {
+       gists: '=gists'
+     },
      link     : function (scope, element, attrs) {
            scope.$watch(attrs.carouselrelatedgists, function(gist) {  
-           	if(scope.gist != undefined ? scope.gist.related != undefined ? scope.gist.related.length > 0 : false : false)
+           	if(scope.gist != undefined ? scope.gist.related_gists != undefined ? scope.gist.related_gists.length > 0 : false : false)
            	{
            		gist = scope.gist;
            		var html = '';
-              if (gist.related.length) {
-                for (var i = 0; i < gist.related.length; i++) {
-                  var relatedGistTitleLink = gist.related[i].related.poster_image || '/assets/img/posters/' + gist.related[i].related.title.replace('/', ' ') + '.jpg';
-                  html += scope.UTIL.gistTemplate(gist.related[i].related)
+              if (gist.related_gists.length) {
+                for (var i = 0; i < gist.related_gists.length; i++) {
+                  html += scope.UTIL.gistTemplate(gist.related_gists[i])
 
                 }
               } else {
@@ -170,8 +172,7 @@ contentApp.directive('carouselrelatedgists', function() {
         	
         });
        }
-   };
-  return res;
+   });
 });
 
 
@@ -341,8 +342,8 @@ contentApp.controller('PeopleItemCtrl', ['$scope', '$routeParams', '$http', '$te
 	  	{
 	  		$http({method: 'GET', url: $scope.url, cache: $templateCache}).
 			    success(function(data, status, headers, config) {
-			    	$scope.domains = data;
-			    	$scope.domains.poster_image = $scope.domains.poster_image || '/assets/img/actors/' + $scope.domains.name.replace('/', ' ') + '.jpg';
+			    	$scope.domain = data;
+			    	$scope.domain.poster_image = $scope.domain.poster_image || '/assets/img/actors/' + $scope.domain.name.replace('/', ' ') + '.jpg';
 			    }).
 			    error(function(data, status, headers, config) {
 			    // called asynchronously if an error occurs

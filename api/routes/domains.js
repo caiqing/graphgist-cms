@@ -196,16 +196,16 @@ exports.addRandomDomains = {
 
 exports.findByName = {
   'spec': {
-    "description" : "find a person",
+    "description" : "find a domain",
     "path" : "/domains/name/{name}",
-    "notes" : "Returns a person based on name",
-    "summary" : "Find person by name",
+    "notes" : "Returns a domain based on name",
+    "summary" : "Find domain by name",
     "method": "GET",
     "params" : [
-      param.path("name", "Name of person that needs to be fetched", "string")
+      param.path("name", "Name of domain that needs to be fetched", "string")
     ],
     "responseClass" : "Domain",
-    "errorResponses" : [swe.invalid('name'), swe.notFound('person')],
+    "errorResponses" : [swe.invalid('name'), swe.notFound('domain')],
     "nickname" : "getPersonByName"
   },
   'action': function (req,res) {
@@ -222,10 +222,11 @@ exports.findByName = {
     };
 
     var callback = function (err, response) {
-      if (err) throw swe.notFound('person');
+      if (err) throw swe.notFound('domain');
       writeResponse(res, response, start);
     };
 
     Domains.getByName(params, options, callback);
   }
 };
+
