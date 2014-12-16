@@ -149,11 +149,12 @@ var _getViewByName = function (params, options, callback) {
     // 'MATCH (node)', 
     // 'WHERE node:Domain OR node:UseCase AND node.name= {name}',
     // 'WITH node',
-    'MATCH (tag:Tag {name: {name}})-[relatedTo]-(gists:Gist)',  
-    'OPTIONAL MATCH (tag)<-[:HAS_USECASE|HAS_DOMAIN]-(gist)-[:HAS_USECASE|HAS_DOMAIN]->(tags)',
-    'WITH DISTINCT { name: tags.name, poster_image: tags.poster_image } as related, count(DISTINCT gists) as weight, gist, tag',
+    'MATCH (tag:Tag {name: {name}})',  
+    'OPTIONAL MATCH (tag)--(gist:Gist)',
+    'OPTIONAL MATCH (tag)<-[:HAS_USECASE|HAS_DOMAIN]-(related_gist)-[:HAS_USECASE|HAS_DOMAIN]->(tags)',
+    'WITH DISTINCT { name: tags.name, poster_image: tags.poster_image } as related, count(DISTINCT gist) as weight, related_gist, tag',
     'ORDER BY weight DESC',
-    'RETURN collect(DISTINCT { title: gist.title, poster_image: gist.poster_image, id: gist.id }) as gist, collect(DISTINCT { related: related, weight: weight }) as related, tag as domain'
+    'RETURN collect(DISTINCT { title: related_gist.title, poster_image: related_gist.poster_image, id: related_gist.id }) as related_gist, collect(DISTINCT { related: related, weight: weight }) as related, tag as domain'
   ].join('\n');
 
   callback(null, query, cypher_params);
