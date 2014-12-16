@@ -144,11 +144,15 @@ contentApp.directive('carouselrelatedgists', function() {
            	{
            		gist = scope.gist;
            		var html = '';
-	            for (var i = 0; i < gist.related.length; i++) {
-                var relatedGistTitleLink = gist.related[i].related.poster_image || '/assets/img/posters/' + gist.related[i].related.title.replace('/', ' ') + '.jpg';
-                html += scope.UTIL.gistTemplate(gist.related[i].related)
+              if (gist.related.length) {
+                for (var i = 0; i < gist.related.length; i++) {
+                  var relatedGistTitleLink = gist.related[i].related.poster_image || '/assets/img/posters/' + gist.related[i].related.title.replace('/', ' ') + '.jpg';
+                  html += scope.UTIL.gistTemplate(gist.related[i].related)
 
-	            }
+                }
+              } else {
+                html = 'No gists found'
+              }
 
             	element[0].innerHTML = html;
 
