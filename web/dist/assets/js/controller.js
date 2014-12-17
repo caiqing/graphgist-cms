@@ -135,44 +135,49 @@ contentApp.controller('GistSubmitCtrl', ['$scope', '$routeParams', '$location',
 
   }]);
 
-contentApp.directive('carouselrelatedgists', function() {
-	return({
+contentApp.filter('gistTitleLink', function() {
+  return function(gist) {
+    return(gist.poster_image || '/assets/img/actors/' + gist.title.replace('/', ' ') + '.jpg');
+  };
+});
+
+contentApp.filter('encodeURI', function() {
+  return function(string) {
+    return(encodeURI(string));
+  }
+});
+
+contentApp.filter('encodeURIComponent', function() {
+  return function(string) {
+    return(encodeURIComponent(string));
+  }
+});
+
+
+contentApp.directive('carouselrelatedgists', function($timeout) {
+	return {
      restrict : 'A',
      scope: {
        gists: '=gists'
      },
-     link     : function (scope, element, attrs) {
-           scope.$watch(attrs.carouselrelatedgists, function(gist) {  
-           	if(scope.gist != undefined ? scope.gist.related_gists != undefined ? scope.gist.related_gists.length > 0 : false : false)
-           	{
-           		gist = scope.gist;
-           		var html = '';
-              if (gist.related_gists.length) {
-                for (var i = 0; i < gist.related_gists.length; i++) {
-                  html += scope.UTIL.gistTemplate(gist.related_gists[i])
-
-                }
-              } else {
-                html = 'No gists found'
-              }
-
-            	element[0].innerHTML = html;
-
-            	setTimeout(function() {
-	            $(element).owlCarousel({
-					items : 7,
-					itemsDesktop : [1199,6],
-					itemsDesktopSmall : [980,5],
-					itemsTablet: [768,5],
-					itemsMobile: [479, 3]
-				});
-				Holder.run();
-	           }, 0);
-			}
-        	
-        });
-       }
-   });
+     templateUrl: 'templates/gist-thumbs',
+     link: function (scope) {
+       scope.$on('gistsLoaded', function() {
+         $timeout(function () {
+           if (scope.gists) {
+             $('.owl-carousel').owlCarousel({
+               items : 7,
+               itemsDesktop : [1199,6],
+               itemsDesktopSmall : [980,5],
+               itemsTablet: [768,5],
+               itemsMobile: [479, 3]
+             });
+             Holder.run();
+           }
+         });
+       });
+     },
+   };
 });
 
 
@@ -295,17 +300,18 @@ contentApp.directive('carouseldomainsgists', function() {
   return res;
 });
 
-contentApp.directive('carouselrelateddomains', function() {
+contentApp.directive('carouselrelateddomains', function($timeout) {
 	var res = {
      restrict : 'A',
+     scope: {gists: '='},
      link     : function (scope, element, attrs) {
+       $timeout(function () {
            scope.$watch(attrs.carouselrelateddomains, function(domains) {  
            	if(scope.domains != undefined ? scope.domains.related != undefined ? scope.domains.related.length > 0 : false : false)
            	{
            		domains = scope.domains;
            		var html = '';
 	            for (var i = 0; i < domains.related.length; i++) {
-					var actorTitleLink = domains.related[i].related.poster_image || '/assets/img/actors/' + domains.related[i].related.name.replace('/', ' ') + '.jpg';
 	                 html += '<div class="item">' +
 						          '<div class="thumbnail">' +
 						            '<a href="#!/domains/' + domains.related[i].related.name + '"><img src="' + actorTitleLink + '"/></a>' +
@@ -330,7 +336,8 @@ contentApp.directive('carouselrelateddomains', function() {
 			}
         	
         });
-       }
+       })
+     }
    };
   return res;
 });
@@ -344,6 +351,7 @@ contentApp.controller('PeopleItemCtrl', ['$scope', '$routeParams', '$http', '$te
 			    success(function(data, status, headers, config) {
 			    	$scope.domain = data;
 			    	$scope.domain.poster_image = $scope.domain.poster_image || '/assets/img/actors/' + $scope.domain.name.replace('/', ' ') + '.jpg';
+            $scope.$broadcast('gistsLoaded');
 			    }).
 			    error(function(data, status, headers, config) {
 			    // called asynchronously if an error occurs

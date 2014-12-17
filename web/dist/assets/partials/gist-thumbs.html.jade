@@ -1,0 +1,5 @@
+div(ng-repeat="gist in gists").item
+  a(ng-href="#!/gists/{{gist.id | encodeURIComponent | encodeURIComponent}}/summary", style="background-image: url('{{gist | gistTitleLink | encodeURI}}')").carousel-gists.thumbnail
+    span
+      a(ng-href="#!/gists/{{gist.id | encodeURIComponent | encodeURIComponent}}/summary") {{gist.title}}
+

@@ -1,0 +1,9 @@
+div.item(ng-repeat="gist in gists")
+  div.thumbnail
+    a(ng-href="#!/domains/{{gist.related.name}}")
+      img(src="{{gist.related | actorTitleLink}}")
+
+  span
+    a(ng-href="#!/domains/{{gist.related.name}}") {{gist.related.name}}
+
+
