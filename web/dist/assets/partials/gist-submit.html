@@ -18,17 +18,7 @@
       <div class="col-sm-8">
         <select name="category" class="form-control" required="required">
           <option></option>
-          <option value="Education">Education</option>
-          <option value="Finance">Finance</option>
-          <option value="Life Science">Life Science</option>
-          <option value="Manufacturing">Manufacturing</option>
-          <option value="Sports">Sports</option>
-          <option value="Resources">Resources</option>
-          <option value="Retail">Retail</option>
-          <option value="Telecommunication">Telecommunication</option>
-          <option value="Transport">Transport</option>
-          <option value="Advanced">Advanced</option>
-          <option value="Other">Other</option>
+          <option ng-repeat="domain in domains" value="{{domain}}">{{domain}}</option>
         </select>
       </div>
     </label>

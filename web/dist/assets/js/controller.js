@@ -99,8 +99,8 @@ contentApp.controller('GistListCtrl', ['$scope', '$http', '$templateCache',
 	  	fetchGists();
 	}]);
 
-contentApp.controller('GistSubmitCtrl', ['$scope', '$routeParams', '$location',
-  function($scope, $routeParams, $location) {
+contentApp.controller('GistSubmitCtrl', ['$scope', '$routeParams', '$location', '$http',
+  function($scope, $routeParams, $location, $http) {
     var name, value;
 
     for (name in $routeParams) {
@@ -111,6 +111,18 @@ contentApp.controller('GistSubmitCtrl', ['$scope', '$routeParams', '$location',
 
       
     $scope.tshirt_sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL']
+
+    // Default list
+    $scope.domains = ['Education', 'Finance', 'Life Science', 'Manufacturing', 'Sports', 'Resources', 'Retail', 'Telecommunication', 'Transport', 'Advanced', 'Other']
+
+    $http({method: 'GET', url: API_URL+'/api/v0/domains'}).
+      success(function(data, status, headers, config) {
+        $scope.domains = _(data).pluck('name').sort().value()
+      }).
+      error(function(data, status, headers, config) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+      });
 
     $('[required="required"]').closest('.form-group').find('.label-text').append(' <span class="required-star">*</span>')
 
