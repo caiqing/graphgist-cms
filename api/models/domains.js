@@ -82,12 +82,13 @@ var _matchBy = function (keys, params, options, callback) {
   var cypher_params = _.pick(params, keys);
 
   var query = [
-    'MATCH (node)',
-    'WHERE node:Domain OR node:UseCase',
-    'WITH node',
-    'MATCH (node)',
+    'MATCH (domain:Domain)',
     Cypher.where('node', keys),
-    'RETURN node as domain'
+    'RETURN domain',
+    'UNION',
+    'MATCH (domain:UseCase)',
+    Cypher.where('node', keys),
+    'RETURN domain'
   ].join('\n');
 
   callback(null, query, cypher_params);
