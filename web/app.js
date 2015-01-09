@@ -14,16 +14,16 @@ module.exports = function (app, api_port) {
   app.locals.load_cache = { };
 
   app.all(/.*/, function(req, res, next) {
-//    if (process.env.NODE_ENV == 'production') {
+    if (process.env.NODE_ENV == 'production') {
       var host = req.header('host');
       if (host !== 'graphgist.neo4j.com') {
         res.redirect(301, 'http://graphgist.neo4j.com' + req.path);
       } else {
         next();
       }
-//    } else {
-//      next()
-//    }
+    } else {
+      next()
+    }
 
   });
 
