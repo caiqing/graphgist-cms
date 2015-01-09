@@ -43,7 +43,8 @@ module.exports = function (app, api_port) {
       }
 
       if (typeof(req.query._escaped_fragment_) === 'string' &&
-          (match = req.query._escaped_fragment_.toString().match(/^\/gists\/(.*)/))) {
+          (match = req.query._escaped_fragment_.toString().match(/^\/gists\/([^\/]+)/))) {
+
         Gists.getById({id: decodeURIComponent(match[1])}, {}, function (err, data) {
           render(err, data.results || {});
         });
