@@ -268,7 +268,7 @@ exports.findGistsByActor = {
   }
 };
 
-var VALID_CREATE_KEYS = ['url', 'title', 'category', 'summary', 'image_url',
+var VALID_CREATE_KEYS = ['url', 'title', 'category', 'summary', 'poster_image',
                          'submitter_name', 'submitter_twitter', 'submitter_postal_address', 'submitter_email', 'submitter_tshirt_size', 'submitter_tshirt_size_other'];
 
 basicAuth = require('../../basic_auth');
