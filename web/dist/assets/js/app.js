@@ -36,6 +36,18 @@ var contentApp = angular.module('contentApp', [
         '<a class="carousel-gists thumbnail" href="#!/gists/' + gistId + '/summary" style="background-image: url('+ encodeURI(gistTitleLink) +')"></a>' +
         '<span><a href="#!/gists/'+ gistId +'/summary">' + gist.title + '</a></span>' +
       '</div>');
+    },
+
+    fetchGists: function(url, $http, $scope, $templateCache)
+    {
+      $http({method: 'GET', url: $scope.url, cache: $templateCache}).
+        success(function(data, status, headers, config) {
+          $scope.gists = data;
+        }).
+        error(function(data, status, headers, config) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+        });
     }
 
   }
@@ -50,6 +62,10 @@ contentApp.config(['$routeProvider', '$locationProvider',
       when('/gists', {
         templateUrl: 'assets/partials/home.html',
         controller: 'GistListCtrl'
+      }).
+      when('/gists/all', {
+        templateUrl: 'templates/gist-all',
+        controller: 'GistListAllCtrl'
       }).
       when('/gists/about', {
         templateUrl: 'templates/gist-about'

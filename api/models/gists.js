@@ -115,7 +115,8 @@ function populatedGistQuery(whereClause) {
     'OPTIONAL MATCH (gist)-[:HAS_USECASE]->(usecase)',
     'OPTIONAL MATCH (writer)-[:WRITER_OF]->(gist)',
     'OPTIONAL MATCH (gist)-[:HAS_KEYWORD]->(keyword)',
-    'RETURN gist, collect(DISTINCT domain.name) AS genres, collect(DISTINCT usecase.name) AS usecases, collect(DISTINCT writer.name) AS writers, collect(DISTINCT keyword.name) AS keywords, related'
+    'RETURN gist, collect(DISTINCT domain.name) AS genres, collect(DISTINCT usecase.name) AS usecases, collect(DISTINCT writer.name) AS writers, collect(DISTINCT keyword.name) AS keywords, related',
+    'ORDER BY gist.title'
   ]
 
   return(query.join('\n'))

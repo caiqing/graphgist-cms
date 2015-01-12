@@ -87,7 +87,7 @@ contentApp.directive('carousel', function() {
 
 contentApp.controller('GistListCtrl', ['$scope', '$http', '$templateCache', 
 	function($scope, $http, $templateCache) {
-	  	$scope.url = API_URL+'/api/v0/gists?api_key=special-key&neo4j=false&poster_image=true';
+	  	$scope.url = API_URL+'/api/v0/gists?api_key=special-key&neo4j=false';
 	  	$scope.gists = [];
 
       $scope.domains =  ['Finance', 'Retail', 'Entertainment', 'Telecommunications', 'Mass Media']
@@ -99,20 +99,16 @@ contentApp.controller('GistListCtrl', ['$scope', '$http', '$templateCache',
         error(function(data, status, headers, config) { });
 
 
-	  	var fetchGists = function()
-	  	{
-	  		$http({method: 'GET', url: $scope.url, cache: $templateCache}).
-			    success(function(data, status, headers, config) {
-			    	$scope.gists = data;
-			    }).
-			    error(function(data, status, headers, config) {
-			    // called asynchronously if an error occurs
-			    // or server returns response with an error status.
-			    });
-	  	}
-
-	  	fetchGists();
+      $scope.UTIL.fetchGists($scope.url, $http, $scope, $templateCache);
 	}]);
+
+contentApp.controller('GistListAllCtrl', ['$scope', '$http',
+    function ($scope, $http) {
+	  	$scope.url = API_URL+'/api/v0/gists?api_key=special-key&neo4j=false';
+	  	$scope.gists = [];
+
+      $scope.UTIL.fetchGists($scope.url, $http, $scope);
+    }]);
 
 contentApp.controller('GistSubmitCtrl', ['$scope', '$routeParams', '$location', '$http',
   function($scope, $routeParams, $location, $http) {
