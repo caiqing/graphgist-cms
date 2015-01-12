@@ -50,7 +50,8 @@ exports.list = {
   'action': function (req, res) {
     // var friends = parseBool(req, 'friends');
     var options = {
-      neo4j: parseBool(req, 'neo4j')
+      neo4j: parseBool(req, 'neo4j'),
+      front_page: parseBool(req, 'front_page')
     };
     var start = new Date();
 

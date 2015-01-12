@@ -92,7 +92,7 @@ contentApp.controller('GistListCtrl', ['$scope', '$http', '$templateCache',
 
       $scope.domains =  ['Finance', 'Retail', 'Entertainment', 'Telecommunications', 'Mass Media']
 
-      $http({method: 'GET', url: API_URL+'/api/v0/domains'}).
+      $http({method: 'GET', url: API_URL+'/api/v0/domains?front_page=true'}).
         success(function(data, status, headers, config) {
           $scope.domains = _(data).pluck('name').sort().value()
         }).

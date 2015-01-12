@@ -84,10 +84,12 @@ var _matchBy = function (keys, params, options, callback) {
   var query = [
     'MATCH (domain:Domain)',
     Cypher.where('node', keys),
+    (options.front_page ? 'WHERE domain.front_page' : ''),
     'RETURN domain',
     'UNION',
     'MATCH (domain:UseCase)',
     Cypher.where('node', keys),
+    (options.front_page ? 'WHERE domain.front_page' : ''),
     'RETURN domain'
   ].join('\n');
 
