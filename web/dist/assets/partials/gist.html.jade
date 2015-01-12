@@ -9,4 +9,10 @@
           a(href="/#!/gists") GraphGists
         li.active {{gist.title}}
 
+  h2
+    {{gist.title}}
+    a.btn.btn-success.pull-right(href="{{gist.url}}", style="color: white; margin-left: 15px")
+      i.glyphicon.glyphicon-file
+      span Page Source
+
   .row#content
