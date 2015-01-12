@@ -6138,6 +6138,12 @@ padding: 8px 12px;
   margin: 5px 0 0;
   font-size: 18px;
 }
+
+.owl-item .item span a {
+  display: block;
+  height: 3.8em;
+}
+
 .item h1{
   margin: inherit;
 }
@@ -6538,6 +6544,10 @@ body
 .hidden-content
 {
   display: none;
+}
+
+.owl-slider {
+  height: 220px;
 }
 
 .owl-slider .item a {

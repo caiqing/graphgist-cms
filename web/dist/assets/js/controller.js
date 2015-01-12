@@ -46,29 +46,35 @@ contentApp.directive('carousel', function() {
                     if(scope.gists.length > 0) {
                       gists = scope.gists;
                       var genre = element.attr('data-genre');
-                      for (var i = 0; i < gists.length; i++) {
-                        if ($.inArray(genre, gists[i].genres) != -1) {
-                          html += scope.UTIL.gistTemplate(gists[i])
-                        };
+                      var applicable_gists = _(gists).select(function (gist) {
+                        return(_(gist.genres).indexOf(genre) >= 0);
+                      }).value();
+
+                      if (applicable_gists.length) {
+                        _(applicable_gists).each(function (gist) {
+                          html += scope.UTIL.gistTemplate(gist)
+                        });
+
+                        setTimeout(function() {
+                          $(element).owlCarousel({
+                            items : 3,
+                            itemsDesktop : [1199,6],
+                            itemsDesktopSmall : [980,5],
+                            itemsTablet: [768,4],
+                            itemsMobile: [479, 2]
+                          });
+
+                          $("#owl-example").owlCarousel({
+                            items : 3,
+                            itemsDesktop : [1199,3],
+                            itemsDesktopSmall : [980,3],
+                            itemsTablet: [768,2]
+                          });
+                        }, 0);
+                      } else {
+                        $(element).parent('.owl-slider').hide();
                       }
 
-
-                      setTimeout(function() {
-                        $(element).owlCarousel({
-                          items : 8,
-                          itemsDesktop : [1199,6],
-                          itemsDesktopSmall : [980,5],
-                          itemsTablet: [768,4],
-                          itemsMobile: [479, 2]
-                        });
-
-                        $("#owl-example").owlCarousel({
-                          items : 3,
-                          itemsDesktop : [1199,3],
-                          itemsDesktopSmall : [980,3],
-                          itemsTablet: [768,2]
-                        });
-                      }, 0);
                     } else {
                       html = 'No gists found';
                     }
@@ -81,8 +87,17 @@ contentApp.directive('carousel', function() {
 
 contentApp.controller('GistListCtrl', ['$scope', '$http', '$templateCache', 
 	function($scope, $http, $templateCache) {
-	  	$scope.url = API_URL+'/api/v0/gists?api_key=special-key&neo4j=false';
+	  	$scope.url = API_URL+'/api/v0/gists?api_key=special-key&neo4j=false&poster_image=true';
 	  	$scope.gists = [];
+
+      $scope.domains =  ['Finance', 'Retail', 'Entertainment', 'Telecommunications', 'Mass Media']
+
+      $http({method: 'GET', url: API_URL+'/api/v0/domains'}).
+        success(function(data, status, headers, config) {
+          $scope.domains = _(data).pluck('name').sort().value()
+        }).
+        error(function(data, status, headers, config) { });
+
 
 	  	var fetchGists = function()
 	  	{
@@ -109,7 +124,6 @@ contentApp.controller('GistSubmitCtrl', ['$scope', '$routeParams', '$location', 
       $('[name="'+ name +'"]').val(value);
     }
 
-      
     $scope.tshirt_sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL']
 
     // Default list
@@ -119,10 +133,7 @@ contentApp.controller('GistSubmitCtrl', ['$scope', '$routeParams', '$location', 
       success(function(data, status, headers, config) {
         $scope.domains = _(data).pluck('name').sort().value()
       }).
-      error(function(data, status, headers, config) {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
-      });
+      error(function(data, status, headers, config) { });
 
     $('[required="required"]').closest('.form-group').find('.label-text').append(' <span class="required-star">*</span>')
 

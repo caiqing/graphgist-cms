@@ -319,10 +319,10 @@ exports.updateGist = {
 
       var valid_update_keys = VALID_CREATE_KEYS.concat(['id', 'poster_image', 'rated', 'status']);
       var invalid_keys = _(_(req.body).keys()).difference(valid_update_keys);
-      if (invalid_keys.length) {
-        console.log({invalid_keys: invalid_keys});
-        throw swe.invalid('body')
-      }
+      
+      _(invalid_keys).each(function(invalid_key) {
+        delete req.body[invalid_key]
+      });
 
       Gists.update(req.body, {}, function (err, query, data) {
         if (err) {
