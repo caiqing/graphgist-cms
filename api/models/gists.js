@@ -34,7 +34,7 @@ function _populateResults (results) {
     });
 
     data.original_url = data.url;
-    if (match = data.original_url.match(/.*gist\.neo4j\.org\/\?([^\-#]+)/)) data.original_url = 'http://gist.github.com/'+ match[1]
+    if (match = data.original_url.match(/.*gist\.neo4j\.org\/\?([^\-#]+)$/)) data.original_url = 'http://gist.github.com/'+ match[1]
 
   });
 
