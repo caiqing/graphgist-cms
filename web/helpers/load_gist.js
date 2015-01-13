@@ -72,7 +72,10 @@ function request_with_cache(request, cache, cache_id, callback) {
       } else if (resp.statusCode == 200) {
         cache[cache_id] = {data: data, time: Date.now(), etag: resp.headers.etag};
       }
-      if ( resp.statusCode != 200 && resp.statusCode != 304 ) result = 'Could not retrieve gist from URL'
+      if ( resp.statusCode != 200 && resp.statusCode != 304 ) {
+        err = {message: 'Could not retrieve gist from URL'};
+        result = null;
+      }
     }
 
     callback(err, result);
