@@ -27,9 +27,15 @@ function _randomNames (n) {
 
 function _populateResults (results) {
   _.each(results, function (result) {
+    var data = result.gist.data;
+
     _.each(['genres', 'usecases', 'writers', 'keywords', 'related'], function (key) {
-      if (result[key]) { result.gist.data[key] = result[key] }
+      if (result[key]) { data[key] = result[key] }
     });
+
+    data.original_url = data.url;
+    if (match = data.original_url.match(/.*gist\.neo4j\.org\/\?([^\-#]+)/)) data.original_url = 'http://gist.github.com/'+ match[1]
+
   });
 
 }
