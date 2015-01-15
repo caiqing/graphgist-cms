@@ -20,6 +20,11 @@ code {
   color: #4C7ADD;
 }
 
+#gist-submit-form .category {
+  display: inline-block;
+  margin-right: 1em;
+}
+
 #gist-list .thumbnail {
   height: 300px;
   background: transparent;
