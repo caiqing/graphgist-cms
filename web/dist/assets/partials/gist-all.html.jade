@@ -1,28 +1,8 @@
 .container
-  #gists
-    .gist.col-sm-4.col-md-3(ng-repeat="gist in gists")
-      .title {{gist.title}}
-      img(src="{{gist.poster_image}}" style="width: 100%")
+  #gist-list
+    a.thumbnail.col-xs-12.col-sm-6.col-md-3(ng-repeat="gist in gists", href="/#!/gists/{{gist.id}}/summary")
+      img(src="{{gist | posterImage}}")
+      .caption
+        h3 {{gist.title}}
 
-style.
-  #gists .gist {
-    height: 220px;
-    height: 200px;
-    margin-bottom: 20px;
-    overflow-y: hidden;
-  }
 
-  #gists .gist .title {
-    background-color: #3F3F3F;
-    padding: 3px;
-    color: white;
-    font-size: 18px;
-    font-weight: 500;
-    width: 100%;
-    text-align: center;
-  }
-
-  #gists .gist img {
-    top: 15px;
-    z-index: -1;
-  }

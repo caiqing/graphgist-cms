@@ -172,6 +172,12 @@ contentApp.filter('encodeURIComponent', function() {
   }
 });
 
+contentApp.filter('posterImage', function() {
+  return function(gist) {
+    return(gist.poster_image || '/assets/img/posters/' + gist.title.replace('/', ' ') + '.jpg');
+  }
+});
+
 
 contentApp.directive('carouselrelatedgists', function($timeout) {
 	return {
@@ -361,7 +367,7 @@ contentApp.directive('carouselrelateddomains', function($timeout) {
   return res;
 });
 
-contentApp.controller('PeopleItemCtrl', ['$scope', '$routeParams', '$http', '$templateCache',
+contentApp.controller('DomainCtrl', ['$scope', '$routeParams', '$http', '$templateCache',
   function($scope, $routeParams, $http, $templateCache) {
   		$scope.url = API_URL+'/api/v0/domains/name/' + encodeURIComponent(decodeURI(decodeURI($routeParams.domainsId))) + '?api_key=special-key&neo4j=false';
 	  	var fetchPeople = function()

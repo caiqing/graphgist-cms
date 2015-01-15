@@ -19,3 +19,21 @@ code {
 .panel a {
   color: #4C7ADD;
 }
+
+#gist-list .thumbnail {
+  height: 300px;
+  background: transparent;
+  overflow: hidden;
+  padding: 2px;
+  border: 5px solid white;
+  box-shadow: inset 0px 0px 0px 2px #666;
+}
+
+#gist-list .thumbnail .caption {
+  background: #EBEBEB;
+  text-align: center;
+  position: absolute;
+  left: 2px;
+  right: 1px;
+  bottom: 1px;
+}

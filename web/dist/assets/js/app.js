@@ -98,8 +98,8 @@ contentApp.config(['$routeProvider', '$locationProvider',
       }).
 
       when('/domains/:domainsId', {
-        templateUrl: 'assets/partials/domains-detail.html',
-        controller: 'PeopleItemCtrl'
+        templateUrl: 'templates/domains-detail',
+        controller: 'DomainCtrl'
       }).
 
       otherwise({
