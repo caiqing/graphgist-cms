@@ -1,0 +1,108 @@
+form.form-horizontal(ng-submit='submit()')
+  .form-group
+      label
+        .col-sm-4.label-text GraphGist URL
+        |       
+        .col-sm-8
+          input.form-control(type='text', name='url', placeholder='e.g. http://gist.neo4j.org/?####### or source url', required='required')
+    |   
+  .form-group
+    label
+      .col-sm-4.label-text Gist Title
+      |       
+      .col-sm-8
+        input.form-control(type='text', name='title', required='required')
+  |   
+  .form-group
+    label
+      .col-sm-4.label-text
+        | Categories
+        span.required-star  *
+        p.help-block Select categories to add
+      .col-sm-8
+        .category(ng-repeat="category in categories")
+          | {{category}}
+          a(ng-click="remove_category(category)")
+            i.glyphicon.glyphicon-remove.text-danger
+        |         
+        select.form-control(name='category', ng-model='category', ng-change='add_category()')
+          option
+          |           
+          option(ng-repeat='domain in domains', value='{{domain}}') {{domain}}
+  |   
+  .form-group
+    label
+      .col-sm-4.label-text Your Name
+      |       
+      .col-sm-8
+        input.form-control(type='text', name='submitter_name', required='required')
+  |   
+  .form-group
+    label
+      .col-sm-4.label-text Twitter (e.g. @peterneubauer)
+      |       
+      .col-sm-8
+        .input-group.input-group-lg
+          span.input-group-addon @
+          |           
+          input.form-control(type='text', name='submitter_twitter', required='required')
+  |   
+  .form-group
+    label
+      .col-sm-4.label-text Postal Address
+      |       
+      .col-sm-8
+        textarea.form-control(name='submitter_postal_address', placeholder='(street, house number, city, zip, country) - No T-Shirt if empty !!')
+  |   
+  .form-group
+    label
+      .col-sm-4.label-text E-Mail
+      |       
+      .col-sm-8
+        input.form-control(type='text', name='submitter_email')
+  |   
+  .form-group
+    label
+      .col-sm-4.label-text
+        | T-Shirt Size
+        span.help-block
+      |       
+      .col-sm-8
+        .group
+          .btn-group(role='group', data-toggle='buttons')
+            label.btn.btn-primary(ng-repeat='size in tshirt_sizes')
+              input(type='radio', name='submitter_tshirt_size', value='{{size}}')
+              | {{size}}
+        |         Other: 
+        input.form-control(type='text', name='submitter_tshirt_size_other', placeholder='T-Shirt details, e.g. Women M')
+  |   
+  .form-group
+    label
+      .col-sm-4.label-text Description
+      |       
+      .col-sm-8
+        textarea.form-control(name='summary', rows='5', placeholder='One or two sentence summary', required='required')
+  |   
+  .form-group
+    label
+      .col-sm-4.label-text Image-URL
+      |       
+      .col-sm-8
+        input.form-control(type='text', name='poster_image', placeholder='Small image about 400px wide', required='required')
+  |   
+  input.btn.btn-primary(type='submit', value='Submit GraphGist')
+  |   
+  span.required-star *
+  |  Indicates required field
+
+style.
+  form {
+  margin: 20px;
+  }
+  label {
+  display: block;
+  }
+  .required-star {
+  color: #c43b1d;
+  }
+

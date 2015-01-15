@@ -309,7 +309,8 @@ var _updateName = function (params, options, callback) {
 //
 // options aren't used
 var _create = function (params, options, callback) {
-  var cypher_params = {};
+  var cypher_params = {categories: params.categories};
+  delete params.categories;
 
   var key, value, set_parts = [];
   
@@ -326,7 +327,16 @@ var _create = function (params, options, callback) {
     'SET gist.created = timestamp()',
     'SET gist.id = {id}',
     'SET '+ set_parts.join(', '),
-    'RETURN gist'
+    'WITH gist',
+    'UNWIND {categories} AS category',
+
+    'OPTIONAL MATCH (domain:Domain {name: category})',
+    'OPTIONAL MATCH (use_case:UseCase {name: category})',
+
+    'FOREACH(d IN filter(d IN [domain] WHERE d IS NOT NULL)   | CREATE gist-[:HAS_DOMAIN]->domain)',
+    'FOREACH(d IN filter(d IN [use_case] WHERE d IS NOT NULL) | CREATE gist-[:HAS_USECASE]->use_case)',
+
+    'RETURN DISTINCT gist'
   ].join('\n')
 
   callback(null, query, cypher_params);

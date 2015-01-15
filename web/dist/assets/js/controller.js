@@ -122,6 +122,8 @@ contentApp.controller('GistSubmitCtrl', ['$scope', '$routeParams', '$location', 
 
     $scope.tshirt_sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL']
 
+    $scope.categories = []
+
     // Default list
     $scope.domains = ['Education', 'Finance', 'Life Science', 'Manufacturing', 'Sports', 'Resources', 'Retail', 'Telecommunication', 'Transport', 'Advanced', 'Other']
 
@@ -131,7 +133,23 @@ contentApp.controller('GistSubmitCtrl', ['$scope', '$routeParams', '$location', 
       }).
       error(function(data, status, headers, config) { });
 
-    $('[required="required"]').closest('.form-group').find('.label-text').append(' <span class="required-star">*</span>')
+    $scope.add_category = function () {
+      $scope.categories.push($scope.category);
+      $scope.domains = _($scope.domains).without($scope.category).value();
+      $scope.category = null;
+      $scope.categories.sort();
+      $scope.domains.sort();
+    }
+
+    $scope.remove_category = function (category) {
+      $scope.categories = _($scope.categories).without(category).value();
+      $scope.domains.push(category);
+      $scope.categories.sort();
+      $scope.domains.sort();
+    }
+
+
+    $('[required="required"]').closest('.form-group').find('.label-text').append(' <span class="required-star">*</span> ')
 
     $scope.submit = function () {
       var form_data = {};
@@ -139,6 +157,8 @@ contentApp.controller('GistSubmitCtrl', ['$scope', '$routeParams', '$location', 
       $('form').serializeArray().forEach(function (input) {
         form_data[input.name] = input.value;
       });
+      delete form_data.category;
+      form_data.categories = $scope.categories;
 
       $.ajax({
         url: '/api/v0/gists?api_key=special-key&neo4j=true',

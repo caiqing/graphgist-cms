@@ -74,7 +74,7 @@ contentApp.config(['$routeProvider', '$locationProvider',
         templateUrl: 'templates/gist-challenge'
       }).
       when('/gists/submit', {
-        templateUrl: 'assets/partials/gist-submit.html',
+        templateUrl: 'templates/gist-submit',
         controller: 'GistSubmitCtrl'
       }).
       when('/gists/submit/thank_you', {
