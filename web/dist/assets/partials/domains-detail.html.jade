@@ -48,7 +48,7 @@
               |               
               .panel-body
                 #gist-list
-                  a.thumbnail.gist.col-xs-12.col-sm-6.col-md-4.col-lg-3.col-md-offset-1(ng-repeat="gist in domain.related_gists", href="/#!/gists/{{gist.id}}/summary")
+                  a.thumbnail.gist.col-xs-12.col-sm-6.col-md-4.col-lg-3(ng-repeat="gist in domain.related_gists", href="/#!/gists/{{gist.id}}/summary")
                     img(src="{{gist | posterImage}}")
                     .caption
                       h3 {{gist.title}}
