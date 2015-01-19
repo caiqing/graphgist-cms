@@ -47,7 +47,8 @@ exports.list = {
   },
   'action': function (req, res) {
     var options = {
-      neo4j: parseBool(req, 'neo4j')
+      neo4j: parseBool(req, 'neo4j'),
+      search_query: req.query.query
     };
     var start = new Date();
     Gists.getByStatus({status: req.query.status || 'live'}, options, function (err, response) {

@@ -108,10 +108,12 @@ var _singleCount = function (results, callback) {
  *  to be combined with result functions using _.partial()
  */
 
-function populatedGistQuery(whereClause) {
+function populatedGistQuery(whereClause, search_query) {
+  search_query = search_query
   var query = [
     'MATCH (gist:Gist)',
     whereClause,
+    (search_query ? 'WITH gist WHERE gist.title =~ {search_query}' : ''),
     'WITH gist',
     'OPTIONAL MATCH (gist)-[:HAS_KEYWORD]->(keyword)<-[:HAS_KEYWORD]-(rel_gist)',
     'WITH gist, rel_gist, count(DISTINCT keyword.name) AS keyword_count',
@@ -128,6 +130,17 @@ function populatedGistQuery(whereClause) {
   return(query.join('\n'))
 }
 
+function strip_string (str) {
+    str = str.replace(/^\s+/, '');
+    for (var i = str.length - 1; i >= 0; i--) {
+        if (/\S/.test(str.charAt(i))) {
+            str = str.substring(0, i + 1);
+            break;
+        }
+    }
+    return str;
+}
+
 //    'MATCH (gist)-[:HAS_KEYWORD]->(keyword)<-[:HAS_KEYWORD]-(gists:Gist)',
 //    'WITH DISTINCT gists as related, count(DISTINCT keyword.name) as keywords, gist, domains, usecases, writers',
 //    'ORDER BY keywords DESC',
@@ -142,7 +155,10 @@ var _matchBy = function (keys, params, options, callback) {
 
   if (!cypher_params.status) cypher_params.status = 'live'
 
-  var query = populatedGistQuery(Cypher.where('gist', keys));
+  if (typeof options.search_query === 'string')
+    cypher_params.search_query = '(?i).*' + strip_string(options.search_query).replace(RegExp("\\s+", 'g'), '.*') + '.*';
+
+  var query = populatedGistQuery(Cypher.where('gist', keys), options.search_query);
   callback(null, query, cypher_params);
 };
 

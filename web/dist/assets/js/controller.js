@@ -407,3 +407,22 @@ contentApp.controller('DomainCtrl', ['$scope', '$routeParams', '$http', '$templa
 	  	fetchPeople();
   }]);
 
+contentApp.controller('GistSearchForm', ['$scope', '$http',
+    function ($scope, $http) {
+      $scope.results = []
+
+      $scope.search_result_clicked = function () {
+        $scope.query = '';
+      }
+
+      $scope.$watch('query', function () {
+        $http({method: 'GET', url: '/api/v0/gists?api_key=special-key&neo4j=false&query=' + encodeURIComponent($scope.query)}).
+          success(function (data, status, headers, config) {
+            $scope.results = data;
+          }).
+          error(function(data, status, headers, config) {
+			    // called asynchronously if an error occurs
+			    // or server returns response with an error status.
+			    });
+      });
+    }]);

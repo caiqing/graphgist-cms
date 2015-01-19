@@ -68,37 +68,52 @@ html(lang="en", ng-app="contentApp")
   body
 
     // Static navbar
-    div(role="navigation").navbar.navbar-default.navbar-static-top
-      div.container
-        div.navbar-header
+    div(role="navigation").navbar.navbar-default
+      .container
+        .navbar-header
           button(type="button", data-toggle="collapse", data-target=".navbar-collapse").navbar-toggle
             span.sr-only Toggle navigation
             span.icon-bar
             span.icon-bar
             span.icon-bar
 
-          div.logo-well
+          form.navbar-form.pull-right(style="width: 40%", ng-controller="GistSearchForm")
+            .form-group
+              .input-group
+                input(type="text", ng-model="query", placeholder="Search for a GraphGist").form-control
+                .input-group-addon
+                  i.glyphicon.glyphicon-search
+                #search-result(ng-show="query.length > 0")
+                  .list-group
+                    a.list-group-item(href="#!/gists/{{result.id}}/summary", ng-click="search_result_clicked()", ng-repeat="result in results")
+                      .thumbnail.pull-right
+                        img(src="{{result.poster_image}}")
+                      {{result.title}}
+
+          .logo-well
             img(id="logo", alt="Neo4j World's Leading Graph Database", src="assets/img/logo-white.svg")
 
           a(href="#!/gists").navbar-brand
-            div.brand Neo4j GraphGists
+            .brand Neo4j GraphGists
 
-        div.navbar-collapse.collapse
+
+        .navbar-collapse.collapse
           ul.nav.navbar-nav
             li: a(href="#!/gists/about") What is a GraphGist?
             li: a(href="#!/gists/challenge" style="color: red; font-weight: bold") Winter Challenge!
             li: a(href="#!/gists/submit") Submit a GraphGist
             li: a(href="http://www.neo4j.com") Neo4j
+            li: a(href="/#!/gists/all") All GraphGists
             li &nbsp;
 
             li
               form.navbar-form
-                div.form-group
-                  input(type="text", id="gist-id", placeholder="GitHub Gist/ File / Dropbox URL").form-control
+                .form-group
+                  input(type="text", id="gist-id", placeholder="GitHub Gist / File / Dropbox URL").form-control
 
     div(ng-view)
 
-    div#mydiv
+    #mydiv
         img(src="assets/img/AjaxLoader.gif").ajax-loader
 
 
@@ -153,4 +168,5 @@ html(lang="en", ng-app="contentApp")
     script(src="/assets/js/graphgist.js")
     script(src="/assets/js/base64.js")
     script(src="/assets/js/mutate.min.js")
+    script(src="/assets/js/gist_search.js")
 

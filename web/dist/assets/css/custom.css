@@ -42,3 +42,33 @@ code {
   right: 1px;
   bottom: 1px;
 }
+
+#search-result {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 33px;
+  z-index: 10;
+  font-size: 1.6em;
+}
+
+#search-result .list-group-item {
+  height: 81px;
+}
+
+#search-result .thumbnail {
+  height: 60px;
+  max-width: 90px;
+  overflow: hidden;
+  display: inline-block;
+  margin-right: 1em;
+  margin-bottom: 0;
+}
+
+.ng-hide {
+  /* this is just another form of hiding an element */
+  display: block!important;
+  position: absolute!important;
+  top: -9999px!important;
+  left: -9999px!important;
+}
