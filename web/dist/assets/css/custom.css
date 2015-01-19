@@ -54,6 +54,7 @@ code {
 
 #search-result .list-group-item {
   height: 81px;
+  overflow-y: hidden;
 }
 
 #search-result .thumbnail {
