@@ -409,17 +409,27 @@ contentApp.controller('DomainCtrl', ['$scope', '$routeParams', '$http', '$templa
 
 contentApp.controller('GistSearchForm', ['$scope', '$http',
     function ($scope, $http) {
-      $scope.results = []
+      $scope.results = null;
 
       $scope.search_result_clicked = function () {
         $scope.query = '';
       }
 
+      var current_timeout;
+
       $scope.$watch('query', function () {
-        $scope.results = [];
+        $scope.results = null;
+        if (current_timeout) clearTimeout(current_timeout);
+
         $http({method: 'GET', url: '/api/v0/gists?api_key=special-key&neo4j=false&query=' + encodeURIComponent($scope.query)}).
           success(function (data, status, headers, config) {
-            $scope.results = data;
+            current_timeout = setTimeout(function () {
+              console.log('timeout running');
+              console.log({data: data});
+              console.log({scope: $scope});
+              $scope.results = data;
+              $scope.$apply();
+            }, 500);
           }).
           error(function(data, status, headers, config) {
 			    // called asynchronously if an error occurs
