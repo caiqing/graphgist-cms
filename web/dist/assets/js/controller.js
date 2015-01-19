@@ -424,9 +424,6 @@ contentApp.controller('GistSearchForm', ['$scope', '$http',
         $http({method: 'GET', url: '/api/v0/gists?api_key=special-key&neo4j=false&query=' + encodeURIComponent($scope.query)}).
           success(function (data, status, headers, config) {
             current_timeout = setTimeout(function () {
-              console.log('timeout running');
-              console.log({data: data});
-              console.log({scope: $scope});
               $scope.results = data;
               $scope.$apply();
             }, 500);
