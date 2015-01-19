@@ -416,6 +416,7 @@ contentApp.controller('GistSearchForm', ['$scope', '$http',
       }
 
       $scope.$watch('query', function () {
+        $scope.results = [];
         $http({method: 'GET', url: '/api/v0/gists?api_key=special-key&neo4j=false&query=' + encodeURIComponent($scope.query)}).
           success(function (data, status, headers, config) {
             $scope.results = data;
