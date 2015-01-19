@@ -407,8 +407,8 @@ contentApp.controller('DomainCtrl', ['$scope', '$routeParams', '$http', '$templa
 	  	fetchPeople();
   }]);
 
-contentApp.controller('GistSearchForm', ['$scope', '$http',
-    function ($scope, $http) {
+contentApp.controller('GistSearchForm', ['$scope', '$http', '$timeout',
+    function ($scope, $http, $timeout) {
       $scope.results = null;
 
       $scope.search_result_clicked = function () {
@@ -419,18 +419,17 @@ contentApp.controller('GistSearchForm', ['$scope', '$http',
 
       $scope.$watch('query', function () {
         $scope.results = null;
-        if (current_timeout) clearTimeout(current_timeout);
+        if (current_timeout) $timeout.cancel(current_timeout);
 
-        $http({method: 'GET', url: '/api/v0/gists?api_key=special-key&neo4j=false&query=' + encodeURIComponent($scope.query)}).
-          success(function (data, status, headers, config) {
-            current_timeout = setTimeout(function () {
+        current_timeout = $timeout(function () {
+          $http({method: 'GET', url: '/api/v0/gists?api_key=special-key&neo4j=false&query=' + encodeURIComponent($scope.query)}).
+            success(function (data, status, headers, config) {
               $scope.results = data;
-              $scope.$apply();
-            }, 500);
-          }).
-          error(function(data, status, headers, config) {
-			    // called asynchronously if an error occurs
-			    // or server returns response with an error status.
-			    });
+            }).
+            error(function(data, status, headers, config) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+            });
+        }, 300);
       });
     }]);
