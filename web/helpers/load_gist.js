@@ -147,7 +147,7 @@ exports.transformThirdPartyURLs = function transformThirdPartyURLs(id) {
 
     // https://gist.github.com/8650212  
     // 8650212
-    if (match = id.match(/.*gist\.github\.com\/([^#]+)/)) id = match[1]
+    if (match = id.match(/.*gist\.github\.com\/([^\/]+\/)?([^#]+)\/?$/)) id = match[2]
 
     // https://github.com/neo4j-contrib/gists/blob/master/other/BankFraudDetection.adoc
     // https://github.com/neo4j-contrib/gists/raw/master/other/BankFraudDetection.adoc
