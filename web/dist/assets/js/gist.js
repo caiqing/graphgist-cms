@@ -333,6 +333,17 @@ function Gist($, $content) {
         });
     }
 
+    function useGithubGist(minLength, index, parts) {
+        if (parts.length < minLength) {
+            return {'error': 'No gist id in the URL.'};
+        }
+        var id = parts[index];
+        if (!VALID_GIST.test(id)) {
+            return {'error': 'No valid gist id in the url.'};
+        }
+        return {'id': id};
+    }
+
     function useRestOfTheUrl(prefix, baseUrl, gist) {
         if (gist.length <= baseUrl.length) {
             return {'error': 'Missing content in the URL.'};
