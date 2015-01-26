@@ -1,0 +1,94 @@
+.container.hidden-content(ng-model='gist')
+    .row
+        div
+          ol.breadcrumb
+            li
+              a(href='/#!/gists') Home
+
+            li
+              a(href='/#!/gists') GraphGists
+
+            li.active {{gist.title}}
+
+      .row
+        .col-md-8.col-md-push-4.col-sm-8.col-sm-push-4
+          .row
+            .col-md-12
+              h3.content-title {{gist.title}}
+
+          .row
+            .col-md-12
+              .panel.panel-default
+
+                #panel-heading.panel-heading GraphGist Summary
+
+                .panel-body
+                  p
+                    | {{gist.summary}}
+
+                ul.list-group.list-group-details
+                  li.list-group-item
+                    .panel-heading
+                      | Rated: 
+                      span.panel-heading {{gist.rated}}
+
+                  li.list-group-item(ng-if="gist.genres.length")
+                    .panel-heading
+                      | Domains: 
+                      span.panel-heading.genre-list
+                        span(ng-repeat="genre in gist.genres | orderBy:'toString()'")
+                          a(href='/#!/domains/{{genre.toString()}}') {{genre.toString()}}{{{true: &apos;&apos;, false: &apos;, &apos;}[$last]}}
+
+                  li.list-group-item(ng-if="gist.usecase.length")
+                    .panel-heading
+                      | Use Cases: 
+                      span.panel-heading.genre-list
+                        span(ng-repeat="usecase in gist.usecases | orderBy:'toString()'")
+                          a(href='/#!/domains/{{usecase.toString()}}') {{usecase}}{{{true: &apos;&apos;, false: &apos;, &apos;}[$last]}}
+ 
+                  li.list-group-item
+                    .panel-heading
+                      | Authored By: 
+                      span.panel-heading.genre-list
+                        span(ng-repeat='writer in gist.writers') {{writer}}{{{true: &apos;&apos;, false: &apos;, &apos;}[$last]}}
+
+              .panel.panel-default
+                .panel-heading Related GraphGists
+
+                .panel-body
+                  #owl-demo-cast.owl-carousel.owl-theme.actors(carouselrelatedgists='gist')
+                    // Related gists
+
+        .clearfix.visible-xs
+
+        .col-md-4.col-md-pull-8.col-sm-4.col-sm-pull-8
+          .row
+            .col-md-12.col-sm-12.col-xs-12
+              .thumbnail
+                img(ng-src='{{gist.poster_image}}', alt='{{gist.title}}')
+
+          .row
+            .col-md-12.col-sm-12
+              .panel.panel-default.item-left-panel
+                .panel-heading Links
+ 
+                .panel-body
+                  .row
+                    br
+
+                    .item-label.col-md-12.brand
+                      a#gist-link(ng-href='/#!/gists/{{gist.id}}') Go to GraphGist page &gt;
+
+                  .row
+                    a.btn.btn-success(href='{{gist.original_url}}', ,='', target='_blank', style='color: white; margin-left: 15px')
+                      i.glyphicon.glyphicon-file
+                      |                     Page Source
+
+                  br
+                  .row
+                    .item-label.col-md-3 Keywords:
+
+                  .row
+                    .col-md-9
+                      span(ng-repeat='keyword in gist.keywords') {{keyword.toString()}}{{{true: &apos;&apos;, false: &apos;, &apos;}[$last]}}
+
