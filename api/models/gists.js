@@ -331,7 +331,7 @@ var _create = function (params, options, callback) {
   var key, value, set_parts = [];
   
   for ( key in params ) {
-    if ( params[key] !== '' )
+    if ( !key.match(/^submitter_/) && params[key] !== '' )
       set_parts.push('gist.'+ key +'={'+ key +'}');
 
     cypher_params[key] = params[key];
@@ -343,6 +343,12 @@ var _create = function (params, options, callback) {
     'SET gist.created = timestamp()',
     'SET gist.id = {id}',
     'SET '+ set_parts.join(', '),
+    'WITH gist',
+
+    'MERGE (submitter:Person {email: {submitter_email}, twitter: {submitter_twitter}})',
+    'MERGE gist<-[:WRITER_OF]-submitter',
+    'SET submitter.name = {submitter_name}, submitter.postal_address = {submitter_postal_address}, submitter.tshirt_size = {submitter_tshirt_size}, submitter.tshirt_size_other = {submitter_tshirt_size_other}',
+
     'WITH gist',
     'UNWIND {categories} AS category',
 

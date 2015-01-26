@@ -93,7 +93,7 @@ contentApp.config(['$routeProvider', '$locationProvider',
         controller: 'GistCtrl'
       }).
       when('/gists/:gistId/summary', {
-        templateUrl: 'assets/partials/gist-detail.html',
+        templateUrl: 'templates/gist-detail',
         controller: 'GistItemCtrl'
       }).
 
