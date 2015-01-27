@@ -1,10 +1,31 @@
 
-h1 Pending approval
+.container
+  div(ng-repeat="(status, gists) in gists_by_status")
 
-table
-  tr(ng-repeat="gist in gists")
-    td
-      a(href="#!/gists/manage/{{gist.id}}") Edit
-    td {{gist.id}}
-    td {{gist.title}}
-    td {{gist.summary}}
+    h1 status: {{status}}
+
+    table.table.table-striped.table-bordered
+      tr
+        th &nbsp;
+        th Gist ID
+        th Title
+        th Summary
+        th Domains
+        th Use cases
+        th Writers
+
+      tr(ng-repeat="gist in gists")
+        td
+          a(href="#!/gists/manage/{{gist.id}}") Edit
+        td {{gist.id}}
+        td {{gist.title}}
+        td {{gist.summary}}
+        th
+          ul.list-group(ng-repeat="genre in gist.genres")
+            li.list-group-item {{genre}}
+        th
+          ul.list-group(ng-repeat="usecase in gist.usecases")
+            li.list-group-item {{usecase}}
+        td
+          ul.list-group(ng-repeat="writer in gist.writers")
+            li.list-group-item {{writer}}

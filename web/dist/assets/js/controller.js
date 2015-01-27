@@ -272,9 +272,9 @@ contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval', '$http
 contentApp.controller('GistManageCtrl', ['$scope', '$routeParams', '$http',
   function($scope, $routeParams, $http) {
     
-    $http({method: 'GET', url: '/api/v0/gists?status=candidate'}).
+    $http({method: 'GET', url: '/api/v0/gists?status=all'}).
       success(function(data, status, headers, config) {
-        $scope.gists = data;
+        $scope.gists_by_status = _(data).groupBy(function(gist) { return(gist.status) }).value();
       }).
       error(function(data, status, headers, config) {
         alert('Error in loading gists!');

@@ -153,7 +153,12 @@ function strip_string (str) {
 var _matchBy = function (keys, params, options, callback) {
   var cypher_params = _.pick(params, keys);
 
-  if (!cypher_params.status) cypher_params.status = 'live'
+  if (!cypher_params.status) {
+    cypher_params.status = 'live'
+  } else if (cypher_params.status === 'all') {
+    delete cypher_params.status;
+    keys = _(keys).without('status');
+  }
 
   if (typeof options.search_query === 'string')
     cypher_params.search_query = '(?i).*' + strip_string(options.search_query).replace(RegExp("\\s+", 'g'), '.*') + '.*';
