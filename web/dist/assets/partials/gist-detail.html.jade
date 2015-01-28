@@ -65,7 +65,8 @@
           .row
             .col-md-12.col-sm-12.col-xs-12
               .thumbnail
-                img(ng-src='{{gist.poster_image}}', alt='{{gist.title}}')
+                a(ng-href='/#!/gists/{{gist.id}}')
+                  img(ng-src='{{gist.poster_image}}', alt='{{gist.title}}')
 
           .row
             .col-md-12.col-sm-12
