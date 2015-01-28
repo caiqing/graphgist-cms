@@ -29,7 +29,7 @@
 
   <div class="owl-slider col-sm-6" ng-repeat="domain in domains">
     <!-- Gist category carousel grid 1 -->
-    <h4>{{domain}}</h4>
+    <h4><a ng-href="/#!/domains/{{domain}}">{{domain}}</a></h4>
     <div id="owl-demo-2" carousel="gists" data-genre="{{domain}}" class="owl-carousel owl-theme">
     </div>
   </div>
