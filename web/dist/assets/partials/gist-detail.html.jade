@@ -77,10 +77,10 @@
                     br
 
                     .item-label.col-md-12.brand
-                      a#gist-link.btn.btn-primary(ng-href='/#!/gists/{{gist.id}}') Go to GraphGist page &gt;
+                      a.btn.btn-success(ng-href='/#!/gists/{{gist.id}}') Go to GraphGist page &gt;
 
                   .row
-                    a.btn.btn-success(href='{{gist.original_url}}', ,='', target='_blank', style='color: white; margin-left: 15px')
+                    a.btn.btn-info(href='{{gist.original_url}}', ,='', target='_blank', style='color: white; margin-left: 15px')
                       i.glyphicon.glyphicon-file
                       |                     Page Source
 

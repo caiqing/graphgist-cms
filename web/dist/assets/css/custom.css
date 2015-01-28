@@ -16,7 +16,7 @@ code {
   margin-bottom: 1em;
 }
 
-.panel a {
+.panel a:not(.btn) {
   color: #4C7ADD;
 }
 
