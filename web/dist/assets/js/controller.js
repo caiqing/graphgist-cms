@@ -242,6 +242,8 @@ contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval', '$http
 
     $scope.UTIL.loadGist($scope.url, $http, $scope, $templateCache)
 
+    $scope.loading_message = 'Loading...';
+
     $scope.$on('$viewContentLoaded', function () {
 
       $.ajax({
@@ -253,6 +255,7 @@ contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval', '$http
 
         GraphGistRenderer.renderContent(content, '', '');
       }).fail(function (error) {
+        $scope.loading_message = 'There was an error loading the gist';
         console.log({error: arguments});
       });
 
