@@ -25,7 +25,7 @@ function Neod3Renderer() {
 
     var serializer = null;
 
-    var $downloadSvgLink = $('<a href="#" class="btn btn-success visualization-download" target="_blank"><i class="icon-download-alt"></i> Download SVG</a>').hide().click(function () {
+    var $downloadSvgLink = $('<a href="#" class="btn btn-success visualization-download" target="_blank"><i class="glyphicon glyphicon-download-alt"></i> Download SVG</a>').hide().click(function () {
         $downloadSvgLink.hide();
     });
     var downloadSvgLink = $downloadSvgLink[0];
@@ -149,7 +149,6 @@ function Neod3Renderer() {
         for (var i = 0; i < links.length; i++) {
             links[i].source = links[i].start;
             links[i].target = links[i].end;
-//            debugger
             links[i].properties = extract_props(links[i]);
         }
         var nodeStyles = node_styles(nodes);
@@ -207,7 +206,7 @@ function Neod3Renderer() {
         function getFunctions() {
             var funcs = {};
             if (blobSupport && (URLSupport || msBlobSupport)) {
-                funcs['icon-download-alt'] = {'title': 'Save as SVG', 'func':saveToSvg};
+                funcs['glyphicon glyphicon-download-alt'] = {'title': 'Save as SVG', 'func':saveToSvg};
             }
             return funcs;
         }

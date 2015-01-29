@@ -84,3 +84,7 @@ code {
 img {
 	max-width: 100%;
 }
+
+.visualization-icons .glyphicon {
+  margin-left: 7px;
+}

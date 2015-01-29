@@ -38,7 +38,7 @@ function GraphGist($, options) {
     var VISUALIZATION_HEIGHT = 400;
     var $TABLE_CONTAINER = $('<div/>').addClass('result-table');
     var DEFAULT_SOURCE = 'github-neo4j-contrib%2Fgists%2F%2Fmeta%2FHome.adoc'
-    var $VISUALIZATION_ICONS = $('<div class="visualization-icons"><i class="icon-fullscreen fullscreen-icon" title="Toggle fullscreen mode"></i></div>');
+    var $VISUALIZATION_ICONS = $('<div class="visualization-icons"><i class="glyphicon glyphicon-fullscreen fullscreen-icon" title="Toggle fullscreen mode"></i></div>');
     var $I = $('<i/>');
 
     var DEFAULT_VERSION = '2.1';
