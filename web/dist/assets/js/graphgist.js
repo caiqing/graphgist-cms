@@ -26,8 +26,8 @@ function GraphGist($, options) {
     }
     var HAS_ERRORS = false;
     var $WRAPPER = $('<div class="query-wrapper" />');
-    var COLLAPSE_ICON = 'icon-minus-sign-alt';
-    var EXPAND_ICON = 'icon-plus-sign-alt';
+    var COLLAPSE_ICON = 'glyphicon glyphicon-resize-small';
+    var EXPAND_ICON = 'glyphicon glyphicon-resize-full';
     var $QUERY_OK_LABEL = $('<span class="label label-success query-info">Test run OK</span>');
     var $QUERY_ERROR_LABEL = $('<span class="label label-important query-info">Test run Error</span>');
     var $TOGGLE_BUTTON = $('<span data-toggle="tooltip"><i class="' + COLLAPSE_ICON + '"></i></span>');
