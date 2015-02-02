@@ -47,10 +47,13 @@
     "asciidoctor.js": "1.5.x",
 
     "request": "2.51.x",
-    "js-base64":"2.1.5"
-
-
-
+    "js-base64":"2.1.5",
+    "mocha":"2.1.0",
+    "should":"4.6.2",
+    "sepia":"1.0.4"
+  },
+  "scripts": {
+    "test": "mocha"
   },
   "license": "MIT"
 }

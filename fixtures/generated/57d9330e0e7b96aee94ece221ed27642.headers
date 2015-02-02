@@ -1,0 +1,41 @@
+{
+  "statusCode": 200,
+  "headers": {
+    "server": "GitHub.com",
+    "date": "Mon, 02 Feb 2015 07:28:07 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "56899",
+    "status": "200 OK",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4991",
+    "x-ratelimit-reset": "1422865302",
+    "cache-control": "private, max-age=60, s-maxage=60",
+    "last-modified": "Sun, 01 Feb 2015 20:45:38 GMT",
+    "etag": "\"636ca132fdf2138a249d9b82da97437a\"",
+    "x-oauth-scopes": "",
+    "x-accepted-oauth-scopes": "",
+    "vary": "Accept, Authorization, Cookie, X-GitHub-OTP",
+    "x-github-media-type": "github.v3",
+    "x-xss-protection": "1; mode=block",
+    "x-frame-options": "deny",
+    "content-security-policy": "default-src 'none'",
+    "access-control-allow-credentials": "true",
+    "access-control-expose-headers": "ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval",
+    "access-control-allow-origin": "*",
+    "x-github-request-id": "423786DD:2BEF:AF3F7AF:54CF2707",
+    "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-served-by": "318e55760cf7cdb40e61175a4d36cd32"
+  },
+  "url": "https://api.github.com:443/gists/6009066",
+  "time": 1618,
+  "request": {
+    "method": "GET",
+    "headers": {
+      "User-Agent": "neo4j.org",
+      "host": "api.github.com",
+      "authorization": "Basic Mjc5NTgxZjM5NzAxZGRiZDVhZTIzNGZlMmVmZTk4NDBjY2ZjOTliMzp4LW9hdXRoLWJhc2lj",
+      "accept": "application/json"
+    }
+  }
+}

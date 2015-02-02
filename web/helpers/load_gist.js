@@ -197,6 +197,7 @@ exports.load_gist = function (id, cache, callback) {
 
       for (var fetch in internal.fetchers) {
           if (id.indexOf(fetch) === 0) {
+              id = id.replace(new RegExp('^' + fetch), '')
               fetcher = internal.fetchers[fetch];
               break;
           }

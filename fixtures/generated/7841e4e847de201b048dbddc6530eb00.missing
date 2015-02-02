@@ -1,0 +1,11 @@
+{
+  "url": "http://graphgisttestdb:80/:gdXQ69GH7CCsy7eQaXlv/@graphgisttestdb.sb02.stations.graphenedb.com:24789",
+  "method": "GET",
+  "headers": {
+    "User-Agent": "node-neo4j/1.1.1",
+    "X-Stream": true,
+    "host": "graphgisttestdb",
+    "accept": "application/json"
+  },
+  "body": ""
+}

@@ -1,0 +1,11 @@
+{
+  "url": "https://api.github.com:443/gists/6009066",
+  "method": "GET",
+  "headers": {
+    "User-Agent": "neo4j.org",
+    "host": "api.github.com",
+    "authorization": "Basic Mjc5NTgxZjM5NzAxZGRiZDVhZTIzNGZlMmVmZTk4NDBjY2ZjOTliMzp4LW9hdXRoLWJhc2lj",
+    "accept": "application/json"
+  },
+  "body": ""
+}

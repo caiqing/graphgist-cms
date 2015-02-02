@@ -1,0 +1,41 @@
+{
+  "statusCode": 200,
+  "headers": {
+    "server": "GitHub.com",
+    "date": "Mon, 02 Feb 2015 07:28:09 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "20660",
+    "status": "200 OK",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4990",
+    "x-ratelimit-reset": "1422865302",
+    "cache-control": "private, max-age=60, s-maxage=60",
+    "last-modified": "Mon, 25 Nov 2013 21:55:45 GMT",
+    "etag": "\"2d0019f8f385529f01e9695f511db6a7\"",
+    "x-oauth-scopes": "",
+    "x-accepted-oauth-scopes": "",
+    "vary": "Accept, Authorization, Cookie, X-GitHub-OTP",
+    "x-github-media-type": "github.v3",
+    "x-xss-protection": "1; mode=block",
+    "x-frame-options": "deny",
+    "content-security-policy": "default-src 'none'",
+    "access-control-allow-credentials": "true",
+    "access-control-expose-headers": "ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval",
+    "access-control-allow-origin": "*",
+    "x-github-request-id": "423786DD:2BEC:4FAA74E:54CF2709",
+    "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-served-by": "139317cebd6caf9cd03889139437f00b"
+  },
+  "url": "https://api.github.com:443/repos/kbastani/gists/contents/meta/TimeScaleEventMetaModel.adoc?ref=master",
+  "time": 885,
+  "request": {
+    "method": "GET",
+    "headers": {
+      "User-Agent": "neo4j.org",
+      "host": "api.github.com",
+      "authorization": "Basic Mjc5NTgxZjM5NzAxZGRiZDVhZTIzNGZlMmVmZTk4NDBjY2ZjOTliMzp4LW9hdXRoLWJhc2lj",
+      "accept": "application/json"
+    }
+  }
+}
