@@ -9,6 +9,10 @@ sepia.filter({
   url: /localhost/i,
   forceLive: true
 });
+sepia.filter({
+  url: /graphenedb.com/i,
+  forceLive: true
+});
 
 describe('load_gist', function(){
   describe('#load_gist()', function(){

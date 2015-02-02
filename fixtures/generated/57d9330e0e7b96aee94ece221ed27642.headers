@@ -2,12 +2,12 @@
   "statusCode": 200,
   "headers": {
     "server": "GitHub.com",
-    "date": "Mon, 02 Feb 2015 07:28:07 GMT",
+    "date": "Mon, 02 Feb 2015 07:37:06 GMT",
     "content-type": "application/json; charset=utf-8",
     "content-length": "56899",
     "status": "200 OK",
     "x-ratelimit-limit": "5000",
-    "x-ratelimit-remaining": "4991",
+    "x-ratelimit-remaining": "4989",
     "x-ratelimit-reset": "1422865302",
     "cache-control": "private, max-age=60, s-maxage=60",
     "last-modified": "Sun, 01 Feb 2015 20:45:38 GMT",
@@ -22,13 +22,13 @@
     "access-control-allow-credentials": "true",
     "access-control-expose-headers": "ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval",
     "access-control-allow-origin": "*",
-    "x-github-request-id": "423786DD:2BEF:AF3F7AF:54CF2707",
+    "x-github-request-id": "423786DD:2025:12BD62F:54CF2921",
     "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
     "x-content-type-options": "nosniff",
-    "x-served-by": "318e55760cf7cdb40e61175a4d36cd32"
+    "x-served-by": "4c8b2d4732c413f4b9aefe394bd65569"
   },
   "url": "https://api.github.com:443/gists/6009066",
-  "time": 1618,
+  "time": 1942,
   "request": {
     "method": "GET",
     "headers": {
