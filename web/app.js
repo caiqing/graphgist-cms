@@ -2,7 +2,8 @@ var express = require('express'),
     http = require('http'),
     asciidoctor = require('asciidoctor.js')().Asciidoctor(true),
     load_gist = require("./helpers/load_gist.js"),
-    Gists = require('../api/models/gists');
+    Gists = require('../api/models/gists'),
+    compression = require('compression');
 
 module.exports = function (app, api_port) {
   app.use(express.logger());
@@ -99,6 +100,7 @@ module.exports = function (app, api_port) {
     });
 
 
+    app.use(compression());
     app.use('/dist/assets', express.static(__dirname + '/dist/assets'));
     app.use(express.static(__dirname + '/dist'));
   });
