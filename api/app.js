@@ -7,10 +7,12 @@ var express     = require('express')
   , routes      = require('./routes')
   , API_STRING  = '/api/v0'
   //'http://gistapi-neo4j.herokuapp.com' 
-  , subpath     = express();
+  , subpath     = express()
+  , compression = require('compression');
 
 
 module.exports = function (app, port) {
+  app.use(compression());
   app.use(API_STRING, subpath);
 
   // configure /api/v0 subpath for api versioning

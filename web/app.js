@@ -6,6 +6,7 @@ var express = require('express'),
     compression = require('compression');
 
 module.exports = function (app, api_port) {
+  app.use(compression());
   app.use(express.logger());
 
   // var http_handler = express.static(__dirname + '/');
@@ -100,7 +101,6 @@ module.exports = function (app, api_port) {
     });
 
 
-    app.use(compression());
     app.use('/dist/assets', express.static(__dirname + '/dist/assets'));
     app.use(express.static(__dirname + '/dist'));
   });
