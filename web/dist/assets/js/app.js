@@ -5,7 +5,7 @@ var contentApp = angular.module('contentApp', [
   'ngRoute',
   'ngResource',
   'contentappControllers'
-]).run(function ($rootScope) {
+]).run(['$rootScope', function ($rootScope) {
   $rootScope.UTIL = {
 
     // Maybe not the best place for this.
@@ -51,7 +51,7 @@ var contentApp = angular.module('contentApp', [
     }
 
   }
-});
+}]);
 
 contentApp.config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {

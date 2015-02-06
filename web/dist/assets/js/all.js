@@ -24210,7 +24210,7 @@ var contentApp = angular.module('contentApp', [
   'ngRoute',
   'ngResource',
   'contentappControllers'
-]).run(function ($rootScope) {
+]).run(['$rootScope', function ($rootScope) {
   $rootScope.UTIL = {
 
     // Maybe not the best place for this.
@@ -24256,7 +24256,7 @@ var contentApp = angular.module('contentApp', [
     }
 
   }
-});
+}]);
 
 contentApp.config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
@@ -24331,7 +24331,7 @@ angular.module('SharedServices', [])
         $httpProvider.defaults.transformRequest.push(spinnerFunction);
     }])
 // register the interceptor as a service, intercepts ALL angular ajax http calls
-    .factory('myHttpInterceptor', function ($q, $window) {
+    .factory('myHttpInterceptor', ['$q', '$window', function ($q, $window) {
         return function (promise) {
             return promise.then(function (response) {
                 // do something on success
@@ -24350,11 +24350,11 @@ angular.module('SharedServices', [])
                 return $q.reject(response);
             });
         };
-    });
+    }]);
 
 var contentappControllers = angular.module('contentappControllers', ['SharedServices']);
 
-contentApp.directive('carousel', function() {
+contentApp.directive('carousel', [function() {
 	var res = {
      restrict : 'A',
      link     : function (scope, element, attrs) {
@@ -24400,7 +24400,7 @@ contentApp.directive('carousel', function() {
                 }
   };
   return res;
-});
+}]);
 
 contentApp.controller('GistListCtrl', ['$scope', '$http', '$templateCache', 
 	function($scope, $http, $templateCache) {
@@ -24625,7 +24625,7 @@ contentApp.controller('GistManageGistCtrl', ['$scope', '$routeParams', '$http',
     }
   }]);
 
-contentApp.directive('carouseldomainsgists', function() {
+contentApp.directive('carouseldomainsgists', [function() {
 	var res = {
      restrict : 'A',
      link     : function (scope, element, attrs) {
@@ -24663,9 +24663,9 @@ contentApp.directive('carouseldomainsgists', function() {
        }
    };
   return res;
-});
+}]);
 
-contentApp.directive('carouselrelateddomains', function($timeout) {
+contentApp.directive('carouselrelateddomains', ['$timeout', function($timeout) {
 	var res = {
      restrict : 'A',
      scope: {gists: '='},
@@ -24705,7 +24705,7 @@ contentApp.directive('carouselrelateddomains', function($timeout) {
      }
    };
   return res;
-});
+}]);
 
 contentApp.controller('DomainCtrl', ['$scope', '$routeParams', '$http', '$templateCache',
   function($scope, $routeParams, $http, $templateCache) {

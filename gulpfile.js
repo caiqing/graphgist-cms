@@ -61,12 +61,16 @@ var paths = {
 
 
 gulp.task('scripts', function() {
-  gulp.src(paths.scripts)
+//  gulp.src(paths.scripts)
 //    .pipe(sourcemaps.init())
-//      .pipe(coffee())
+//      .pipe(uglify())
+//      .pipe(concat('all.min.withsourcemaps.js'))
+//    .pipe(sourcemaps.write())
+//    .pipe(gulp.dest('./web/dist/assets/js/'));
+
+  gulp.src(paths.scripts)
       .pipe(uglify())
       .pipe(concat('all.min.js'))
-//    .pipe(sourcemaps.write())
     .pipe(gulp.dest('./web/dist/assets/js/'));
 
   gulp.src(paths.scripts)
