@@ -100,9 +100,13 @@ module.exports = function (app, api_port) {
         });
     });
 
+    var expiry = require('static-expiry');
+    var path = require('path');
+    app.use(expiry(app, { dir: path.join(__dirname, '/dist/assets') }));
+    app.use(express.static(__dirname + '/dist/assets'));
 
-    app.use('/dist/assets', express.static(__dirname + '/dist/assets'));
     app.use(express.static(__dirname + '/dist'));
+
   });
 
 

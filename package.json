@@ -29,6 +29,7 @@
   "dependencies": {
     "connect": ">= 3.3.x",
     "compression": ">= 1.4.x",
+    "static-expiry": "0.0.10",
     "express": "3.x",
     "jade": ">=0.26.3",
     "neo4j": ">=1.1.0",
