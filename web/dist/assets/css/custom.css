@@ -9,7 +9,6 @@
 code {
   max-height: 300px;
   overflow-y: scroll;
-  display: block;
 }
 
 .panel p {
