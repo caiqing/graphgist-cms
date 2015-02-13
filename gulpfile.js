@@ -59,8 +59,12 @@ var paths = {
     ]
 };
 
+gulp.task('watch', function() {
+  gulp.watch('./web/dist/assets/**/*', ['scripts']);
+});
 
 gulp.task('scripts', function() {
+  require('child_process').exec('rm web/dist/assets/js/all*.js', function () {})
 //  gulp.src(paths.scripts)
 //    .pipe(sourcemaps.init())
 //      .pipe(uglify())
