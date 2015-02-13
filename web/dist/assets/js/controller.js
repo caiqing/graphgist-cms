@@ -238,6 +238,8 @@ contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval', '$http
   function($scope, $routeParams, $interval, $http, $templateCache) {
     var gistId = decodeURIComponent($routeParams.gistId);
 
+    $scope.gist = {};
+
     $scope.url = API_URL+'/api/v0/gists/' + encodeURIComponent(encodeURIComponent(gistId)) + '?api_key=special-key&neo4j=false';
 
     $scope.UTIL.loadGist($scope.url, $http, $scope, $templateCache)
@@ -254,6 +256,14 @@ contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval', '$http
 //        gist.getGistAndRenderPage(renderContent, DEFAULT_SOURCE);
 
         GraphGistRenderer.renderContent(content, '', '');
+
+        if ( !$scope.gist.title ) {
+          var first_element = $('#content :first');
+          if (first_element[0].tagName === 'H1') {
+            $scope.gist.title = first_element.text();
+            first_element.remove();
+          }
+        }
       }).fail(function (error) {
         $scope.loading_message = 'There was an error loading the gist';
         console.log({error: arguments});

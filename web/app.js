@@ -1,6 +1,8 @@
 var express = require('express'),
     http = require('http'),
-    asciidoctor = require('asciidoctor.js')().Asciidoctor(true),
+    asciidoctor = require('asciidoctor.js')(),
+    opal = asciidoctor.Opal,
+    asciidoctor_processor = asciidoctor.Asciidoctor(true),
     load_gist = require("./helpers/load_gist.js"),
     Gists = require('../api/models/gists'),
     compression = require('compression');
@@ -72,7 +74,7 @@ module.exports = function (app, api_port) {
 
         var cache = req.query.skip_cache ? {} : app.locals.load_cache;
 
-        load_gist.load_gist(id, cache, function(err, data) {
+        load_gist.load_gist(id, cache, function(err, data, from_db) {
             if (err) {
                 console.log("Error loading graphgist", id, err);
                 res.send(404,"Error loading graphgist from: "+ id +" "+ err)
@@ -92,8 +94,16 @@ module.exports = function (app, api_port) {
                     res.set("Url","http://neo4j.org/graphgist"+ id);
                 }
 
-                if (req.params.format === 'html')
-                  data = asciidoctor.$convert(load_gist.preProcessHTML(data))
+                if (req.params.format === 'html') {
+                  var options = opal.hash2([], {})
+                  if (!from_db) {
+                    var options = opal.hash2(
+                        ['attributes'],
+                        {attributes: ['showtitle']});
+                  }
+                                    
+                  data = asciidoctor_processor.$convert(load_gist.preProcessHTML(data), options)
+                }
 
                 res.send(200,data);
             }

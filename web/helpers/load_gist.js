@@ -210,7 +210,12 @@ exports.load_gist = function (id, cache, callback) {
           }
       }
 
-      fetcher(id, cache, callback);
+      fetcher(id, cache, function () {
+        // Pass through extra argument which tells if we got a gist in the DB
+        var args = Array.prototype.slice.call(arguments);
+        args.push(!!gist);
+        callback.apply(this, args)
+      });
 
     });
 };
