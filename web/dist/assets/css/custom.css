@@ -87,3 +87,7 @@ img {
 .visualization-icons .glyphicon {
   margin-left: 7px;
 }
+
+#content a {
+  color: #2a7ae2;
+}
