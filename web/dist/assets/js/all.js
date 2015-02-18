@@ -29941,6 +29941,7 @@ function Gist($, $content) {
         $target.blur();
         var gist = $.trim($target.val());
         if (gist.indexOf('/') !== -1) {
+            if (gist.indexOf('#') !== -1) gist = gist.split('#')[0]
             var parts = gist.split('/');
             for (var sourceParserName in internal.sourceParsers) {
                 var sourceParser = internal.sourceParsers[sourceParserName];
@@ -29951,6 +29952,7 @@ function Gist($, $content) {
                 for (var j = 0; j < baseUrls.length; j++) {
                     var baseUrl = baseUrls[j];
                     if (gist.indexOf(baseUrl) === 0) {
+                        console.log({parts: parts});
                         var result = sourceParser.parse(gist, parts, baseUrl);
                         if ('error' in result && result.error) {
                             errorMessage('Error when parsing "' + gist + '" as a ' + sourceParserName + '.\n' + result.error);
