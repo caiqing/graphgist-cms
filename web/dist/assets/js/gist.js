@@ -191,6 +191,7 @@ function Gist($, $content) {
         $target.blur();
         var gist = $.trim($target.val());
         if (gist.indexOf('/') !== -1) {
+            if (gist.indexOf('#') !== -1) gist = gist.split('#')[0]
             var parts = gist.split('/');
             for (var sourceParserName in internal.sourceParsers) {
                 var sourceParser = internal.sourceParsers[sourceParserName];
