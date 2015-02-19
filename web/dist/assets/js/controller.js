@@ -264,6 +264,9 @@ contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval', '$http
             first_element.remove();
           }
         }
+
+        document.title = $scope.gist.title + ' - Neo4j GraphGist';
+
       }).fail(function (error) {
         $scope.loading_message = 'There was an error loading the gist';
         console.log({error: arguments});

@@ -177,7 +177,7 @@ function GraphGist($, options) {
         }
         if (heading.length) {
             headingText = heading.text();
-            document.title = headingText + ' - Neo4j GraphGist';
+//            document.title = headingText + ' - Neo4j GraphGist';
         }
 
         return headingText;
