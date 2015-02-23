@@ -343,6 +343,10 @@ var _create = function (params, options, callback) {
   }
   cypher_params.id = params.id || uuid();
 
+  if (!cypher_params.submitter_tshirt_size) cypher_params.submitter_tshirt_size = null
+  if (!cypher_params.submitter_tshirt_size_other) cypher_params.submitter_tshirt_size_other = null
+  if (!cypher_params.postal_address) cypher_params.postal_address = null
+
   var query = [
     'CREATE (gist:Gist)',
     'SET gist.created = timestamp()',
@@ -350,9 +354,10 @@ var _create = function (params, options, callback) {
     'SET '+ set_parts.join(', '),
     'WITH gist',
 
-    'MERGE (submitter:Person twitter: {submitter_twitter}}) ON CREATE SET submitter.email= coalesce({submitter_email},submitter.email) ',
+    'MERGE (submitter:Person {twitter: {submitter_twitter}})',
     'MERGE gist<-[:WRITER_OF]-submitter',
-    'SET submitter.name = coalesce({submitter_name},submitter.name), submitter.postal_address = coalesce({submitter_postal_address},submitter.postal_address), submitter.tshirt_size = coalesce({submitter_tshirt_size},submitter.tshirt_size), submitter.tshirt_size_other = coalesce({submitter_tshirt_size_other},submitter.tshirt_size_other)',
+
+    'SET submitter.email=coalesce({submitter_email}, submitter.email), submitter.name = coalesce({submitter_name}, submitter.name), submitter.postal_address = coalesce({submitter_postal_address}, submitter.postal_address), submitter.tshirt_size = coalesce({submitter_tshirt_size}, submitter.tshirt_size), submitter.tshirt_size_other = coalesce({submitter_tshirt_size_other}, submitter.tshirt_size_other)',
 
     'WITH gist',
     'UNWIND {categories} AS category',
