@@ -350,9 +350,9 @@ var _create = function (params, options, callback) {
     'SET '+ set_parts.join(', '),
     'WITH gist',
 
-    'MERGE (submitter:Person {email: {submitter_email}, twitter: {submitter_twitter}})',
+    'MERGE (submitter:Person twitter: {submitter_twitter}}) ON CREATE SET submitter.email= coalesce({submitter_email},submitter.email) ',
     'MERGE gist<-[:WRITER_OF]-submitter',
-    'SET submitter.name = {submitter_name}, submitter.postal_address = {submitter_postal_address}, submitter.tshirt_size = {submitter_tshirt_size}, submitter.tshirt_size_other = {submitter_tshirt_size_other}',
+    'SET submitter.name = coalesce({submitter_name},submitter.name), submitter.postal_address = coalesce({submitter_postal_address},submitter.postal_address), submitter.tshirt_size = coalesce({submitter_tshirt_size},submitter.tshirt_size), submitter.tshirt_size_other = coalesce({submitter_tshirt_size_other},submitter.tshirt_size_other)',
 
     'WITH gist',
     'UNWIND {categories} AS category',
