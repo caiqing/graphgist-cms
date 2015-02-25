@@ -52,7 +52,8 @@ exports.list = {
     };
     var start = new Date();
     Gists.getByStatus({status: req.query.status || 'live'}, options, function (err, response) {
-      if (err || !response.results) throw swe.notFound('gists');
+      if (err || !response.results) return(res.status(500).json({ error: 'Error getting gists' }));
+
       writeResponse(res, response, start);
     });
   }
