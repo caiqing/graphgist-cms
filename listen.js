@@ -1,3 +1,15 @@
+var rollbar = require('rollbar');
+
+if (process.env.ROLLBAR_SERVER_TOKEN) {
+  rollbar.init(process.env.ROLLBAR_SERVER_TOKEN, {
+    environment: process.env.NODE_ENV
+  })
+
+  rollbar.handleUncaughtExceptions(process.env.ROLLBAR_SERVER_TOKEN, {
+    exitOnUncaughtException: true
+  });
+}
+
 var app = require('express')();
 
 var port = process.env.PORT || 5000;

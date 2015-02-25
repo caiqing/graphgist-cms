@@ -48,6 +48,8 @@
     "socket.io": "0.9.16",
     "asciidoctor.js": "1.5.x",
 
+    "rollbar": "0.4.4",
+
     "request": "2.51.x",
     "js-base64":"2.1.5",
     "mocha":"2.1.0",
