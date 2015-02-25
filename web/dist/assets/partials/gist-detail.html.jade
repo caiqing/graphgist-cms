@@ -66,7 +66,7 @@
             .col-md-12.col-sm-12.col-xs-12
               .thumbnail
                 a(ng-href='/#!/gists/{{gist.id}}')
-                  img(ng-src='{{gist.poster_image}}', alt='{{gist.title}}')
+                  img(ng-src='{{gist.poster_image}}', alt='{{gist.title}}', onerror="$(this).parent().replaceWith('<a href=\"https://github.com/neo4j-contrib/graphgist-cms/issues/new\" class=\"btn btn-warning\">Report Missing Image</a>');")
 
           .row
             .col-md-12.col-sm-12
