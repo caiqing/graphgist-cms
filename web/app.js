@@ -42,7 +42,11 @@ module.exports = function (app, api_port) {
           console.log("Error loading graphgist", err);
           res.send(404,"Error loading graphgist: "+ err)
         } else {
-          res.render(__dirname + '/dist/index.html.jade', {api_port: api_port, api_url: api_url, gist: data});
+          res.render(__dirname + '/dist/index.html.jade', {api_port: api_port,
+                                                           api_url: api_url,
+                                                           gist: data,
+                                                           environment: process.env.NODE_ENV,
+                                                           rollbar_token: process.env.ROLLBAR_CLIENT_TOKEN});
         }
       }
 
