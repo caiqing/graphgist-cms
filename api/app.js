@@ -8,12 +8,14 @@ var express     = require('express')
   , API_STRING  = '/api/v0'
   //'http://gistapi-neo4j.herokuapp.com' 
   , subpath     = express()
-  , compression = require('compression');
+  , compression = require('compression')
+  , rollbar     = require('rollbar');
 
 
 module.exports = function (app, port) {
   app.use(compression());
   app.use(API_STRING, subpath);
+  app.use(rollbar.errorHandler(process.env.ROLLBAR_SERVER_TOKEN));
 
   // configure /api/v0 subpath for api versioning
   subpath.configure(function () {

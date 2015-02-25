@@ -5,11 +5,13 @@ var express = require('express'),
     asciidoctor_processor = asciidoctor.Asciidoctor(true),
     load_gist = require("./helpers/load_gist.js"),
     Gists = require('../api/models/gists'),
-    compression = require('compression');
+    compression = require('compression'),
+    rollbar = require('rollbar');
 
 module.exports = function (app, api_port) {
   app.use(compression());
   app.use(express.logger());
+  app.use(rollbar.errorHandler(process.env.ROLLBAR_SERVER_TOKEN));
 
   // var http_handler = express.static(__dirname + '/');
 
