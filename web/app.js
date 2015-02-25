@@ -58,6 +58,10 @@ module.exports = function (app, api_port) {
 
     });
 
+    app.get('/error', function (req, res) {
+      throw 'unhandled!'
+    });
+
     app.get('/templates/:template', function (req, res) {
       if (!req.params.template.match(/[a-z0-9\-_]/i)) throw 'Invalid template'
 
