@@ -96,6 +96,13 @@ function Gist($, $content) {
     function readSourceId(event) {
         var internal = {};
         internal['sourceParsers'] = {
+            'GraphGist Portal': {
+                baseUrl: 'http://graphgist.neo4j.com/#!/gists/',
+                parse: function (gist, parts, baseUrl) {
+                  debugger
+                    return useRestOfTheUrl('', baseUrl, gist);
+                }
+            },
             'GitHub Gist': {
                 baseUrl: 'https://gist.github.com/',
                 parse: function (gist, parts) {
@@ -191,7 +198,10 @@ function Gist($, $content) {
         $target.blur();
         var gist = $.trim($target.val());
         if (gist.indexOf('/') !== -1) {
-            if (gist.indexOf('#') !== -1) gist = gist.split('#')[0]
+            if (gist.indexOf('#') !== -1) {
+              var split = gist.split('#');
+              if (split[1].indexOf('/') === -1) gist = split[0]
+            }
             var parts = gist.split('/');
             for (var sourceParserName in internal.sourceParsers) {
                 var sourceParser = internal.sourceParsers[sourceParserName];
