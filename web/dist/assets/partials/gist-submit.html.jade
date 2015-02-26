@@ -5,6 +5,7 @@ form#gist-submit-form.form-horizontal(ng-submit='submit()')
         |       
         .col-sm-8
           input.form-control(type='text', name='url', placeholder='e.g. http://gist.neo4j.org/?####### or source url', required='required')
+          span#invalid-url-notice.text-danger(style="display: none") Please include the source gist URL (i.e. from gist.github.com) rather than the GraphGist portal URL
     |   
   .form-group
     label

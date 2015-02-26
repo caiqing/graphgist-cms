@@ -114,6 +114,21 @@ contentApp.controller('GistSubmitCtrl', ['$scope', '$routeParams', '$location', 
   function($scope, $routeParams, $location, $http) {
     var name, value;
 
+    var form = $('form#gist-submit-form');
+
+    $('[name=url]').change(function () {
+      var notice = $('#invalid-url-notice');
+      var url = $('[name=url]').val();
+
+      if ((typeof url !== 'undefined') && url.match(/graphgist\.neo4j\.com/)) {
+        notice.show();
+        form.attr('disabled', true);
+      } else {
+        notice.hide();
+        form.attr('disabled', null);
+      }
+    });
+
     for (name in $routeParams) {
       value = $routeParams[name];
 
@@ -154,7 +169,12 @@ contentApp.controller('GistSubmitCtrl', ['$scope', '$routeParams', '$location', 
     $scope.submit = function () {
       var form_data = {};
 
-      $('form').serializeArray().forEach(function (input) {
+      if (form.attr('disabled')) {
+        alert('There is an error in the form');
+        return
+      }
+
+      form.serializeArray().forEach(function (input) {
         form_data[input.name] = input.value;
       });
       delete form_data.category;
