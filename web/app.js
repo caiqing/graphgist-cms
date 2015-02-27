@@ -48,7 +48,8 @@ module.exports = function (app, api_port) {
                                                            api_url: api_url,
                                                            gist: data,
                                                            environment: process.env.NODE_ENV,
-                                                           rollbar_token: process.env.ROLLBAR_CLIENT_TOKEN});
+                                                           rollbar_token: process.env.ROLLBAR_CLIENT_TOKEN,
+                                                           git_head_sha: process.env.GIT_HEAD_SHA});
         }
       }
 

@@ -73,8 +73,10 @@ gulp.task('scripts', function() {
 //    .pipe(gulp.dest('./web/dist/assets/js/'));
 
   gulp.src(paths.scripts)
-      .pipe(uglify())
-      .pipe(concat('all.min.js'))
+      .pipe(sourcemaps.init())
+        .pipe(concat('all.min.js'))
+        .pipe(uglify())
+      .pipe(sourcemaps.write('maps/'))
     .pipe(gulp.dest('./web/dist/assets/js/'));
 
   gulp.src(paths.scripts)

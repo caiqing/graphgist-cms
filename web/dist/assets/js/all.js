@@ -24480,15 +24480,6 @@ contentApp.controller('GistSubmitCtrl', ['$scope', '$routeParams', '$location', 
       $scope.domains.sort();
     }
 
-    $scope.$watch('url', function (url) {
-      console.log('in url watch');
-      if ((typeof url !== 'undefined') && url.match(/graphgist\.neo4j\.com/)) {
-        $scope.url_invalid = true;
-      } else {
-        $scope.url_invalid = false;
-      }
-
-    });
 
     $('[required="required"]').closest('.form-group').find('.label-text').append(' <span class="required-star">*</span> ')
 
