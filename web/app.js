@@ -33,6 +33,7 @@ module.exports = function (app, api_port) {
 
   });
 
+
   app.configure(function(){
     app.get('/', function (req, res) {
       api_url = (app.settings.env == 'development') ? ('http://localhost:'+ api_port) : ''
@@ -68,6 +69,24 @@ module.exports = function (app, api_port) {
     app.get('/error', function (req, res) {
       throw 'unhandled!'
     });
+
+    short_urls = {
+      '/submit': '/#!/gists/submit',
+      '/about': '/#!/gists/about',
+      '/challenge': '/#!/gists/challenge'
+    }
+
+    app_redirect = function(app, source, target) {
+      app.get(source, function (req, res) {
+        console.log({target: target});
+        res.redirect(301, target);
+      });
+    }
+
+    for ( var source in short_urls ) {
+      var target = short_urls[source];
+      app_redirect(app, source, short_urls[source]);
+    }
 
     app.get('/templates/:template', function (req, res) {
       if (!req.params.template.match(/[a-z0-9\-_]/i)) throw 'Invalid template'
