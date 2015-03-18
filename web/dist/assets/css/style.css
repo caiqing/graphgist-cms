@@ -5,6 +5,10 @@
     src: url("fonts/officinaserifstd-bold.eot?#iefix") format("embedded-opentype"), url("fonts/officinaserifstd-bold.woff") format("woff"), url("fonts/officinaserifstd-bold.ttf") format("truetype"), url("fonts/officinaserifstd-bold.svg#officinaserifstd-bold") format("svg");
 }
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
 /* Chrome@Windows fix for https://code.google.com/p/chromium/issues/detail?id=137692 */
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
     @font-face {

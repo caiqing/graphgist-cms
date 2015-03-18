@@ -106,7 +106,7 @@ html(lang="en", ng-app="contentApp")
                 input(type="text", ng-model="query", placeholder="Search for a GraphGist").form-control
                 .input-group-addon
                   i.glyphicon.glyphicon-search
-                #search-result(ng-show="query.length > 0")
+                #search-result(ng-show="query.length > 0", ng-cloak)
                   div(ng-if="results")
                     .list-group
                       a.list-group-item(href="#!/gists/{{result.id}}/summary", ng-click="search_result_clicked()", ng-repeat="result in results")
