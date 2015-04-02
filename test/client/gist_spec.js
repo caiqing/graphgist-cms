@@ -1,4 +1,5 @@
 var assert = require("assert");
+var path = require('path');
 var jsdom = require('jsdom');
 
 require('should');
@@ -8,8 +9,8 @@ with_environment = function (callback) {
   jsdom.env({
     html: '',
     scripts: [
-      '/Users/brian/github/neo4j-contrib/graphgist-cms/web/dist/assets/js/jquery-2.0.3.min.js',
-      '/Users/brian/github/neo4j-contrib/graphgist-cms/web/dist/assets/js/gist.js'
+      path.resolve('web/dist/assets/js/jquery-2.0.3.min.js'),
+      path.resolve('web/dist/assets/js/gist.js')
     ],
     done: callback
   })
