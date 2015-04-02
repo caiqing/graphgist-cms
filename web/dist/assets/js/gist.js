@@ -101,7 +101,7 @@ function Gist($, $content) {
         var $target = $(event.target);
         $target.blur();
 
-        window.location.href = '/#!/gists/' + encodeURIComponent(gist_uuid($.trim($target.val())));
+        window.location.href = '/#!/gists/' + encodeURIComponent(encodeURIComponent(gist_uuid($.trim($target.val()))));
     }
 
     function gist_uuid(gist_string) {
