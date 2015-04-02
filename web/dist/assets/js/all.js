@@ -29797,7 +29797,7 @@ function Gist($, $content) {
 
     var VALID_GIST = /^[0-9a-f]{5,32}\/?$/;
 
-    return {'getGistAndRenderPage': getGistAndRenderPage, 'readSourceId': readSourceId};
+    return {getGistAndRenderPage: getGistAndRenderPage, readSourceId: readSourceId, gist_uuid: gist_uuid};
 
 
     function getGistAndRenderPage(renderer, defaultSource) {
@@ -29867,6 +29867,18 @@ function Gist($, $content) {
     }
 
     function readSourceId(event) {
+        if (event.which !== 13 && event.which !== 9) {
+            return;
+        }
+        event.preventDefault();
+        var $target = $(event.target);
+        $target.blur();
+
+        console.log({gist_uuid: gist_uuid($.trim($target.val()))});
+        window.location.href = '/#!/gists/' + encodeURIComponent(encodeURIComponent(gist_uuid($.trim($target.val()))));
+    }
+
+    function gist_uuid(gist_string) {
         var internal = {};
         internal['sourceParsers'] = {
             'GraphGist Portal': {
@@ -29888,18 +29900,18 @@ function Gist($, $content) {
                     return useGithubGist(5, 4, parts);
                 }
             },
-            //'GitHub Repository File': {
-            //    baseUrl: 'https://github.com/',
-            //    parse: function (gist, parts) {
-            //        return useGithubRepoParts({'branch': 6, 'path': 7}, parts);
-            //    }
-            //},
-            //'Raw GitHub Repository File': {
-            //    baseUrl: ['https://raw.github.com/', 'https://raw.githubusercontent.com/'],
-            //    parse: function (gist, parts) {
-            //        return useGithubRepoParts({'branch': 5, 'path': 6}, parts);
-            //    }
-            //},
+            'GitHub Repository File': {
+                baseUrl: 'https://github.com/',
+                parse: function (gist, parts) {
+                    return useGithubRepoParts({'branch': 6, 'path': 7}, parts);
+                }
+            },
+            'Raw GitHub Repository File': {
+                baseUrl: ['https://raw.github.com/', 'https://raw.githubusercontent.com/'],
+                parse: function (gist, parts) {
+                    return useGithubRepoParts({'branch': 5, 'path': 6}, parts);
+                }
+            },
             'Public Dropbox File': {
                 baseUrl: DROPBOX_PUBLIC_BASE_URL,
                 parse: function (gist, parts, baseUrl) {
@@ -29963,19 +29975,19 @@ function Gist($, $content) {
                 }
             };
 
-        if (event.which !== 13 && event.which !== 9) {
-            return;
-        }
-        event.preventDefault();
-        var $target = $(event.target);
-        $target.blur();
-        var gist = $.trim($target.val());
-        if (gist.indexOf('/') !== -1) {
-            if (gist.indexOf('#') !== -1) {
-              var split = gist.split('#');
-              if (split[1].indexOf('/') === -1) gist = split[0]
+
+        var gist_uuid;
+
+        console.log('test');
+        if (gist_string.indexOf('/') !== -1) {
+            console.log('has slash');
+            if (gist_string.indexOf('#') !== -1) {
+              console.log('has pound');
+              var split = gist_string.split('#');
+              if (split[1].indexOf('/') === -1) gist_uuid = split[0]
             }
-            var parts = gist.split('/');
+            var parts = gist_string.split('/');
+            console.log({parts: parts});
             for (var sourceParserName in internal.sourceParsers) {
                 var sourceParser = internal.sourceParsers[sourceParserName];
                 var baseUrls = sourceParser.baseUrl;
@@ -29984,30 +29996,33 @@ function Gist($, $content) {
                 }
                 for (var j = 0; j < baseUrls.length; j++) {
                     var baseUrl = baseUrls[j];
-                    if (gist.indexOf(baseUrl) === 0) {
-                        var result = sourceParser.parse(gist, parts, baseUrl);
+                    if (gist_string.indexOf(baseUrl) === 0) {
+                        var result = sourceParser.parse(gist_string, parts, baseUrl);
+                        debugger
                         if ('error' in result && result.error) {
-                            errorMessage('Error when parsing "' + gist + '" as a ' + sourceParserName + '.\n' + result.error);
+                            errorMessage('Error when parsing "' + gist_string + '" as a ' + sourceParserName + '.\n' + result.error);
                         } else if ('id' in result) {
-                            window.location.assign('/#!/gists/' + encodeURIComponent(result.id));
+                            return(result.id);
                         }
                         return;
                     }
                 }
             }
-            if (gist.indexOf('?') !== -1) {
+
+            if (gist_string.indexOf('?') !== -1) {
                 // in case a DocGist URL was pasted
-                gist = gist.split('?').pop();
+                gist_uuid = gist_string.split('?').pop();
             } else {
-                if (gist.indexOf('://') !== -1) {
-                    gist = encodeURIComponent(gist);
+                if (gist_string.indexOf('://') !== -1) {
+                    gist_uuid = gist_string;
                 }
                 else {
-                    errorMessage('Do not know how to parse "' + gist + '" as a DocGist source URL.');
+                    errorMessage('Do not know how to parse "' + gist_string + '" as a DocGist source URL.');
                 }
             }
         }
-        window.location.assign('/#!/gists/' + encodeURIComponent(gist));
+
+        return(gist_uuid);
     }
 
     function fetchGithubGist(gist, success, error) {
@@ -30039,7 +30054,7 @@ function Gist($, $content) {
         var branch = 'master';
         var pathPartsIndex = 3;
         if (decoded.indexOf('/contents/') !== -1) {
-            window.location.assign('?github-' + encodeURIComponent(decoded.replace('/contents/', '//')));
+            window.location.href = '?github-' + encodeURIComponent(decoded.replace('/contents/', '//'));
             return;
         }
         if (parts.length >= 4 && parts[3] === '') {
@@ -30125,14 +30140,28 @@ function Gist($, $content) {
         if (!VALID_GIST.test(id)) {
             return {'error': 'No valid gist id in the url.'};
         }
-        return {'id': id};
+        return {id: id};
+    }
+
+    //  test_result('https://gist.github.com/cheerfulstoic/7e8ec61f9104017430af',
+    //              '7e8ec61f9104017430af',
+    // parts = ['https:', '', 'gist.github.com', 'cheerfulstoic', '7e8ec61f9104017430af']
+    // return useGithubGist(5, 4, parts);
+
+    //  test_result('https://github.com/whatSocks/jobSNV/blob/master/socialNetworks.adoc',
+    //              'github-whatSocks%2FjobSNV%2F%2FsocialNetworks.adoc',
+    // parts = ['https:', '', 'github.com', 'whatSocks', 'jobSNV', 'blob', 'master', 'socialNetworks.adoc']
+    // return useGithubRepoParts({'branch': 6, 'path': 7}, parts);
+
+    function useGithubRepoParts(spec, parts) {
+      return {id: 'github-' + parts[3] + '/' + parts[4] + '/' + parts[spec.path]}
     }
 
     function useRestOfTheUrl(prefix, baseUrl, gist) {
         if (gist.length <= baseUrl.length) {
             return {'error': 'Missing content in the URL.'};
         }
-        return {'id': prefix + encodeURIComponent(gist.substr(baseUrl.length))};
+        return {'id': prefix + gist.substr(baseUrl.length)};
     }
 
     function fetchLocalSnippet(id, success, error) {
