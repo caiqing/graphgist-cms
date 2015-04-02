@@ -368,19 +368,7 @@ function Gist($, $content) {
         return {id: id};
     }
 
-    //  test_result('https://gist.github.com/cheerfulstoic/7e8ec61f9104017430af',
-    //              '7e8ec61f9104017430af',
-    // parts = ['https:', '', 'gist.github.com', 'cheerfulstoic', '7e8ec61f9104017430af']
-    // return useGithubGist(5, 4, parts);
-
-    //  test_result('https://github.com/whatSocks/jobSNV/blob/master/socialNetworks.adoc',
-    //              'github-whatSocks%2FjobSNV%2F%2FsocialNetworks.adoc',
-    // parts = ['https:', '', 'github.com', 'whatSocks', 'jobSNV', 'blob', 'master', 'socialNetworks.adoc']
-    // return useGithubRepoParts({'branch': 6, 'path': 7}, parts);
-
     function useGithubRepoParts(spec, parts) {
-
-      debugger
       return {id: 'github-' + parts[3] + '/' + parts[4] + '/' + parts[spec.path]}
     }
 

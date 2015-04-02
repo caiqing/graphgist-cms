@@ -29874,8 +29874,7 @@ function Gist($, $content) {
         var $target = $(event.target);
         $target.blur();
 
-        console.log({gist_uuid: gist_uuid($.trim($target.val()))});
-        window.location.href = '/#!/gists/' + encodeURIComponent(encodeURIComponent(gist_uuid($.trim($target.val()))));
+        window.location.href = '/#!/gists/' + encodeURIComponent(gist_uuid($.trim($target.val())));
     }
 
     function gist_uuid(gist_string) {
@@ -29998,7 +29997,6 @@ function Gist($, $content) {
                     var baseUrl = baseUrls[j];
                     if (gist_string.indexOf(baseUrl) === 0) {
                         var result = sourceParser.parse(gist_string, parts, baseUrl);
-                        debugger
                         if ('error' in result && result.error) {
                             errorMessage('Error when parsing "' + gist_string + '" as a ' + sourceParserName + '.\n' + result.error);
                         } else if ('id' in result) {
@@ -30142,16 +30140,6 @@ function Gist($, $content) {
         }
         return {id: id};
     }
-
-    //  test_result('https://gist.github.com/cheerfulstoic/7e8ec61f9104017430af',
-    //              '7e8ec61f9104017430af',
-    // parts = ['https:', '', 'gist.github.com', 'cheerfulstoic', '7e8ec61f9104017430af']
-    // return useGithubGist(5, 4, parts);
-
-    //  test_result('https://github.com/whatSocks/jobSNV/blob/master/socialNetworks.adoc',
-    //              'github-whatSocks%2FjobSNV%2F%2FsocialNetworks.adoc',
-    // parts = ['https:', '', 'github.com', 'whatSocks', 'jobSNV', 'blob', 'master', 'socialNetworks.adoc']
-    // return useGithubRepoParts({'branch': 6, 'path': 7}, parts);
 
     function useGithubRepoParts(spec, parts) {
       return {id: 'github-' + parts[3] + '/' + parts[4] + '/' + parts[spec.path]}

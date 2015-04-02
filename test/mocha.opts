@@ -1,2 +1,2 @@
---opts test/*_spec.js test/client/*_spec.js
+test/client/*_spec.js test/*_spec.js
 
