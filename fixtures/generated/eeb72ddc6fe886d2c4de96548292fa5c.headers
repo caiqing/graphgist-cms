@@ -1,0 +1,32 @@
+{
+  "statusCode": 200,
+  "headers": {
+    "server": "nginx",
+    "content-type": "text/plain",
+    "content-length": "6253",
+    "connection": "keep-alive",
+    "keep-alive": "timeout=20",
+    "access-control-allow-origin": "*",
+    "access-control-allow-methods": "POST, GET, PUT, PATCH, DELETE, OPTIONS",
+    "access-control-allow-headers": "X-AUTHORIZATION-ANON, X-AUTHORIZATION, X-CLIENT-VERSION, X-CLIENT-TYPE, X-CLIENT-OSVERSION, X-CLIENT-HWID, X-CLIENT-NAME, X-API-VERSION, X-REQUESTED-WITH, X-HTTP-METHOD-OVERRIDE, CONTENT-TYPE",
+    "access-control-max-age": "1728000",
+    "cache-control": "must-revalidate, post-check=0, pre-check=0, private",
+    "date": "Thu, 02 Apr 2015 15:16:06 GMT",
+    "content-disposition": "inline; filename=\"analysis.txt\"",
+    "content-transfer-encoding": "binary",
+    "pragma": "public",
+    "last-modified": "Sun, 07 Dec 2014 14:52:44 GMT",
+    "etag": "\"81755a666760050f2f7570f2f6251599\"",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN"
+  },
+  "url": "https://copy.com:443/7MuhBZKFDsCIPNLp",
+  "time": 1914,
+  "request": {
+    "method": "GET",
+    "headers": {
+      "accept": "text/plain",
+      "host": "copy.com"
+    }
+  }
+}

@@ -123,6 +123,7 @@ function fetchGithubFile(id, cache, callback) {
       }
 
       var content = Base64.decode(data.content);
+
       var imagesdir = 'https://raw.github.com/' + parts[0] + '/' + parts[1]
           + '/' + branch + '/' + data.path.substring(0, -data.name.length);
 
@@ -313,12 +314,12 @@ internal['fetchers'] = {
 // Fetchers
 
 function fetchPublicDropboxFile(id, cache, callback) {
-    id = id.substr(8);
+//    id = id.substr(8);
     fetchDropboxFile(id, cache, callback, DROPBOX_PUBLIC_API_BASE_URL);
 }
 
 function fetchPrivateDropboxFile(id, cache, callback) {
-    id = id.substr(9);
+//    id = id.substr(9);
     fetchDropboxFile(id, cache, callback, DROPBOX_PRIVATE_API_BASE_URL);
 }
 
@@ -328,7 +329,7 @@ function fetchDropboxFile(id, cache, callback, base_url) {
 }
 
 function fetchCopyComPublicLink(id, cache, callback) {
-    id = id.substr(5);
+//    id = id.substr(5);
     fetchFromUrl(COPY_COM_PUBLIC_LINK + decodeURIComponent(id), cache, callback);
 }
 

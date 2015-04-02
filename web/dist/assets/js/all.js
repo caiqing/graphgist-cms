@@ -29977,16 +29977,12 @@ function Gist($, $content) {
 
         var gist_uuid;
 
-        console.log('test');
         if (gist_string.indexOf('/') !== -1) {
-            console.log('has slash');
             if (gist_string.indexOf('#') !== -1) {
-              console.log('has pound');
               var split = gist_string.split('#');
               if (split[1].indexOf('/') === -1) gist_uuid = split[0]
             }
             var parts = gist_string.split('/');
-            console.log({parts: parts});
             for (var sourceParserName in internal.sourceParsers) {
                 var sourceParser = internal.sourceParsers[sourceParserName];
                 var baseUrls = sourceParser.baseUrl;
@@ -30142,7 +30138,7 @@ function Gist($, $content) {
     }
 
     function useGithubRepoParts(spec, parts) {
-      return {id: 'github-' + parts[3] + '/' + parts[4] + '/' + parts[spec.branch] + '/' + parts[spec.path]}
+      return {id: 'github-' + parts[3] + '/' + parts[4] + '//' + parts[spec.path]}
     }
 
     function useRestOfTheUrl(prefix, baseUrl, gist) {

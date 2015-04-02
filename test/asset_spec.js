@@ -4,6 +4,7 @@ require('should');
 
 describe('assets', function(){
 
+  // IF THIS SPEC FAILS YOU SHOULD RUN: gulp scripts
   it('should be the case that all.js is newer than all other non all*.js files', function(done) {
     var dir_path = 'web/dist/assets/js';
     var files = fs.readdirSync(dir_path);

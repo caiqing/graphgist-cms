@@ -1,0 +1,30 @@
+{
+  "statusCode": 200,
+  "headers": {
+    "accept-ranges": "bytes",
+    "cache-control": "max-age=0",
+    "content-disposition": "inline; filename=\"BankFraudDetection.adoc.txt\"; filename*=UTF-8''BankFraudDetection.adoc.txt",
+    "content-type": "text/plain; charset=utf-8",
+    "date": "Thu, 02 Apr 2015 15:15:54 GMT",
+    "etag": "473089n",
+    "pragma": "public",
+    "server": "nginx",
+    "set-cookie": [
+      "uc_session=k260p4tigLY6ZUyPizWUsA7zzwEcD7D7QO1Hztt9ME5cZ2mC59uVovAHx8WPqhjK; Domain=dropboxusercontent.com; httponly; Path=/; secure"
+    ],
+    "x-dropbox-request-id": "e1be3e2aef1c8ffc658f50c4ad5f88c5",
+    "x-robots-tag": "noindex, nofollow, noimageindex",
+    "x-server-response-time": "216",
+    "content-length": "8883",
+    "connection": "keep-alive"
+  },
+  "url": "https://dl.dropboxusercontent.com:443/s/vhtxfibv7ycstrv/BankFraudDetection.adoc.txt?dl=0",
+  "time": 1334,
+  "request": {
+    "method": "GET",
+    "headers": {
+      "accept": "text/plain",
+      "host": "dl.dropboxusercontent.com"
+    }
+  }
+}

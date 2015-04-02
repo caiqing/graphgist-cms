@@ -38,8 +38,8 @@ describe('Gist', function(){
     });
 
     it('handle GraphGists stored in GitHub', function(done) {
-      test_result('https://github.com/whatSocks/jobSNV/blob/master/socialNetworks.adoc',
-                  'github-whatSocks/jobSNV/socialNetworks.adoc',
+      test_result('https://github.com/whatSocks/jobSNV/blob//socialNetworks.adoc',
+                  'github-whatSocks/jobSNV//socialNetworks.adoc',
                   done);
 
     });
@@ -53,6 +53,12 @@ describe('Gist', function(){
     it('handles Etherpad', function(done) {
       test_result('http://beta.etherpad.org/p/IudqLHvuRj',
                   'epp-beta.etherpad.org-IudqLHvuRj',
+                  done);
+    });
+
+    it('handles copy.com public links', function(done) {
+      test_result('https://copy.com/7MuhBZKFDsCIPNLp',
+                  'copy-7MuhBZKFDsCIPNLp',
                   done);
     });
 

@@ -1,0 +1,41 @@
+{
+  "statusCode": 200,
+  "headers": {
+    "server": "GitHub.com",
+    "date": "Thu, 02 Apr 2015 15:16:02 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "30609",
+    "status": "200 OK",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4987",
+    "x-ratelimit-reset": "1427987784",
+    "cache-control": "private, max-age=60, s-maxage=60",
+    "last-modified": "Mon, 30 Jun 2014 18:17:57 GMT",
+    "etag": "\"91b2fa079e7b59da8d51b36563fee58c\"",
+    "x-oauth-scopes": "",
+    "x-accepted-oauth-scopes": "",
+    "vary": "Accept, Authorization, Cookie, X-GitHub-OTP",
+    "x-github-media-type": "github.v3",
+    "x-xss-protection": "1; mode=block",
+    "x-frame-options": "deny",
+    "content-security-policy": "default-src 'none'",
+    "access-control-allow-credentials": "true",
+    "access-control-expose-headers": "ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval",
+    "access-control-allow-origin": "*",
+    "x-github-request-id": "6C3DE439:28DA:183EC66:551D5D31",
+    "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-served-by": "a6882e5cd2513376cb9481dbcd83f3a2"
+  },
+  "url": "https://api.github.com:443/repos/whatSocks/jobSNV/contents/socialNetworks.adoc?ref=master",
+  "time": 4537,
+  "request": {
+    "method": "GET",
+    "headers": {
+      "User-Agent": "neo4j.org",
+      "host": "api.github.com",
+      "authorization": "Basic Mjc5NTgxZjM5NzAxZGRiZDVhZTIzNGZlMmVmZTk4NDBjY2ZjOTliMzp4LW9hdXRoLWJhc2lj",
+      "accept": "application/json"
+    }
+  }
+}
