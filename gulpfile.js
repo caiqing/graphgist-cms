@@ -6,6 +6,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var paths = {
   scripts: [
       "./web/dist/assets/js/holder.js",
+      "./web/dist/assets/js/jquery-2.0.3.min.js",
       "./web/dist/assets/lib/angular/angular.js",
       "./web/dist/assets/lib/angular/angular-route.js",
       "./web/dist/assets/lib/angular/angular-resource.js",
@@ -16,6 +17,8 @@ var paths = {
       "./web/dist/assets/js/MathJax.js",
 
       "./web/dist/assets/js/d3.min.js",
+
+      "./web/dist/assets/js/foundation.min.js",
 
 
       "./web/dist/assets/lib/codemirror/",
@@ -36,7 +39,6 @@ var paths = {
 
       // Placed at the end of the document so the pages load faster
       "./web/dist/assets/js/lodash.compat.min.js",
-      "./web/dist/assets/js/jquery-2.0.3.min.js",
       "./web/dist/assets/js/jquery-ui-1.10.3.custom.min.js",
       "./web/dist/assets/js/application.js",
       "./web/dist/assets/lib/bootstrap/js/bootstrap.min.js",

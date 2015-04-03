@@ -40,7 +40,7 @@ var contentApp = angular.module('contentApp', [
 
     fetchGists: function(url, $http, $scope, $templateCache)
     {
-      $http({method: 'GET', url: $scope.url, cache: $templateCache}).
+      return $http({method: 'GET', url: $scope.url, cache: $templateCache}).
         success(function(data, status, headers, config) {
           $scope.gists = data;
         }).
@@ -60,7 +60,7 @@ contentApp.config(['$routeProvider', '$locationProvider',
 
     $routeProvider.
       when('/gists', {
-        templateUrl: 'assets/partials/home.html',
+        templateUrl: 'templates/home',
         controller: 'GistListCtrl'
       }).
       when('/gists/all', {

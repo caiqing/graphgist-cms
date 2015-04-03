@@ -37,54 +37,6 @@ angular.module('SharedServices', [])
 
 var contentappControllers = angular.module('contentappControllers', ['SharedServices']);
 
-contentApp.directive('carousel', [function() {
-	var res = {
-     restrict : 'A',
-     link     : function (scope, element, attrs) {
-                  scope.$watch(attrs.carousel, function(gists) {  
-                    var html = '';
-                    if(scope.gists.length > 0) {
-                      gists = scope.gists;
-                      var genre = element.attr('data-genre');
-                      var applicable_gists = _(gists).select(function (gist) {
-                        return(_(gist.genres).indexOf(genre) >= 0);
-                      }).value();
-
-                      if (applicable_gists.length) {
-                        _(applicable_gists).each(function (gist) {
-                          html += scope.UTIL.gistTemplate(gist)
-                        });
-
-                        setTimeout(function() {
-                          $(element).owlCarousel({
-                            items : 3,
-                            itemsDesktop : [1199,6],
-                            itemsDesktopSmall : [980,5],
-                            itemsTablet: [768,4],
-                            itemsMobile: [479, 2]
-                          });
-
-                          $("#owl-example").owlCarousel({
-                            items : 3,
-                            itemsDesktop : [1199,3],
-                            itemsDesktopSmall : [980,3],
-                            itemsTablet: [768,2]
-                          });
-                        }, 0);
-                      } else {
-                        $(element).parent('.owl-slider').hide();
-                      }
-
-                    } else {
-                      html = 'No gists found';
-                    }
-                    element[0].innerHTML = html;
-                  });
-                }
-  };
-  return res;
-}]);
-
 contentApp.controller('GistListCtrl', ['$scope', '$http', '$templateCache', 
 	function($scope, $http, $templateCache) {
 	  	$scope.url = API_URL+'/api/v0/gists?api_key=special-key&neo4j=false';
@@ -99,7 +51,15 @@ contentApp.controller('GistListCtrl', ['$scope', '$http', '$templateCache',
         error(function(data, status, headers, config) { });
 
 
-      $scope.UTIL.fetchGists($scope.url, $http, $scope, $templateCache);
+      $scope.UTIL.fetchGists($scope.url, $http, $scope, $templateCache).success(function (data) {
+        $scope.gists_by_domain = _(data).reduce(function (result, gist) {
+          _(gist.genres).each(function (genre) {
+            if (typeof(result[genre]) === 'undefined') result[genre] = []
+            result[genre].push(gist);
+          });
+          return(result);
+        }, {});
+      });
 	}]);
 
 contentApp.controller('GistListAllCtrl', ['$scope', '$http',
@@ -219,32 +179,6 @@ contentApp.filter('posterImage', function() {
 });
 
 
-contentApp.directive('carouselrelatedgists', ['$timeout', function($timeout) {
-	return {
-     restrict : 'A',
-     scope: {
-       gists: '=gists'
-     },
-     templateUrl: 'templates/gist-thumbs',
-     link: function (scope) {
-       scope.$on('gistsLoaded', function() {
-         $timeout(function () {
-           if (scope.gists) {
-             $('.owl-carousel').owlCarousel({
-               items : 7,
-               itemsDesktop : [1199,6],
-               itemsDesktopSmall : [980,5],
-               itemsTablet: [768,5],
-               itemsMobile: [479, 3]
-             });
-             Holder.run();
-           }
-         });
-       });
-     },
-   };
-}]);
-
 
 
 contentApp.controller('GistItemCtrl', ['$scope', '$routeParams', '$http', '$templateCache',
@@ -340,88 +274,6 @@ contentApp.controller('GistManageGistCtrl', ['$scope', '$routeParams', '$http',
 
     }
   }]);
-
-contentApp.directive('carouseldomainsgists', [function() {
-	var res = {
-     restrict : 'A',
-     link     : function (scope, element, attrs) {
-           scope.$watch(attrs.carouseldomainsgists, function(domains) {  
-           	if(scope.domains != undefined ? scope.domains.gists != undefined ? scope.domains.gists.length > 0 : false : false)
-           	{
-           		domains = scope.domains;
-           		var html = '';
-	            for (var i = 0; i < domains.gists.length; i++) {
-	            	var relatedGistTitleLink = domains.gists[i].poster_image || '/assets/img/posters/' + domains.gists[i].title.replace('/', ' ') + '.jpg';
-	                 html += '<div class="item">' +
-						          '<div class="thumbnail">' +
-						            '<a href="#!/gists/' + domains.gists[i].id  + '/summary"><img src="' + relatedGistTitleLink +'"/></a>' +
-						          '</div>' +
-						          '<span><a href="#!/gists/' + domains.gists[i].id  + '/summary">' + domains.gists[i].title + '</a></span>' +
-						        '</div>';
-
-	            }
-
-            	element[0].innerHTML = html;
-
-            	setTimeout(function() {
-	            $(element).owlCarousel({
-					items : 7,
-					itemsDesktop : [1199,6],
-					itemsDesktopSmall : [980,5],
-					itemsTablet: [768,5],
-					itemsMobile: [479, 3]
-				});
-				Holder.run();
-	           }, 0);
-			}
-        	
-        });
-       }
-   };
-  return res;
-}]);
-
-contentApp.directive('carouselrelateddomains', ['$timeout', function($timeout) {
-	var res = {
-     restrict : 'A',
-     scope: {gists: '='},
-     link     : function (scope, element, attrs) {
-       $timeout(function () {
-           scope.$watch(attrs.carouselrelateddomains, function(domains) {  
-           	if(scope.domains != undefined ? scope.domains.related != undefined ? scope.domains.related.length > 0 : false : false)
-           	{
-           		domains = scope.domains;
-           		var html = '';
-	            for (var i = 0; i < domains.related.length; i++) {
-	                 html += '<div class="item">' +
-						          '<div class="thumbnail">' +
-						            '<a href="#!/domains/' + domains.related[i].related.name + '"><img src="' + actorTitleLink + '"/></a>' +
-						          '</div>' +
-						          '<span><a href="#!/domains/' + domains.related[i].related.name + '">' + domains.related[i].related.name + '</a></span>' +
-						        '</div>';
-
-	            }
-            //src="assets/img/actors/' + actorTitleLink + '.jpg"
-            	element[0].innerHTML = html;
-
-            	setTimeout(function() {
-	            $(element).owlCarousel({
-					items : 8,
-					itemsDesktop : [1199,7],
-					itemsDesktopSmall : [980,5],
-					itemsTablet: [768,5],
-					itemsMobile: [479, 3]
-				});
-				Holder.run();
-	           }, 0);
-			}
-        	
-        });
-       })
-     }
-   };
-  return res;
-}]);
 
 contentApp.controller('DomainCtrl', ['$scope', '$routeParams', '$http', '$templateCache',
   function($scope, $routeParams, $http, $templateCache) {
