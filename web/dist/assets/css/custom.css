@@ -26,12 +26,38 @@ ul.orbit-slides-container li h1 {
   margin-bottom: 2em;
 }
 
-.domain-list .item > a {
+.domain .item > a {
   height: 110px;
   display: block;
   background-size: auto 110px;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.orbit-container .orbit-slides-container>* .orbit-caption {
+  padding: 0.625rem 0.875rem 1.1rem 0.875rem;
+  background-color: #2D7AB1;
+}
+
+.domain ul {
+  height: 190px !important;
+  overflow: hidden;
+}
+
+.domain ul li .image-container {
+  border: 1px solid #BBB;
+}
+
+.domain ul li .image-container {
+  height: 200px !important;
+  overflow: hidden;
+  background-repeat: none;
+  background-position: left center;
+  background-size: 100% auto;
+}
+
+.domain ul li .orbit-caption a {
+  color: white;
 }
 
 #gist-list .thumbnail {

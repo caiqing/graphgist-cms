@@ -1,41 +1,34 @@
 
 #home-slide.main-hero
-  .orbit-container
-    ul.example-orbit-content(data-orbit, data-options="animation:slide; timer_speed:7500; pause_on_hover:true; navigation_arrows:false; slides_container_class:orbit-slides-container; preloader_class:preloader; slide_number:false")
-      li(data-orbit-slide="headline-1", style="background-image: url('/assets/img/posters/Movie Recommendations with k-NN and Cosine Similarity.jpg')").active
-        .slide-text-inner.text-center
-          h1(style="margin-top: 48px;") Movie Recommendations with k-NN and Cosine Similarity
+  ul.example-orbit-content(data-orbit, data-options="animation:slide; timer_speed:7500; pause_on_hover:true; navigation_arrows:false; slides_container_class:orbit-slides-container; preloader_class:preloader; slide_number:false")
+    li(data-orbit-slide="headline-1", style="background-image: url('/assets/img/posters/Movie Recommendations with k-NN and Cosine Similarity.jpg')").active
+      .slide-text-inner.text-center
+        h1(style="margin-top: 48px;") Movie Recommendations with k-NN and Cosine Similarity
 
-          a(href="/#!/gists/8173017/summary", style="background-color:#ff7231").medium.button View Gist
+        a(href="/#!/gists/8173017/summary", style="background-color:#ff7231").medium.button View Gist
 
-      li(data-orbit-slide="headline-2", style="background-image: url('/assets/img/posters/Roads, Nodes and Automobiles.jpg')")
-        .slide-text-inner.text-center
-          h1(style="margin-top: 48px;") Roads, Nodes and Automobiles
+    li(data-orbit-slide="headline-2", style="background-image: url('/assets/img/posters/Roads, Nodes and Automobiles.jpg')")
+      .slide-text-inner.text-center
+        h1(style="margin-top: 48px;") Roads, Nodes and Automobiles
 
-          a(href="/#!/gists/8635758/summary", style="background-color:#ff7231").medium.button View Gist
+        a(href="/#!/gists/8635758/summary", style="background-color:#ff7231").medium.button View Gist
 
-      li(data-orbit-slide="headline-3", style="background-image: url('/assets/img/posters/Time Scale Event Meta Model.jpg')")
-        .slide-text-inner.text-center
-          h1(style="margin-top: 48px;") Time Scale Event Meta Model
+    li(data-orbit-slide="headline-3", style="background-image: url('/assets/img/posters/Time Scale Event Meta Model.jpg')")
+      .slide-text-inner.text-center
+        h1(style="margin-top: 48px;") Time Scale Event Meta Model
 
-          a(href="/#!/gists/0e71f805d5b0302ce5ec6f2f25dff689/summary", style="background-color:#ff7231").medium.button View Gist
-
-
-    .orbit-timer
-      span
-      div.orbit-progress
+        a(href="/#!/gists/0e71f805d5b0302ce5ec6f2f25dff689/summary", style="background-color:#ff7231").medium.button View Gist
 
 
-div(ng-repeat="domain in domains").col-sm-6.domain-list
+
+div(ng-repeat="domain in domains", ng-if="gists_by_domain[domain]").col-sm-6.domain
   // Gist category carousel grid 1
   h4: a(ng-href="/#!/domains/{{domain}}") {{domain}}
-  ul(data-genre="{{domain}}", data-orbit, data-options="animation:slide; timer_speed:7500; pause_on_hover:true; navigation_arrows:false; slides_container_class:orbit-slides-container; preloader_class:preloader; slide_number:false").example-orbit-content
-    li(ng-repeat="gist in gists_by_domain[domain]")
-      div(style="width: 180px")
-        .item
-          a(ng-href="#!/gists/{{gist.id}}/summary", style="background-image: url({{gist.poster_image}})").carousel-gists.thumbnail
-          span
-            a(ng-href="#!/gists/{{gist.id}}/summary") {{gist.title}}
+  ul(data-genre="{{domain}}", data-orbit, data-options="animation:slide; slide_number: false; timer:false; navigation_arrows:false").example-orbit
+    li(ng-repeat="gist in gists_by_domain[domain]", data-after-render-repeat)
+      div(style="background-image: url('{{gist.poster_image}}')").image-container
+      div.orbit-caption
+        a(ng-href="#!/gists/{{gist.id}}/summary") {{gist.title}}
 
 
 
@@ -51,14 +44,3 @@ script.
     $('.orbit-container .button').on('click', function(e){e.stopPropagation();});
   })(jQuery);
 
-  $(document).foundation()
-
-  $(".orbit-container").each(function() {
-      var orbitContainer = $(this);
-      var numberOfPages = orbitContainer.find(".orbit-bullets li").size();
-      if (numberOfPages === 1) {
-          orbitContainer.find(".orbit-bullets li").hide();
-          orbitContainer.find(".orbit-prev").hide();
-          orbitContainer.find(".orbit-next").hide();
-      }
-  });

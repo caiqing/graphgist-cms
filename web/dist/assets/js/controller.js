@@ -59,8 +59,31 @@ contentApp.controller('GistListCtrl', ['$scope', '$http', '$templateCache',
           });
           return(result);
         }, {});
+
+        // Reload foundation
+        $(document).foundation()
+
+        // Remove bullets when there's just one
+        $(".orbit-container").each(function() {
+            var orbitContainer = $(this);
+            var numberOfPages = orbitContainer.find(".orbit-bullets li").size();
+            console.log({numberOfPages: numberOfPages});
+            if (numberOfPages === 1) {
+                orbitContainer.find(".orbit-bullets li").css('visibility', 'hidden');
+                //orbitContainer.find(".orbit-prev").hide();
+                //orbitContainer.find(".orbit-next").hide();
+            }
+        });
       });
 	}]);
+
+contentApp.directive('afterRenderRepeat', function() {
+  return function(scope, element, attrs) {
+    if (scope.$last){
+      $(document).foundation();
+    }
+ };
+})
 
 contentApp.controller('GistListAllCtrl', ['$scope', '$http',
     function ($scope, $http) {

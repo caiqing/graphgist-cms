@@ -235,7 +235,7 @@ exports.preProcessHTML = function (content) {
     }
 
     for (var tag in comment_replacements) {
-      sanitized = sanitized.replace(new RegExp('^\/\/[ \n\r\t]*?'+ tag, 'gm'), comment_replacements[tag])
+      sanitized = sanitized.replace(new RegExp('^\/\/\\s*'+ tag, 'gm'), comment_replacements[tag])
     }
 
     return(sanitized);
