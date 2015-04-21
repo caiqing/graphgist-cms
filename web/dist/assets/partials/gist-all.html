@@ -1,0 +1,22 @@
+<section id="content" role="main">
+  <div class="row">
+    <div class="small-12 medium-2 columns">
+      <div class="neo4j-user-options">
+        <div class="button small secondary expand" ng-class="{disabled: chosen_group === null}" ng-click="choose_group(null)">All Groups</div>
+
+        <div class="button small secondary expand" ng-repeat="(group, gists) in grouped_gists" ng-click="choose_group(group)" ng-class="{'disabled': chosen_group === group}">
+          {{group}}
+        </div>
+      </div>
+    </div>
+
+    <div class="small-12 medium-10 columns neo4j-users">
+      <div class="user-logo Businss Customer " style="" ng-repeat="gist in gists" ng-show="in_group(gist, chosen_group)">
+        <a href="/#!/gists/{{gist.id}}/summary" style="background-image: url('{{gist | posterImage}}')" class="gist">
+          {{gist.title}}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+

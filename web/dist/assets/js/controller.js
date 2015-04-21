@@ -90,7 +90,30 @@ contentApp.controller('GistListAllCtrl', ['$scope', '$http',
 	  	$scope.url = API_URL+'/api/v0/gists?api_key=special-key&neo4j=false';
 	  	$scope.gists = [];
 
-      $scope.UTIL.fetchGists($scope.url, $http, $scope);
+      $scope.UTIL.fetchGists($scope.url, $http, $scope).success(function (gists) {
+        $scope.grouped_gists = _(gists).reduce(function (grouped_gists, gist) {
+
+          add_gist_to_group = function (gist, group, grouped_gists) {
+            if (typeof grouped_gists[group] === 'undefined') grouped_gists[group] = []
+            grouped_gists[group].push(gist)
+          }
+
+          gist.usecases.forEach(function (usecase) { add_gist_to_group(gist, usecase, grouped_gists) });
+          gist.genres.forEach(function (genre) { add_gist_to_group(gist, genre, grouped_gists) });
+          
+          return(grouped_gists);
+        }, {});
+      });
+
+      $scope.chosen_group = null
+
+      $scope.in_group = function (gist, group) {
+        return((group === null) || (gist.usecases.indexOf(group) > -1) || (gist.genres.indexOf(group) > -1));
+      }
+
+      $scope.choose_group = function (group) {
+        $scope.chosen_group = group;
+      }
     }]);
 
 contentApp.controller('GistSubmitCtrl', ['$scope', '$routeParams', '$location', '$http',

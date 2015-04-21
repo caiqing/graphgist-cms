@@ -64,7 +64,7 @@ contentApp.config(['$routeProvider', '$locationProvider',
         controller: 'GistListCtrl'
       }).
       when('/gists/all', {
-        templateUrl: 'templates/gist-all',
+        templateUrl: 'assets/partials/gist-all.html',
         controller: 'GistListAllCtrl'
       }).
       when('/gists/about', {
