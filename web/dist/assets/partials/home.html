@@ -1,0 +1,34 @@
+<div class="marquee blue center">
+  <div class="row text-center">
+    <div class="medium-10 small-centered columns">
+      <h1 class="entry-title">Featured GraphGists</h1>
+    </div>
+  </div>
+</div>
+
+<section class="featured-gist" ng-repeat="gist in gists.slice(0,25)" ng-class-odd="'odd'" ng-class-even="'even'">
+	<div class="row" style="padding: 1em 0;">
+		<div class="large-12 medium-12 columns">
+      <a ng-href="/#!/gists/{{gist.id}}/summary"><h3>{{gist.title}}</h3></a>
+      <hr>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-6 medium-6 columns overview">
+			<p class="lead">
+        {{gist.summary}}
+        <a ng-href="/#!/gists/{{gist.id}}/summary">Read More →</a>
+      </p>
+			<p>
+        <em>Categories </em>:
+        <a ng-repeat="category in gist.categories" href="/#!/domains/{{category}}">
+          {{category}}{{$last ? '' : ', '}}
+        </a>
+      </p>
+		</div>
+
+    <a ng-href="/#!/gists/{{gist.id}}/summary">
+      <div class="large-6 medium-6 columns poster-image" style="background-image: url('{{gist.poster_image}}');"></div>
+    </a>
+	</div>
+</section>

@@ -26,6 +26,7 @@ html(lang="en", ng-app="contentApp")
     title Neo4j Gists
 
     link(type="text/css", rel="stylesheet", href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600,700")
+    link#font-awesome-four-css(rel='stylesheet', href="#{furl('css/font-awesome.min.css')}", type='text/css', media='all')
 
     // Bootstrap core CSS
     link(href="#{furl('lib/bootstrap/css/bootstrap.css')}", rel="stylesheet")
@@ -120,7 +121,7 @@ html(lang="en", ng-app="contentApp")
             li.item.menu-item-type-custom.menu-item-object-custom
               a(href="#!/gists/challenge") Winter Challenge!
 
-    div(ng-view).template-home-new
+    div(ng-view)
 
     #mydiv
         img(src="assets/img/AjaxLoader.gif").ajax-loader

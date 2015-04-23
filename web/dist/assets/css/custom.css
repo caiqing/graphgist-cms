@@ -83,6 +83,17 @@ ul.orbit-slides-container li h1 {
   color: white;
 }
 
+.poster-image {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border: 1px solid #CCC;
+}
+
+#main-poster-image {
+  width: 80%;
+  margin: 0 45px;
+}
 
 .user-logo .gist {
   display: block;
@@ -100,4 +111,247 @@ ul.orbit-slides-container li h1 {
   color: black;
   font-weight: bold;
   text-align: center;
+}
+
+.featured-gist .poster-image {
+  width: 450px;
+  height: 250px;
+  border-radius: 200px 75px;
+  margin-left: 30px;
+}
+
+.featured-gist .lead a {
+  white-space: nowrap;
+}
+
+.featured-gist.even .overview {
+  float: right;
+}
+.featured-gist.even .poster-image {
+  border-radius: 125px 225px;
+}
+
+.lead {
+  font-weight: 300;
+}
+
+
+#rendered-gist .sectionbody > * {
+  padding: 0 4em;
+}
+
+#rendered-gist .sectionbody .imageblock,
+#rendered-gist .sectionbody .admonitionblock {
+  padding: 1em 6em;
+}
+
+
+
+
+
+
+
+pre, pre code {
+    font-size: 12px;
+    background-color: #fcfcfc;
+    border-color: #dddddd;
+}
+
+pre.highlight {
+    position: relative;
+    padding: 2em;
+}
+
+pre.highlight.with-buttons {
+    padding: 10px 20px 40px 20px;
+}
+
+pre.highlight h5 {
+    margin: 6px 0 3px 0;
+}
+
+span.query-toggle, span.result-toggle {
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    padding: 9.5px;
+}
+
+span.query-toggle {
+    top: 0;
+    padding-top: 6px;
+}
+
+span.result-toggle {
+    bottom: 0;
+    padding-bottom: 6px;
+}
+
+a.run-query {
+    position: absolute;
+    bottom: 6px;
+    left: 9.5px;
+}
+
+a.edit-query {
+    position: absolute;
+    bottom: 6px;
+    left: 45px;
+}
+
+.query-info {
+    position: absolute;
+    bottom: 6px;
+    right: 30px;
+}
+
+a.resize-toggle {
+    position: absolute;
+    right: 0;
+    bottom: -39px;
+}
+
+a.show-console-toggle {
+    position: relative;
+    top: -35px;
+}
+
+a.show-console-toggle.show-console-toggle-hidden-console {
+    top: 0;
+}
+
+span.resize-vertical-handle {
+    position: absolute;
+    bottom: -11px;
+    display: block;
+    height: 9px;
+    width: 100%;
+    background: #f9f9f9;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    cursor: s-resize;
+}
+
+span.resize-vertical-handle span {
+    display: block;
+    margin: 4px auto;
+    height: 1px;
+    width: 30px;
+    background: #888888;
+}
+
+#resize-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+#console-wrapper, p.console {
+    height: 23em;
+}
+
+#console-wrapper {
+    position: relative;
+}
+
+#console {
+    height: 100%;
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+#console-wrapper {
+    left: 0;
+    top: 0;
+    width: 99.7%;
+    z-index: 1000;
+}
+
+#console-wrapper.fixed-console {
+    position: fixed;
+}
+
+#console-label {
+    display: none;
+}
+
+p.console.fixed-console > #console-label {
+    display: inline;
+}
+
+p.console.fixed-console {
+    height: 24px;
+    margin-bottom: 24px;
+}
+
+#content.internet-explorer #console-wrapper.fixed-console {
+    width: 98%;
+}
+
+p.console {
+    margin-bottom: 48px;
+    background: #eeeeee url('http://gist.neo4j.org/images/loading.gif') no-repeat center center;
+}
+
+p.console > span.loading {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    padding: 4em 0 0 0;
+    text-align: center;
+}
+
+div.visualization {
+    margin-top: 42px;
+    margin-bottom: 21px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    position: relative;
+}
+
+div.visualization-icons {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #666666;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+div.visualization.fullscreen > div.visualization-icons {
+    top: 2px;
+}
+
+div.visualization-icons > i {
+    padding: 0 2px 0 4px;
+    cursor: pointer;
+    width: 1.5em !important;
+}
+
+div.visualization.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    border: 0 none;
+    padding: 0;
+    margin: 0;
+    z-index: 10000;
+    cursor: pointer;
+}
+
+a.visualization-download {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+}
+
+div.visualization.fullscreen > a.visualization-download {
+    top: 24px;
 }

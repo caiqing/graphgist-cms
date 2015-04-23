@@ -24255,6 +24255,9 @@ var contentApp = angular.module('contentApp', [
       return $http({method: 'GET', url: $scope.url, cache: $templateCache}).
         success(function(data, status, headers, config) {
           $scope.gists = data;
+          $scope.gists.forEach(function (gist) {
+            gist.categories = (gist.genres || []).concat(gist.usecases || [])
+          });
         }).
         error(function(data, status, headers, config) {
         // called asynchronously if an error occurs
@@ -24272,11 +24275,10 @@ contentApp.config(['$routeProvider', '$locationProvider',
 
     $routeProvider.
       when('/gists', {
-        templateUrl: 'templates/home',
+        templateUrl: 'assets/partials/home.html',
         controller: 'GistListCtrl'
       }).
       when('/gists/all', {
-//        templateUrl: 'templates/gist-all',
         templateUrl: 'assets/partials/gist-all.html',
         controller: 'GistListAllCtrl'
       }).
@@ -24302,11 +24304,11 @@ contentApp.config(['$routeProvider', '$locationProvider',
         controller: 'GistManageGistCtrl'
       }).
       when('/gists/:gistId', {
-        templateUrl : 'templates/gist',
+        templateUrl: 'assets/partials/gist.html',
         controller: 'GistCtrl'
       }).
       when('/gists/:gistId/summary', {
-        templateUrl: 'templates/gist-detail',
+        templateUrl: 'assets/partials/gist-detail.html',
         controller: 'GistItemCtrl'
       }).
 
