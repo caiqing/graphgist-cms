@@ -101,7 +101,7 @@ html(lang="en", ng-app="contentApp")
         ul.title-area
           li.name
             h1
-              a(href="#!/gists").navbar-brand
+              a(href="http://www.neo4j.com").navbar-brand
                 img(src="assets/images/neo4j-logo-2015.png")
 
 
@@ -111,15 +111,13 @@ html(lang="en", ng-app="contentApp")
         section.top-bar-section
           ul#menu-top-nav.top-bar-menu.right
             li.item.menu-item-type-custom.menu-item-object-custom
+              a(href="#!/gists") Featured GraphGists
+            li.item.menu-item-type-custom.menu-item-object-custom
               a(href="#!/gists/about") What is a GraphGist?
-            li.item.menu-item-type-custom.menu-item-object-custom
-              a(href="#!/gists/submit") Submit a GraphGist
-            li.item.menu-item-type-custom.menu-item-object-custom
-              a(href="http://www.neo4j.com") Neo4j.com
             li.item.menu-item-type-custom.menu-item-object-custom
               a(href="/#!/gists/all") All GraphGists
             li.item.menu-item-type-custom.menu-item-object-custom
-              a(href="#!/gists/challenge") Winter Challenge!
+              a(href="#!/gists/submit") Submit a GraphGist
 
     div(ng-view)
 
