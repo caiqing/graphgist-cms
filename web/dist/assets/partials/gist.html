@@ -1,7 +1,15 @@
 <article id="rendered-gist">
   <section class="row">
     <div class="small-12 medium-12 columns">
-      <h1 class="entry-title">{{gist.title}}</h1>
+      <div style="float: right">
+        <a ng-href="/#!/gists/{{gist.id}}/summary">Details →</a>
+      </div>
+      <div style="float: right; clear: both; margin-top: 1em">
+        <a ng-href="{{gist.original_url}}">Source →</a>
+      </div>
+      <h1 class="entry-title">
+        {{gist.title}}
+      </h1>
 
       <div class="row">
         <div class="row example">
