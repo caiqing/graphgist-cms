@@ -319,7 +319,7 @@ exports.updateGist = {
     function (req, res) {
       // Validate so that nobody is submitting sneaky data
 
-      var valid_update_keys = VALID_CREATE_KEYS.concat(['id', 'poster_image', 'rated', 'status']);
+      var valid_update_keys = VALID_CREATE_KEYS.concat(['id', 'poster_image', 'rated', 'status', 'featured']);
       var invalid_keys = _(_(req.body).keys()).difference(valid_update_keys);
       
       _(invalid_keys).each(function(invalid_key) {
