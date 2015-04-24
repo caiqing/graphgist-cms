@@ -24,7 +24,7 @@
       <a ng-href="/#!/gists/{{gist.id}}">
         <img ng-src="{{gist.poster_image}}" alt="{{gist.title}}" class="poster-image" id="main-poster-image" onerror="$('#report_missing_image').show(); $(this).parent().hide();" style="max-width: 300px;"/>
       </a>
-
+    <!--
       <div style="padding-top: 1em;" class="medium-10 columns small-centered">
         <h3>Related Gists</h3>
         <div style="clear: left; padding-top: 1em;" ng-repeat="related in gist.related.slice(0,2)">
@@ -37,6 +37,7 @@
           <h5><a href="/#!/gists/{{related.related.id}}/summary">Read More →</a></h5>
         </div>
       </div>
+    -->
 
 
 
