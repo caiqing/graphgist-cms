@@ -232,6 +232,9 @@ contentApp.controller('GistItemCtrl', ['$scope', '$routeParams', '$http', '$temp
   		$scope.url = API_URL+'/api/v0/gists/' + encodeURIComponent(decodeURI(decodeURI($routeParams.gistId))) + '?api_key=special-key&neo4j=false';
 
       $scope.UTIL.loadGist($scope.url, $http, $scope, $templateCache)
+  
+      $scope.current_panel = 'panel1';
+      $scope.set_panel = function (panel) { $scope.current_panel = panel; }
   }]);
 
 contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval', '$http', '$templateCache',

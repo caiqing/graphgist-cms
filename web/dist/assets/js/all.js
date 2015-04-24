@@ -24229,6 +24229,7 @@ var contentApp = angular.module('contentApp', [
             $scope.gist = data;
             $scope.gist.poster_image = $scope.gist.poster_image || ($scope.gist.title ? '/assets/img/posters/' + $scope.gist.title.replace('/', ' ') + '.jpg' : '');
             $scope.gist.poster_image = $scope.gist.poster_image.replace("w185", "w300");
+            $scope.gist.categories = ($scope.gist.genres || []).concat($scope.gist.usecases || []);
           } else {
             $scope.gist = $scope.gist || {};
           }
@@ -24559,6 +24560,9 @@ contentApp.controller('GistItemCtrl', ['$scope', '$routeParams', '$http', '$temp
   		$scope.url = API_URL+'/api/v0/gists/' + encodeURIComponent(decodeURI(decodeURI($routeParams.gistId))) + '?api_key=special-key&neo4j=false';
 
       $scope.UTIL.loadGist($scope.url, $http, $scope, $templateCache)
+  
+      $scope.current_panel = 'panel1';
+      $scope.set_panel = function (panel) { $scope.current_panel = panel; }
   }]);
 
 contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval', '$http', '$templateCache',

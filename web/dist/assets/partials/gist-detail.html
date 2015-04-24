@@ -44,50 +44,49 @@
     </div>
   </div>
 
-  <!--
   <div style="padding-top: 2em;" class="row">
     <div class="large-12 columns">
-  <dl data-tab="" class="tabs">
-  <dd class="active"><a href="#panel1">Business Outcomes</a></dd>
-  <dd><a href="#panel2">Challenges</a></dd>
-  <dd><a href="#panel3">Why Neo4j?</a></dd>
-  </dl>
-  <div class="tab-container">
-  <div id="panel1" class="content calloutsection active">
-  <h6><i class="fa fa-check"></i> &nbsp;Graph Search</h6>
-  <p>Enable users or other applications to search for people or products based on a host of fine grained criteria</p>
-  <h6><i class="fa fa-check"></i> 360 degree Insights</h6>
-  <p> MDM systems provide a unified view of core business data whether its pertaining to employees, customers or products and thereby help in areas such as higher operational efficiency, reliable reporting and visibility into performance of staff, product and customer insights. </p>
+      <dl data-tab="" class="tabs">
+        <dd ng-class="{active: current_panel === 'panel1'}"><a ng-click="set_panel('panel1')">Author Info</a></dd>
+        <dd ng-class="{active: current_panel === 'panel2'}"><a ng-click="set_panel('panel2')">Others in this Category</a></dd>
+      </dl>
+      <div class="tab-container" style="margin-bottom: 5em">
+        <div id="panel1" ng-show="current_panel === 'panel1'" class="content calloutsection">
+
+          <ul>
+            <li>
+              <h6>Authors</h6>
+              <span ng-repeat="writer in gist.writers">{{writer}}{{$last ? '' : ', '}}</span>
+            </li>
+            <li ng-if="gist.created">
+              <h6>Created</h6>
+              {{gist.created | date:'yyyy-MM-dd'}}
+            </li>
+            <li>
+              <h6>Categories</h6>
+              <ul>
+                <li ng-repeat="category in gist.categories">
+                  <a href="/#!/domains/{{category}}">
+                    {{category}}
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+
+        </div>
+        <div id="panel2" ng-show="current_panel === 'panel2'" class="content calloutsection">
+
+          <div class="user-logo Businss Customer " style="margin-bottom: 1em; background-color: white" ng-repeat="related in gist.related">
+            <a href="/#!/gists/{{related.related.id}}/summary" style="background-image: url('{{related.related | posterImage}}')" class="poster-image gist">
+              {{related.related.title}}
+            </a>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
   </div>
-  <div id="panel2" class="content calloutsection">
-  <ul>
-  <li>
-  <h6>Complex and hierarchical data sets</h6>
-  <p>Master data such as organization and product master have deep hierarchies with top-down, lateral, and diagonal connections. Managing such data models with a relational database results in complex and unwieldy code that is slow to run, expensive to build, and time-consuming to maintain.</p>
-  </li>
-  <li>
-  <h6>Real-time query performance</h6>
-  <p>Master data systems must integrate with and provide data to a host of applications within the enterprise – sometimes in real-time. However, traversing through a complex and highly interconnected data set and provide information in real-time is challenging.</p>
-  </li>
-  <li>
-  <h6>Dynamic structure</h6>
-  <p>Master data is highly dynamic with constant addition and re-organization of nodes making it harder to design systems to accommodate both the current and future requirements.</p>
-  </li>
-  </ul>
-  </div>
-  <div id="panel3" class="content calloutsection">
-  <h6>Native graph store </h6>
-  <p>Unlike relational databases, Neo4j is designed to store interconnected data that is neither linear nor purely hierarchic, make it easier to make sense of that data by not forcing intermediate indexing at every turn</p>
-  <h6>Flexible schema</h6>
-  <p>Neo4j’s flexible property graph model makes it easier for IT organizations to evolve their network and infrastructure models</p>
-  <h6>Performance and scalability</h6>
-  <p>Neo4j’s native graph processing engine supports high-performance graph queries on large datasets to enable real-time recommendations</p>
-  <h6>High availability</h6>
-  <p>The built-in high availability features in Neo4j ensures that mission critical network management applications are always available</p>
-  </div>
-  </div>
-  </div>
-  </div>
-  -->
 </section>
 
