@@ -39,7 +39,7 @@ var contentappControllers = angular.module('contentappControllers', ['SharedServ
 
 contentApp.controller('GistListCtrl', ['$scope', '$http', '$templateCache', 
 	function($scope, $http, $templateCache) {
-	  	$scope.url = API_URL+'/api/v0/gists?api_key=special-key&neo4j=false';
+	  	$scope.url = API_URL+'/api/v0/gists?api_key=special-key&neo4j=false&featured=true';
 	  	$scope.gists = [];
 
       $scope.domains =  ['Finance', 'Retail', 'Entertainment', 'Telecommunications', 'Mass Media']

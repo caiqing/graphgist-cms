@@ -160,6 +160,11 @@ var _matchBy = function (keys, params, options, callback) {
     keys = _(keys).without('status');
   }
 
+  if (!cypher_params.featured) {
+    delete cypher_params.featured;
+    keys = _(keys).without('featured');
+  }
+
   if (typeof options.search_query === 'string')
     cypher_params.search_query = '(?i).*' + strip_string(options.search_query).replace(RegExp("\\s+", 'g'), '.*') + '.*';
 
@@ -487,7 +492,7 @@ var login = create;
 // get all gists
 var getAll = Cypher(_matchAll, _manyGists);
 
-var getByStatus = Cypher(_.partial(_matchBy, ['status']), _manyGists);
+var getByStatusAndFeatured = Cypher(_.partial(_matchBy, ['status', 'featured']), _manyGists);
 
 // get all gists count
 var getAllCount = Cypher(_getAllCount, _singleCount);
@@ -521,7 +526,7 @@ module.exports = {
   getAll: getManyGistsWithGenres,
   getById: getById,
   getByTitle: getByTitle,
-  getByStatus: getByStatus,
+  getByStatusAndFeatured: getByStatusAndFeatured,
   // getByDateRange: getByDateRange,
 //  getByActor: getByActor,
   getByGenre: getByGenre,

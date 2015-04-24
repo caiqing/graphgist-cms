@@ -51,7 +51,7 @@ exports.list = {
       search_query: req.query.query
     };
     var start = new Date();
-    Gists.getByStatus({status: req.query.status || 'live'}, options, function (err, response) {
+    Gists.getByStatusAndFeatured({status: req.query.status || 'live', featured: parseBool(req, 'featured')}, options, function (err, response) {
       if (err || !response.results) return(res.status(500).json({ error: 'Error getting gists' }));
 
       writeResponse(res, response, start);

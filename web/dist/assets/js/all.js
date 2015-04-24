@@ -24229,7 +24229,9 @@ var contentApp = angular.module('contentApp', [
             $scope.gist = data;
             $scope.gist.poster_image = $scope.gist.poster_image || ($scope.gist.title ? '/assets/img/posters/' + $scope.gist.title.replace('/', ' ') + '.jpg' : '');
             $scope.gist.poster_image = $scope.gist.poster_image.replace("w185", "w300");
-            $scope.gist.categories = ($scope.gist.genres || []).concat($scope.gist.usecases || []);
+            $scope.gists.forEach(function (gist) {
+              gist.categories = (gist.genres || []).concat(gist.usecases || [])
+            });
           } else {
             $scope.gist = $scope.gist || {};
           }
@@ -24251,7 +24253,7 @@ var contentApp = angular.module('contentApp', [
       '</div>');
     },
 
-    fetchGists: function(url, $http, $scope, $templateCache)
+    fetchGists: function(url, $http, $scope, $templateCache, options)
     {
       return $http({method: 'GET', url: $scope.url, cache: $templateCache}).
         success(function(data, status, headers, config) {
@@ -24367,7 +24369,7 @@ var contentappControllers = angular.module('contentappControllers', ['SharedServ
 
 contentApp.controller('GistListCtrl', ['$scope', '$http', '$templateCache', 
 	function($scope, $http, $templateCache) {
-	  	$scope.url = API_URL+'/api/v0/gists?api_key=special-key&neo4j=false';
+	  	$scope.url = API_URL+'/api/v0/gists?api_key=special-key&neo4j=false&featured=true';
 	  	$scope.gists = [];
 
       $scope.domains =  ['Finance', 'Retail', 'Entertainment', 'Telecommunications', 'Mass Media']
