@@ -154,6 +154,10 @@ ul.orbit-slides-container li h1 {
   padding: 40px;
 }
 
+.use-case dl.tabs dd a {
+  color: rgb(61, 83, 96);
+}
+
 
 
 
