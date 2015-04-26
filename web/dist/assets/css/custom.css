@@ -150,6 +150,11 @@ ul.orbit-slides-container li h1 {
   padding: 1em 6em;
 }
 
+#rendered-gist .loading-message {
+  margin: 1em;
+  line-height: 1em;
+}
+
 .calloutsection {
   padding: 40px;
 }
