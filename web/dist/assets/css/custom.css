@@ -168,6 +168,8 @@ ul.orbit-slides-container li h1 {
 }
 
 
+/* GraphGist submenu */
+
 .marquee.blue.center {
   margin-bottom: 0;
 }
@@ -194,6 +196,83 @@ ul.submenu li h5 {
   display: inline;
 }
 
+
+ul.submenu li.has-form {
+  background-color: transparent;
+  padding: 12px 10px;
+  position: relative;
+}
+ul.submenu li.has-form input {
+  display: inline-block;
+  width: auto;
+}
+ul.submenu li.has-form input[type="text"] {
+  margin: 0;
+  top: 0;
+  width: 250px;
+  border-radius: 20px;
+  height: 2em;
+}
+
+ul.submenu li.has-form form.searching input[type="text"] {
+  border-radius: 20px 20px 0 0;
+}
+
+ul.submenu li.has-form input[type="image"] {
+  padding: .5rem;
+  position: absolute;
+  top: 7px;
+  right: 10px;
+}
+/* End GraphGist submenu */
+
+
+/* GraphGist search box */
+#search-result {
+  position: absolute;
+  right: 0;
+  top: 39px;
+  z-index: 10;
+  font-size: 1.6em;
+  right: 10px;
+}
+
+#search-result .list-group {
+  width: 500px;
+}
+
+#search-result .list-group-item {
+  height: 100px;
+  overflow-y: hidden;
+  border-radius: 0;
+  text-align: left;
+}
+
+#search-result .thumbnail {
+  height: 60px;
+  max-width: 90px;
+  overflow: hidden;
+  display: inline-block;
+  margin-right: 1em;
+  margin-bottom: 0;
+}
+
+#search-result .search-notice {
+  background-color: white;
+  padding: 1em;
+  border: 1px solid #BBB;
+  width: 100%;
+}
+/* End GraphGist search box */
+
+
+.ng-hide {
+  /* this is just another form of hiding an element */
+  display: block!important;
+  position: absolute!important;
+  top: -9999px!important;
+  left: -9999px!important;
+}
 
 
 
