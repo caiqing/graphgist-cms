@@ -163,6 +163,37 @@ ul.orbit-slides-container li h1 {
   color: rgb(61, 83, 96);
 }
 
+#section-title {
+  display: none;
+}
+
+
+.marquee.blue.center {
+  margin-bottom: 0;
+}
+ul.submenu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+ul.submenu li { 
+  display: inline-block;
+  padding: 1em;
+}
+ul.submenu li.active { 
+  background-color: #2D7AB1;
+  border: 1px solid #CCC;
+  border-top: 0;
+}
+ul.submenu li.active a h5 { 
+  color: white;
+}
+
+ul.submenu li h5 {
+  display: inline;
+}
+
 
 
 

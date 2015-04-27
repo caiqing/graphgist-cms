@@ -105,21 +105,46 @@ html(lang="en", ng-app="contentApp")
                 img(src="assets/images/neo4j-logo-2015.png")
 
 
-          li.toggle-topbar.menu-icon
-            a(href="#")
-
         section.top-bar-section
           ul#menu-top-nav.top-bar-menu.right
+            // menu-item menu-item-type-custom menu-item-object-custom current-menu-item active
+            li.item.menu-item-type-custom.menu-item-object-custom.current-menu-item.active
+              a(href="//neo4j.com/developer/get-started/") Developer
             li.item.menu-item-type-custom.menu-item-object-custom
-              a(href="#!/gists") Featured GraphGists
+              a(href="//neo4j.com/blog") Blog
             li.item.menu-item-type-custom.menu-item-object-custom
-              a(href="#!/gists/about") What is a GraphGist?
+              a(href="//support.neo4j.com/hc") Support
             li.item.menu-item-type-custom.menu-item-object-custom
-              a(href="/#!/gists/all") All GraphGists
+              a(href="//neo4j.com/contact-us") Contact Us
             li.item.menu-item-type-custom.menu-item-object-custom
-              a(href="#!/gists/submit") Submit a GraphGist
+              a(href="//neo4j.com/download") Download Neo4j
 
-    div(ng-view)
+    div
+      div.marquee.blue.center
+        div.row.text-center
+          div.medium-10.small-centered.columns
+            h1.entry-title GraphGists
+
+      div
+        div
+          ul.submenu
+            li
+              a(href="/#!/gists")
+                h5 Featured GraphGists
+            li
+              a(href="#!/gists/about")
+                h5 What is a GraphGist?
+            li
+              a(href="/#!/gists/all")
+                h5 All GraphGists
+            li
+              a(href="#!/gists/submit")
+                h5 Submit a GraphGist
+
+
+        div(ng-view)
+
+            
 
     #mydiv
         img(src="assets/img/AjaxLoader.gif").ajax-loader
@@ -127,6 +152,20 @@ html(lang="en", ng-app="contentApp")
     script(src="#{furl('js/all.min.js')}")
 
   script.
+    function set_active_submenu_item() {
+      $('.submenu li').removeClass('active');
+      $('.submenu li').each(function (index, li) {
+        var href = $(li).find('a').attr('href')
+        if (window.location.href.match(new RegExp(href + '$'))) {
+          $(li).addClass('active');
+        }
+      });
+    }
+
+
+    $(document).on('click', set_active_submenu_item);
+    $(document).on('ready', set_active_submenu_item);
+
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)

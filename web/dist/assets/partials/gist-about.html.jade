@@ -1,81 +1,76 @@
-.marquee.blue.center
-  .row.text-center
-    .medium-10.small-centered.columns
-      h1.entry-title.user-logged-out What is a GraphGist?
+section 
+  .container
+    .row
+      img(src="http://assets.neo4j.org/img/still/graphgist.jpg" class="side-thumb")
 
- 
-.container
-  .row
-    img(src="http://assets.neo4j.org/img/still/graphgist.jpg" class="side-thumb")
+      .container
+        p With Neo4j GraphGists you can describe and model your domain in a simple text file and render it as a rich, interactive page in any browser. Perfect to document a specific domain, use-case, question or graph problem.
 
-    .container
-      p With Neo4j GraphGists you can describe and model your domain in a simple text file and render it as a rich, interactive page in any browser. Perfect to document a specific domain, use-case, question or graph problem.
+        p Documenting your graph domain model has never been easier. A GraphGist is just a simple AsciiDoc text file, and can be hosted in a GitHub Gist or any other place with an accessible URL. It will be rendered as an interactive page in your browser.
 
-      p Documenting your graph domain model has never been easier. A GraphGist is just a simple AsciiDoc text file, and can be hosted in a GitHub Gist or any other place with an accessible URL. It will be rendered as an interactive page in your browser.
+        p You can explore those pages, read and understand them and try out the provided use-case queries on a live graph. We want to encourage you to model a domain that 
+         em you know or like 
+          in a graph model and describe it interactively in a GraphGist.
 
-      p You can explore those pages, read and understand them and try out the provided use-case queries on a live graph. We want to encourage you to model a domain that 
-       em you know or like 
-        in a graph model and describe it interactively in a GraphGist.
+        p To learn about interesting existing models created by other Neo4j users browse the 
+          a(href="/") impressive collection.
 
-      p To learn about interesting existing models created by other Neo4j users browse the 
-        a(href="/") impressive collection.
+      h1 How do I create a GraphGist?
 
-    h1 How do I create a GraphGist?
+      a(href="http://player.vimeo.com/video/74279113?badge=0&byline=0&portrait=0&title=0")
+        img(src="http://assets.neo4j.org/img/still/graphgist_video.jpg" data-src="http://player.vimeo.com/video/74279113?badge=0&amp;byline=0&amp;portrait=0&amp;title=0" naptha_cursor="region").side-thumb
+      ol
+        li Find a great domain (Music, Dating, Comics, Healthcare, Politics, Sciences, ...)
+        li Whiteboard a good example graph model.
+        li Determine interesting use-cases.
+        li Create Cypher statements for setup and query-use-cases.
+        li Write a good description and create a useful model picture.
+        li Compose it all nicely in your AsciiDoc-GraphGist-file (see 
+          a(href="http://gist.neo4j.org/?5956246") this GraphGist
+          |).
+        li Store it as a 
+          a(href="http://gist.github.com/") GitHub Gist
+        li Submit your GraphGist via 
+           a(href="/gists/submit") this form 
+           and get a T-Shirt for every original model
 
-    a(href="http://player.vimeo.com/video/74279113?badge=0&byline=0&portrait=0&title=0")
-      img(src="http://assets.neo4j.org/img/still/graphgist_video.jpg" data-src="http://player.vimeo.com/video/74279113?badge=0&amp;byline=0&amp;portrait=0&amp;title=0" naptha_cursor="region").side-thumb
-    ol
-      li Find a great domain (Music, Dating, Comics, Healthcare, Politics, Sciences, ...)
-      li Whiteboard a good example graph model.
-      li Determine interesting use-cases.
-      li Create Cypher statements for setup and query-use-cases.
-      li Write a good description and create a useful model picture.
-      li Compose it all nicely in your AsciiDoc-GraphGist-file (see 
-        a(href="http://gist.neo4j.org/?5956246") this GraphGist
-        |).
-      li Store it as a 
-        a(href="http://gist.github.com/") GitHub Gist
-      li Submit your GraphGist via 
-         a(href="/gists/submit") this form 
-         and get a T-Shirt for every original model
+      a(href="http://player.vimeo.com/video/74279113?badge=0&byline=0&portrait=0&title=0") 
+        strong Watch the video to learn more!
 
-    a(href="http://player.vimeo.com/video/74279113?badge=0&byline=0&portrait=0&title=0") 
-      strong Watch the video to learn more!
+      h1 GraphGist Challenges
 
-    h1 GraphGist Challenges
+      <p>The best way gathering great graph models is to ask your community.             That's why we already ran two challenges to find interesting ideas for GraphGists with tremendous results.</p>            
+      <p>The first challenge in September 2013 had <a href="https://github.com/neo4j-contrib/graphgist/wiki#wiki-graphgist-september-challenge-submissions">17 submissions</a> and <a href="http://blog.neo4j.org/2013/10/the-first-graphgist-challenge-completed.html">3 winners</a>.</p>
+      
+      <p>Our GraphGist Winter Challenge (Dec 2013-Jan 2014) asked for contributions in 10 categories. We got an impressive <a href="https://github.com/neo4j-contrib/graphgist/wiki#wiki-graphgist-winter-challenge-submissions---categories">65 submissions</a>. Here are the <a href="http://blog.neo4j.org/2014/02/graph-gist-winter-challenge-winners.html">winners per category</a></p>
 
-    <p>The best way gathering great graph models is to ask your community.             That's why we already ran two challenges to find interesting ideas for GraphGists with tremendous results.</p>            
-    <p>The first challenge in September 2013 had <a href="https://github.com/neo4j-contrib/graphgist/wiki#wiki-graphgist-september-challenge-submissions">17 submissions</a> and <a href="http://blog.neo4j.org/2013/10/the-first-graphgist-challenge-completed.html">3 winners</a>.</p>
-    
-    <p>Our GraphGist Winter Challenge (Dec 2013-Jan 2014) asked for contributions in 10 categories. We got an impressive <a href="https://github.com/neo4j-contrib/graphgist/wiki#wiki-graphgist-winter-challenge-submissions---categories">65 submissions</a>. Here are the <a href="http://blog.neo4j.org/2014/02/graph-gist-winter-challenge-winners.html">winners per category</a></p>
+      <p>Currently the <a href="#!/gists/challenge"><strong>Winter Challenge 2014 offers new prizes</strong></a>. Don't hesitate to participate!</p>
 
-    <p>Currently the <a href="#!/gists/challenge"><strong>Winter Challenge 2014 offers new prizes</strong></a>. Don't hesitate to participate!</p>
+      <!--p>But we don't stop here. There will be more challenges. And you can even win now.<br> Every original Graph Model that is <a href="/gists/submit"">submitted via this form</a> will get a personalized Neo4j T-Shirt from us.</p-->
 
-    <!--p>But we don't stop here. There will be more challenges. And you can even win now.<br> Every original Graph Model that is <a href="/gists/submit"">submitted via this form</a> will get a personalized Neo4j T-Shirt from us.</p-->
+  style.
+    .side-thumb {
+      float: right;
+      width: 50%;
+      border: .2em solid #FFF;
+      padding: .2em;
+      margin: .2em;
+    }
 
-style.
-  .side-thumb {
-    float: right;
-    width: 50%;
-    border: .2em solid #FFF;
-    padding: .2em;
-    margin: .2em;
-  }
+    .side-thumb:hover {
+      cursor: pointer;
+      border: .2em solid #00546a;
+    }
 
-  .side-thumb:hover {
-    cursor: pointer;
-    border: .2em solid #00546a;
-  }
+    .panel-heading {
+      font-weight: bold;
+      font-size: 1.3em;
+    }
 
-  .panel-heading {
-    font-weight: bold;
-    font-size: 1.3em;
-  }
-
-  .panel-body {
-    font-size: 1.2em;
-  }
-  h1 {
-    margin-top: 1em;
-    margin-bottom: 1em;
-  }
+    .panel-body {
+      font-size: 1.2em;
+    }
+    h1 {
+      margin-top: 1em;
+      margin-bottom: 1em;
+    }
