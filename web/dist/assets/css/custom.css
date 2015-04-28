@@ -235,10 +235,15 @@ ul.submenu li.has-form input[type="image"] {
   z-index: 10;
   font-size: 1.6em;
   right: 10px;
+  -webkit-box-shadow: 0 0 5px #999;
+  -moz-box-shadow: 0 0 5px #999;
+  box-shadow: 0 0 5px #999;
+  background-color: white;
 }
 
 #search-result .list-group {
   width: 500px;
+  margin-bottom: 0;
 }
 
 #search-result .list-group-item {

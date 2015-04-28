@@ -260,7 +260,7 @@ html(lang="en", ng-app="contentApp")
               a(href="/#!/gists/check_submission_form")
                 h5 Submit a GraphGist
             li.has-form
-              form#searchform.searchform.ng-pristine.ng-valid(role="search", method="get", action="http://neo4j.com/", ng-class="{searching: query.length > 0}")
+              form#searchform.searchform.ng-pristine.ng-valid(role="search", method="get", ng-class="{searching: query.length > 0}")
                 input#s(type="text", name="s", ng-model="query", placeholder="Search for a GraphGist")
                 input#searchsubmit(type="image", src="http://neo4j.com/wp-content/themes/neo4jweb/assets/images/searchicon.png")
               #search-result(ng-show="query.length > 0", ng-cloak)
