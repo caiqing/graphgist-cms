@@ -1,0 +1,14 @@
+<div class="row">
+  <p></p>
+  <p></p>
+  <p>
+    Enter the URL of your GraphGist below in order to preview it.  If it looks good you can click on the "Submit GraphGist" button to submit it for publication on this site!
+  </p>
+
+  <form onsubmit="Gist().preview_gist_from_url($('#gist-id').val())">
+    <div class="form-group">
+      <input type="text" id="gist-id" placeholder="GitHub Gist / File / Dropbox URL" class="form-control">
+      <input type="submit" value="Preview">
+    </div>
+  </form>
+</div>

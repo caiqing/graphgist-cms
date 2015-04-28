@@ -24253,7 +24253,7 @@ var contentApp = angular.module('contentApp', [
       '</div>');
     },
 
-    fetchGists: function(url, $http, $scope, $templateCache, options)
+    fetchGists: function(url, $http, $scope, $templateCache)
     {
       return $http({method: 'GET', url: $scope.url, cache: $templateCache}).
         success(function(data, status, headers, config) {
@@ -24290,6 +24290,10 @@ contentApp.config(['$routeProvider', '$locationProvider',
       }).
       when('/gists/challenge', {
         templateUrl: 'templates/gist-challenge'
+      }).
+      when('/gists/check_submission_form', {
+        templateUrl: 'assets/partials/gist-check-submission-form.html',
+        controller: 'GistSubmitCtrl'
       }).
       when('/gists/submit', {
         templateUrl: 'templates/gist-submit',
@@ -24578,6 +24582,11 @@ contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval', '$http
     $scope.UTIL.loadGist($scope.url, $http, $scope, $templateCache)
 
     $scope.loading_message = 'Loading...';
+
+    $scope.original_url = function () {
+      console.log({original_url: $routeParams.original_url || $scope.gist.original_url});
+      return($routeParams.original_url || $scope.gist.original_url);
+    }
 
     $scope.$on('$viewContentLoaded', function () {
 
@@ -29721,7 +29730,7 @@ function Gist($, $content) {
 
     var VALID_GIST = /^[0-9a-f]{5,32}\/?$/;
 
-    return {getGistAndRenderPage: getGistAndRenderPage, readSourceId: readSourceId, gist_uuid: gist_uuid};
+    return {getGistAndRenderPage: getGistAndRenderPage, readSourceId: readSourceId, preview_gist_from_url: preview_gist_from_url, gist_uuid: gist_uuid};
 
 
     function getGistAndRenderPage(renderer, defaultSource) {
@@ -29798,7 +29807,11 @@ function Gist($, $content) {
         var $target = $(event.target);
         $target.blur();
 
-        window.location.href = '/#!/gists/' + encodeURIComponent(encodeURIComponent(gist_uuid($.trim($target.val()))));
+        preview_gist_from_url($target.val());
+    }
+
+    function preview_gist_from_url(url) {
+      window.location.href = '/#!/gists/' + encodeURIComponent(encodeURIComponent(gist_uuid(jQuery.trim(url)))) + '?original_url=' + url;
     }
 
     function gist_uuid(gist_string) {

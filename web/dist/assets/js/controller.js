@@ -249,6 +249,11 @@ contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval', '$http
 
     $scope.loading_message = 'Loading...';
 
+    $scope.original_url = function () {
+      console.log({original_url: $routeParams.original_url || $scope.gist.original_url});
+      return($routeParams.original_url || $scope.gist.original_url);
+    }
+
     $scope.$on('$viewContentLoaded', function () {
 
       $.ajax({

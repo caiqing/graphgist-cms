@@ -5,11 +5,16 @@
         <a ng-href="/#!/gists/{{gist.id}}/summary">Details →</a>
       </div>
       <div style="float: right; clear: both; margin-top: 1em">
-        <a ng-href="{{gist.original_url}}">Source →</a>
+        <a ng-href="{{original_url()}}">Source →</a>
       </div>
+
       <h1 class="entry-title">
         {{gist.title}}
       </h1>
+
+      <div style="float: right; clear: both; margin-top: 1em" ng-if="!gist.id">
+        <h2><a ng-href="/#!/gists/submit?url={{original_url()}}&title={{gist.title}}">Submit GraphGist →</a></h2>
+      </div>
 
       <div class="row">
         <div class="row example">
