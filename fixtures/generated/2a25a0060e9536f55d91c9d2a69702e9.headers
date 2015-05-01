@@ -2,13 +2,13 @@
   "statusCode": 200,
   "headers": {
     "server": "GitHub.com",
-    "date": "Thu, 02 Apr 2015 15:16:02 GMT",
+    "date": "Fri, 01 May 2015 16:52:38 GMT",
     "content-type": "application/json; charset=utf-8",
     "content-length": "30609",
     "status": "200 OK",
     "x-ratelimit-limit": "5000",
-    "x-ratelimit-remaining": "4987",
-    "x-ratelimit-reset": "1427987784",
+    "x-ratelimit-remaining": "4986",
+    "x-ratelimit-reset": "1430502150",
     "cache-control": "private, max-age=60, s-maxage=60",
     "last-modified": "Mon, 30 Jun 2014 18:17:57 GMT",
     "etag": "\"91b2fa079e7b59da8d51b36563fee58c\"",
@@ -22,13 +22,13 @@
     "access-control-allow-credentials": "true",
     "access-control-expose-headers": "ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval",
     "access-control-allow-origin": "*",
-    "x-github-request-id": "6C3DE439:28DA:183EC66:551D5D31",
+    "x-github-request-id": "6C3DE20C:0C0B:708387D:5543AF55",
     "strict-transport-security": "max-age=31536000; includeSubdomains; preload",
     "x-content-type-options": "nosniff",
-    "x-served-by": "a6882e5cd2513376cb9481dbcd83f3a2"
+    "x-served-by": "8dd185e423974a7e13abbbe6e060031e"
   },
   "url": "https://api.github.com:443/repos/whatSocks/jobSNV/contents/socialNetworks.adoc?ref=master",
-  "time": 4537,
+  "time": 967,
   "request": {
     "method": "GET",
     "headers": {
