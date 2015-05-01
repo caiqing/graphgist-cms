@@ -13,6 +13,7 @@
 
 'use strict';
 
+var util = require("util");
 var request = require("request");
 var content_loading = require("./content_loading");
 var merge = require("./utils").merge;
@@ -59,11 +60,17 @@ function request_with_cache(request, cache, cache_id, callback) {
     return callback(null, cache[cache_id].data);
   }
 
+  // HTTP headers
+  var headers = {};
+
   // HTTP cache
   var etag;
-  if (cache[cache_id]) etag = cache[cache_id].etag;
+  if (cache[cache_id]) {
+    etag = cache[cache_id].etag;
+    headers['If-None-Match'] = etag;
+  }
 
-  request({headers: {'If-None-Match': etag}}, function (err, resp, data) {
+  request({headers: headers}, function (err, resp, data) {
     var result = data;
     if (!err) {
       if (resp.statusCode == 304) {
@@ -171,6 +178,22 @@ exports.transformThirdPartyURLs = function transformThirdPartyURLs(id) {
     }
 
     return(id);
+}
+
+exports.get_all_gists = function(callback) {
+  Gists.getAll({}, {}, function (err, data){
+    callback(err, data);
+  });
+}
+
+exports.get_gist = function(id, callback) {
+    Gists.getById({id: id}, {}, function (err, data) {
+      if (err || ! data.results) {
+        console.log(util.inspect(err));
+      }
+      var gist = data.results;
+      callback(gist);
+    });
 }
 
 exports.load_gist = function (id, cache, callback) {

@@ -7,6 +7,7 @@ var express = require('express'),
     Gists = require('../api/models/gists'),
     compression = require('compression'),
     rollbar = require('rollbar');
+    util = require('util');
 
 module.exports = function (app, api_port) {
   app.use(compression());
@@ -57,9 +58,42 @@ module.exports = function (app, api_port) {
       if (typeof(req.query._escaped_fragment_) === 'string' &&
           (match = req.query._escaped_fragment_.toString().match(/^\/gists\/([^\/]+)/))) {
 
-        Gists.getById({id: decodeURIComponent(match[1])}, {}, function (err, data) {
-          render(err, data.results || {});
-        });
+          if (match[1] == 'all') {
+            load_gist.get_all_gists(function (err, data) {
+              res.render(__dirname + '/dist/assets/partials/gist-all-crawl.html.jade', {gists: data.results});
+            });
+          } else if (match[1] == 'about') {
+            res.render(__dirname + '/dist/about-escaped-fragment.html.jade');
+          } else {
+            var gist;
+            var id = match[1];
+            var cache = req.query.skip_cache ? {} : app.locals.load_cache;
+
+            load_gist.get_gist(id, function(data) {
+              gist = data;
+
+              load_gist.load_gist(id, cache, function(err, data, from_db) {
+                if (err) {
+                    console.log("Error loading graphgist", id, err);
+                    res.send(404,"Error loading graphgist from: "+ id +" "+ err)
+                } else {
+                    console.log("finding gist with id: " + id);
+                    var item = load_gist.findGist(app.locals, id);
+                    res.set('Content-Type', 'text/html');
+
+                    var options = opal.hash2([], {})
+                    if (!from_db) {
+                      var options = opal.hash2(
+                          ['attributes'],
+                          {attributes: ['showtitle']});
+                    }
+
+                    gist.html = asciidoctor_processor.$convert(load_gist.preProcessHTML(data), options)
+                    res.render(__dirname + '/dist/gist-escaped-fragment.html.jade', {gist: gist});
+                }
+              });
+            });
+          }
       } else {
         render(null, {});
       }
@@ -110,6 +144,7 @@ module.exports = function (app, api_port) {
                 res.send(404,"Error loading graphgist from: "+ id +" "+ err)
             } else {
                 var item = load_gist.findGist(app.locals, id);
+
                 res.set('Content-Type', 'text/plain');
                 if (item) {
                     function setHeader(key,prop) {
@@ -121,7 +156,7 @@ module.exports = function (app, api_port) {
                     setHeader("Description","introText");
                     setHeader("Image","img");
                     setHeader("Category","Category");
-                    res.set("Url","http://neo4j.org/graphgist"+ id);
+                    res.set("Url","http://graphgist.neo4j.com/#!/gists/"+ id);
                 }
 
                 if (req.params.format === 'html') {

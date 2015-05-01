@@ -1,0 +1,28 @@
+doctype html
+
+html(lang="en", ng-app="contentApp")
+  head
+    
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(name="description", content="")
+    meta(name="author", content="")
+    link(rel="shortcut icon", href="assets/ico/favicon.ico?v=2")
+
+    meta(name="twitter:site", content="@neo4j")
+    meta(name="twitter:domain", content="http://graphgist.neo4j.com")
+    if gist.submitter_twitter
+      meta(name="twitter:creator", content="@"+ gist.submitter_twitter)
+    if gist.title
+      meta(name="twitter:title", content=gist.title)
+    if gist.summary
+      meta(name="twitter:description", content=gist.summary)
+
+    meta(name="twitter:card", content=(gist.poster_image ? 'summary_large_image' : 'summary'))
+
+    meta(name="twitter:image:src", content=(gist.poster_image || '/assets/img/neo4j/neo4j-logo.png'))
+
+    title #{gist.title}
+
+  body <h1>#{gist.title}</h1> !{gist.html}

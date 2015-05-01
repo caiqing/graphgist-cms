@@ -1,0 +1,8 @@
+html
+  body
+    h1 Neo4j GraphGists
+    each gist in gists
+      h2 #{gist.title}
+      p
+        a(href="/#!/gists/" + gist.id) #{gist.title} 
+      p #{gist.summary}
