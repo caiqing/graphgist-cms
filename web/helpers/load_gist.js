@@ -252,9 +252,9 @@ exports.preProcessHTML = function (content) {
       hide: '++++\n<span class="hide-query"></span>\n++++\n',
       setup: '++++\n<span class="setup"></span>\n++++\n',
       graph_result: '++++\n<h5 class="graph-visualization" graph-mode="result"><img alt="loading" class="loading" src="http://gist.neo4j.org/images/loading.gif"></h5>\n++++\n',
-      graph: '++++\n<h5 class="graph-visualization"><img alt="loading" src="http://gist.neo4j.org/images/loading.gif" class="loading"></h5>\n++++\n',
+      graph: '++++\n<h5 class="graph-visualization">Loading graph...<br/><img alt="loading" src="http://gist.neo4j.org/images/loading.gif" class="loading"></h5>\n++++\n',
       output: '++++\n<span class="query-output"></span>\n++++\n',
-      table: '++++\n<h5 class="result-table"></h5>\n++++\n'
+      table: '++++\n<h5 class="result-table">Loading table...<br/><img alt="loading" src="http://gist.neo4j.org/images/loading.gif" class="loading"></h5>\n++++\n'
     }
 
     for (var tag in comment_replacements) {

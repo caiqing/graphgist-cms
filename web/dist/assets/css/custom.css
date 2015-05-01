@@ -490,3 +490,20 @@ a.visualization-download {
 div.visualization.fullscreen > a.visualization-download {
     top: 24px;
 }
+
+div.result-table .dataTables_filter input {
+  display: inline-block;
+}
+
+
+div.result-table table {
+  clear: both;
+}
+
+div.result-table table.dataTable td {
+  padding: 0.5em 0.8em;
+}
+
+a.run-query, a.edit-query {
+  display: none; /* See https://github.com/neo4j-contrib/graphgist-cms/issues/78 */
+}
