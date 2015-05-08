@@ -88,6 +88,7 @@ module.exports = function (app, api_port) {
                           {attributes: ['showtitle']});
                     }
 
+                    if (gist === null) gist = {}
                     gist.html = asciidoctor_processor.$convert(load_gist.preProcessHTML(data), options)
                     res.render(__dirname + '/dist/gist-escaped-fragment.html.jade', {gist: gist});
                 }
