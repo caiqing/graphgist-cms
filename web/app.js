@@ -58,11 +58,11 @@ module.exports = function (app, api_port) {
       if (typeof(req.query._escaped_fragment_) === 'string' &&
           (match = req.query._escaped_fragment_.toString().match(/^\/gists\/([^\/]+)/))) {
 
-          if (match[1] == 'all') {
+          if (match[1] == '/all') {
             load_gist.get_all_gists(function (err, data) {
               res.render(__dirname + '/dist/assets/partials/gist-all-crawl.html.jade', {gists: data.results});
             });
-          } else if (match[1] == 'about') {
+          } else if (match[1] == '/about') {
             res.render(__dirname + '/dist/about-escaped-fragment.html.jade');
           } else {
             var gist;
