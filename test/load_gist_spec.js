@@ -17,7 +17,7 @@ sepia.filter({
 describe('load_gist', function(){
   describe('#load_gist()', function(){
     var test_result = function (given_gist_uuid, expected_output_regex, done) {
-      load_gist.load_gist(given_gist_uuid, {}, function (err, data) {
+      load_gist.load_gist(given_gist_uuid, {}, {}, function (err, data) {
         data.should.match(expected_output_regex);
         done();
       });

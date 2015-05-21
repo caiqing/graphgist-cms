@@ -54,14 +54,14 @@ var github_request = request.defaults({
 //var CACHE_TTL = 1000*60*15;
 var CACHE_TTL = 1000 * 10;
 
-function request_with_cache(request, cache, cache_id, callback) {
+function request_with_cache(request, cache, cache_id, options, callback) {
   // Local cache
   if (cache[cache_id] && cache[cache_id].time > Date.now() - CACHE_TTL) {
     return callback(null, cache[cache_id].data);
   }
 
   // HTTP headers
-  var headers = {};
+  var headers = options.http_headers || {};
 
   // HTTP cache
   var etag;
@@ -79,7 +79,10 @@ function request_with_cache(request, cache, cache_id, callback) {
       } else if (resp.statusCode == 200) {
         cache[cache_id] = {data: data, time: Date.now(), etag: resp.headers.etag};
       }
-      if ( resp.statusCode != 200 && resp.statusCode != 304 ) {
+      if ( resp.statusCode === 401 ) {
+        err = {message: 'Not authorized', statusCode: 401}
+        result = null
+      } else if ( resp.statusCode != 200 && resp.statusCode != 304 ) {
         err = {message: 'Could not retrieve gist from URL'};
         result = null;
       }
@@ -89,7 +92,7 @@ function request_with_cache(request, cache, cache_id, callback) {
   });
 }
 
-function fetchGithubGist(id, cache, callback) {
+function fetchGithubGist(id, cache, options, callback) {
     if (!VALID_GIST.test(id)) {
         return callback('The gist id is malformed: ' + id);
     }
@@ -97,7 +100,7 @@ function fetchGithubGist(id, cache, callback) {
 
     var r = github_request.defaults({url: url});
 
-    request_with_cache(r, cache, id, function (err, data) {
+    request_with_cache(r, cache, id, options, function (err, data) {
       if (err) {
         console.log("Could not load gist from " + url, err);
         return callback(err, "Could not load gist from " + url);
@@ -109,7 +112,7 @@ function fetchGithubGist(id, cache, callback) {
     });
 }
 
-function fetchGithubFile(id, cache, callback) {
+function fetchGithubFile(id, cache, options, callback) {
     var decoded = decodeURIComponent(id);
     decoded = decoded.replace(/\/contents\//, '//');
     var parts = decoded.split('/');
@@ -123,7 +126,7 @@ function fetchGithubFile(id, cache, callback) {
 
     var r = github_request.defaults({url: url, qs: {ref: branch}});
 
-    request_with_cache(r, cache, id, function (err, data) {
+    request_with_cache(r, cache, id, options, function (err, data) {
       if (err) {
         callback("Could not load gist from " + url+ " "+err);
         return;
@@ -140,7 +143,7 @@ function fetchGithubFile(id, cache, callback) {
 
 
 
-function fetchLocalSnippet(id, cache, callback) {
+function fetchLocalSnippet(id, cache, options, callback) {
     var url = GRAPHGIST_BASE_URL + id + '.adoc';
     fetchFromUrl(url, cache, callback);
 }
@@ -196,7 +199,7 @@ exports.get_gist = function(id, callback) {
     });
 }
 
-exports.load_gist = function (id, cache, callback) {
+exports.load_gist = function (id, cache, options, callback) {
     if (id.length < 2) {
         id = DEFAULT_SOURCE;
     }
@@ -211,7 +214,12 @@ exports.load_gist = function (id, cache, callback) {
     Gists.getById({id: id}, {}, function (err, data) {
       var gist = data.results;
 
-      var fetcher = fetchGithubGist;
+      var fetcher;
+      if (id.match(/^http:\/\//i)) {
+        fetcher = fetchFromUrl;
+      } else {
+        fetcher = fetchGithubGist;
+      }
 
       if (!err && gist && gist.id) {
         id = gist.url
@@ -234,7 +242,7 @@ exports.load_gist = function (id, cache, callback) {
           }
       }
 
-      fetcher(id, cache, function () {
+      fetcher(id, cache, options, function () {
         // Pass through extra argument which tells if we got a gist in the DB
         var args = Array.prototype.slice.call(arguments);
         args.push(!!gist);
@@ -336,66 +344,66 @@ internal['fetchers'] = {
 
 // Fetchers
 
-function fetchPublicDropboxFile(id, cache, callback) {
+function fetchPublicDropboxFile(id, cache, options, callback) {
 //    id = id.substr(8);
-    fetchDropboxFile(id, cache, callback, DROPBOX_PUBLIC_API_BASE_URL);
+    fetchDropboxFile(id, cache, options, callback, DROPBOX_PUBLIC_API_BASE_URL);
 }
 
-function fetchPrivateDropboxFile(id, cache, callback) {
+function fetchPrivateDropboxFile(id, cache, options, callback) {
 //    id = id.substr(9);
-    fetchDropboxFile(id, cache, callback, DROPBOX_PRIVATE_API_BASE_URL);
+    fetchDropboxFile(id, cache, options, callback, DROPBOX_PRIVATE_API_BASE_URL);
 }
 
-function fetchDropboxFile(id, cache, callback, base_url) {
+function fetchDropboxFile(id, cache, options, callback, base_url) {
     var url = base_url + decodeURIComponent(id);
-    fetchFromUrl(url, cache, callback);
+    fetchFromUrl(url, cache, options, callback);
 }
 
-function fetchCopyComPublicLink(id, cache, callback) {
+function fetchCopyComPublicLink(id, cache, options, callback) {
 //    id = id.substr(5);
-    fetchFromUrl(COPY_COM_PUBLIC_LINK + decodeURIComponent(id), cache, callback);
+    fetchFromUrl(COPY_COM_PUBLIC_LINK + decodeURIComponent(id), cache, options, callback);
 }
 
-function fetchRiseupFile(id, cache, callback) {
+function fetchRiseupFile(id, cache, options, callback) {
     id = id.substr(7);
     var webUrl = RISEUP_BASE_URL + decodeURIComponent(id);
-    fetchFromUrl(webUrl + RISEUP_EXPORT_POSTFIX, cache, callback, webUrl);
+    fetchFromUrl(webUrl + RISEUP_EXPORT_POSTFIX, cache, options, callback, webUrl);
 }
 
-function fetchSecureEtherpadFile(id, cache, callback) {
-    fetchEtherpad(id, cache, callback, true);
+function fetchSecureEtherpadFile(id, cache, options, callback) {
+    fetchEtherpad(id, cache, options, callback, true);
 }
 
-function fetchSecureEtherpadPDirFile(id, cache, callback) {
-    fetchEtherpad(id, cache, callback, true, 'p');
+function fetchSecureEtherpadPDirFile(id, cache, options, callback) {
+    fetchEtherpad(id, cache, options, callback, true, 'p');
 }
 
-function fetchSecureEtherpadPadPDirFile(id, cache, callback) {
-    fetchEtherpad(id, cache, callback, true, 'pad/p');
+function fetchSecureEtherpadPadPDirFile(id, cache, options, callback) {
+    fetchEtherpad(id, cache, options, callback, true, 'pad/p');
 }
 
-function fetchSecureEtherpadPadEtherpadDirFile(id, cache, callback) {
-    fetchEtherpad(id, cache, callback, true, 'etherpad/p');
+function fetchSecureEtherpadPadEtherpadDirFile(id, cache, options, callback) {
+    fetchEtherpad(id, cache, options, callback, true, 'etherpad/p');
 }
 
-function fetchEtherpadPDirFile(id, cache, callback) {
-    fetchEtherpad(id, cache, callback, false, 'p');
+function fetchEtherpadPDirFile(id, cache, options, callback) {
+    fetchEtherpad(id, cache, options, callback, false, 'p');
 }
 
-function fetchEtherpad(id, cache, callback, secure, dir, exportPostfix) {
+function fetchEtherpad(id, cache, options, callback, secure, dir, exportPostfix) {
     var idParts = id.split('-');
     var host = idParts[1];
     var pad = idParts.slice(2).join('-');
     var webUrl = (secure ? 'https' : 'http') + '://' + host + '/' + (dir ? dir + '/' : '') + decodeURIComponent(pad);
     var exportUrl = webUrl + (exportPostfix ? exportPostfix : '/export/txt');
-    fetchFromUrl(exportUrl, cache, callback, webUrl);
+    fetchFromUrl(exportUrl, cache, options, callback, webUrl);
 }
 
-function fetchFromUrl(id, cache, callback) {
+function fetchFromUrl(id, cache, options, callback) {
     var url = decodeURIComponent(id);
     var r = request.defaults({url: url, headers: {accept: "text/plain"}});
 
-    request_with_cache(r, cache, id, function (err, data) {
+    request_with_cache(r, cache, id, options, function (err, data) {
       callback(err, data, id);
     });
 }

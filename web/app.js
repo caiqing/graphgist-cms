@@ -72,7 +72,7 @@ module.exports = function (app, api_port) {
             load_gist.get_gist(id, function(data) {
               gist = data;
 
-              load_gist.load_gist(id, cache, function(err, data, from_db) {
+              load_gist.load_gist(id, cache, {}, function(err, data, from_db) {
                 if (err) {
                     console.log("Error loading graphgist", id, err);
                     res.send(404,"Error loading graphgist from: "+ id +" "+ err)
@@ -114,7 +114,6 @@ module.exports = function (app, api_port) {
 
     app_redirect = function(app, source, target) {
       app.get(source, function (req, res) {
-        console.log({target: target});
         res.redirect(301, target);
       });
     }
@@ -140,10 +139,18 @@ module.exports = function (app, api_port) {
 
         var cache = req.query.skip_cache ? {} : app.locals.load_cache;
 
-        load_gist.load_gist(id, cache, function(err, data, from_db) {
+        var http_headers = {};
+        if (req.headers['authorization']) http_headers['Authorization'] = req.headers['authorization']
+        load_gist.load_gist(id, cache, {http_headers: http_headers}, function(err, data, from_db) {
             if (err) {
-                console.log("Error loading graphgist", id, err);
-                res.send(404,"Error loading graphgist from: "+ id +" "+ err)
+                if (err.statusCode === 401) {
+                  res.statusCode = 401;
+                  res.setHeader('WWW-Authenticate', 'Basic realm="GraphGist Portal"');
+                  res.send('');
+                } else {
+                  console.log("Error loading graphgist", id, err);
+                  res.send(404,"Error loading graphgist from: "+ id +" "+ err)
+                }
             } else {
                 var item = load_gist.findGist(app.locals, id);
 
