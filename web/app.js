@@ -72,7 +72,7 @@ module.exports = function (app, api_port) {
             load_gist.get_gist(id, function(data) {
               gist = data;
 
-              load_gist.load_gist(id, cache, {}, function(err, data, from_db) {
+              load_gist.load_gist(id, cache, {}, function(err, data, id, from_db) {
                 if (err) {
                     console.log("Error loading graphgist", id, err);
                     res.send(404,"Error loading graphgist from: "+ id +" "+ err)
@@ -141,7 +141,7 @@ module.exports = function (app, api_port) {
 
         var http_headers = {};
         if (req.headers['authorization']) http_headers['Authorization'] = req.headers['authorization']
-        load_gist.load_gist(id, cache, {http_headers: http_headers}, function(err, data, from_db) {
+        load_gist.load_gist(id, cache, {http_headers: http_headers}, function(err, data, id, from_db) {
             if (err) {
                 if (err.statusCode === 401) {
                   res.statusCode = 401;
