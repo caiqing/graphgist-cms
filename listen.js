@@ -6,7 +6,7 @@ if (process.env.ROLLBAR_SERVER_TOKEN) {
   })
 
   rollbar.handleUncaughtExceptions(process.env.ROLLBAR_SERVER_TOKEN, {
-    exitOnUncaughtException: true
+    exitOnUncaughtException: false
   });
 }
 
