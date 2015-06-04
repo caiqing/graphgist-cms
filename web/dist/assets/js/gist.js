@@ -369,7 +369,7 @@ function Gist($, $content) {
     }
 
     function useGithubRepoParts(spec, parts) {
-      return {id: 'github-' + parts[3] + '/' + parts[4] + '//' + parts[spec.path]}
+      return {id: 'github-' + parts[3] + '/' + parts[4] + '//' + parts.slice(spec.path).join('/')}
     }
 
     function useRestOfTheUrl(prefix, baseUrl, gist) {

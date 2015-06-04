@@ -24584,7 +24584,6 @@ contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval', '$http
     $scope.loading_message = 'Loading...';
 
     $scope.original_url = function () {
-      console.log({original_url: $routeParams.original_url || $scope.gist.original_url});
       return($routeParams.original_url || $scope.gist.original_url);
     }
 
@@ -30075,7 +30074,7 @@ function Gist($, $content) {
     }
 
     function useGithubRepoParts(spec, parts) {
-      return {id: 'github-' + parts[3] + '/' + parts[4] + '//' + parts[spec.path]}
+      return {id: 'github-' + parts[3] + '/' + parts[4] + '//' + parts.slice(spec.path).join('/')}
     }
 
     function useRestOfTheUrl(prefix, baseUrl, gist) {

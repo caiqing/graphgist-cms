@@ -38,12 +38,20 @@ describe('Gist', function(){
                   done);
     });
 
-    it('handle GraphGists stored in GitHub', function(done) {
+
+    it('handles GraphGists stored in GitHub', function(done) {
       test_result('https://github.com/whatSocks/jobSNV/blob//socialNetworks.adoc',
                   'github-whatSocks/jobSNV//socialNetworks.adoc',
                   done);
 
     });
+
+    it('handles longer github URLs', function(done) {
+      test_result('https://github.com/neo4j-examples/graphgists/blob/master/uc-search/books.adoc',
+                  'github-neo4j-examples/graphgists//uc-search/books.adoc',
+                  done);
+    });
+
 
     it('handle Dropbox share links', function(done) {
       test_result('https://www.dropbox.com/s/vhtxfibv7ycstrv/BankFraudDetection.adoc.txt?dl=0',
