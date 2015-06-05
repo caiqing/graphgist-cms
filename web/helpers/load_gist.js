@@ -404,7 +404,7 @@ function fetchFromUrl(id, cache, options, callback) {
     var r = request.defaults({url: url, headers: {accept: "text/plain"}});
 
     request_with_cache(r, cache, id, options, function (err, data) {
-      callback(err, data, id);
+      callback(err, data);
     });
 }
 // End of fetchers
