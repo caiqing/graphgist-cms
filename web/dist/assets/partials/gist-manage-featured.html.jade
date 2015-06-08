@@ -1,0 +1,6 @@
+div(style="font-weight: bold")
+  | {{message}}
+
+ul(ui-sortable="sortableOptions", ng-model="gists")
+  li(ng-repeat="gist in gists")
+    | {{ gist.title }}

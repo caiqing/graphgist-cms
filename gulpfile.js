@@ -46,6 +46,7 @@ var paths = {
       "./web/dist/assets/js/google-code-prettify/prettify.js",
       "./web/dist/assets/js/jquery.dataTables.min.js",
       "./web/dist/assets/js/cypher.datatable.js",
+      "./web/dist/assets/js/angular-sortable.js",
 
 
       //"./web/dist/assets/js/opal.js",

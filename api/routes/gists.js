@@ -303,6 +303,41 @@ exports.createGist = {
   }
 }
 
+exports.updateGistFeaturedOrder = {
+  spec: {
+    description: "Update order of featured gists",
+    path: "/gists/featured_order",
+    method: "PUT",
+    notes: "Update order of featured gists",
+    summary: "Update order of featured gists",
+    responseClass: "Gist",
+    errorResponses : [swe.invalid('body')],
+    nickname: "updateGistFeaturedOrder"
+  },
+  action: [
+    basicAuth,
+    function (req, res) {
+      // Validate so that nobody is submitting sneaky data
+
+      // var valid_update_keys = VALID_CREATE_KEYS.concat(['id', 'poster_image', 'rated', 'status', 'featured']);
+      // var invalid_keys = _(_(req.body).keys()).difference(valid_update_keys);
+
+      // _(invalid_keys).each(function(invalid_key) {
+      //   delete req.body[invalid_key]
+      // });
+
+      Gists.setFeaturedOrder(req.body, {}, function (err, query, data) {
+        if (err) {
+          throw err;
+        } else {
+          writeResponse(res, query, data);
+        }
+      });
+    }
+  ]
+}
+
+
 exports.updateGist = {
   spec: {
     description: "Update a gist submission",
@@ -336,3 +371,6 @@ exports.updateGist = {
     }
   ]
 }
+
+
+

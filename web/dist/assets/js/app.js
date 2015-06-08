@@ -4,7 +4,8 @@
 var contentApp = angular.module('contentApp', [
   'ngRoute',
   'ngResource',
-  'contentappControllers'
+  'contentappControllers',
+  'ui.sortable'
 ]).run(['$rootScope', function ($rootScope) {
   $rootScope.UTIL = {
 
@@ -93,6 +94,10 @@ contentApp.config(['$routeProvider', '$locationProvider',
       when('/gists/manage', {
         templateUrl: 'templates/gist-manage',
         controller: 'GistManageCtrl'
+      }).
+      when('/gists/manage/featured', {
+        templateUrl: 'templates/gist-manage-featured',
+        controller: 'GistManageFeaturedCtrl'
       }).
       when('/gists/manage/:id', {
         templateUrl: 'templates/gist-manage-gist',

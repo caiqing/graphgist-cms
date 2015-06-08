@@ -108,7 +108,8 @@ var _singleCount = function (results, callback) {
  *  to be combined with result functions using _.partial()
  */
 
-function populatedGistQuery(whereClause, search_query) {
+function populatedGistQuery(whereClause, search_query, order_clause) {
+  if (typeof(order_clause) === 'undefined') order_clause = 'gist.title'
   search_query = search_query
   var query = [
     'MATCH (gist:Gist)',
@@ -124,7 +125,7 @@ function populatedGistQuery(whereClause, search_query) {
     'OPTIONAL MATCH (writer)-[:WRITER_OF]->(gist)',
     'OPTIONAL MATCH (gist)-[:HAS_KEYWORD]->(keyword)',
     'RETURN gist, collect(DISTINCT domain.name) AS genres, collect(DISTINCT usecase.name) AS usecases, collect(DISTINCT writer.name) AS writers, collect(DISTINCT keyword.name) AS keywords, related',
-    'ORDER BY gist.title'
+    'ORDER BY ' + order_clause
   ]
 
   return(query.join('\n'))
@@ -160,15 +161,18 @@ var _matchBy = function (keys, params, options, callback) {
     keys = _(keys).without('status');
   }
 
+  var order_clause = 'gist.title';
   if (!cypher_params.featured) {
     delete cypher_params.featured;
     keys = _(keys).without('featured');
+  } else {
+    order_clause = 'gist.featured_order';
   }
 
   if (typeof options.search_query === 'string')
     cypher_params.search_query = '(?i).*' + strip_string(options.search_query).replace(RegExp("\\s+", 'g'), '.*') + '.*';
 
-  var query = populatedGistQuery(Cypher.where('gist', keys), options.search_query);
+  var query = populatedGistQuery(Cypher.where('gist', keys), options.search_query, order_clause);
   callback(null, query, cypher_params);
 };
 
@@ -404,6 +408,23 @@ var _update = function (params, options, callback) {
   callback(null, query, cypher_params);
 }
 
+var _setFeaturedOrder = function (ids, options, callback) {
+
+  cypher_params = {ordered_ids: ids};
+
+  query = [
+    'MATCH (g:Gist)',
+    'WHERE g.featured IS NOT NULL',
+    'SET g.featured = NULL',
+    'WITH {ordered_ids} AS ordered_ids',
+
+    'UNWIND range(0, size(ordered_ids) - 1) AS i',
+    'MATCH (g:Gist {id: ordered_ids[i]})',
+    'SET g.featured = true, g.featured_order = i'
+  ].join('\n');
+
+  callback(null, query, cypher_params);
+};
 
 // delete the gist and any relationships with cypher
 var _delete = function (params, options, callback) {
@@ -461,6 +482,8 @@ var create = Cypher(_create, _singleGist);
 
 // update a gist
 var update = Cypher(_update, _singleGist);
+
+var setFeaturedOrder = Cypher(_setFeaturedOrder, _manyGists);
 
 // create many new gists
 var createMany = function (params, options, callback) {
@@ -532,5 +555,6 @@ module.exports = {
   getByGenre: getByGenre,
 
   create: create,
-  update: update
+  update: update,
+  setFeaturedOrder: setFeaturedOrder
 };

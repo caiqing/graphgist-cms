@@ -304,6 +304,43 @@ contentApp.controller('GistManageCtrl', ['$scope', '$routeParams', '$http',
       });
   }]);
 
+contentApp.controller('GistManageFeaturedCtrl', ['$scope', '$http', '$timeout',
+  function($scope, $http, $timeout) {
+    
+    $scope.gists = []
+
+    var timeout;
+    $scope.sortableOptions = {
+      stop: function(e, ui) {
+        $http.put('/api/v0/gists/featured_order?api_key=special-key', _($scope.gists).pluck('id').value()).
+        success(function(data, status, headers, config) {
+          $scope.message = 'Save successful';
+          $timeout.cancel(timeout);
+          timeout = $timeout(function () {
+            $scope.message = null;
+          }, 5000);
+        }).
+        error(function(data, status, headers, config) {
+          alert('Error in saving featured gist order!');
+        });
+
+  
+      },
+    };
+
+    $http({method: 'GET', url: '/api/v0/gists?api_key=special-key&neo4j=false&featured=true'}).
+      success(function(data, status, headers, config) {
+        $scope.gists = data;
+      }).
+      error(function(data, status, headers, config) {
+        alert('Error in loading gists!');
+      });
+
+  }]);
+
+
+
+
 contentApp.controller('GistManageGistCtrl', ['$scope', '$routeParams', '$http',
   function($scope, $routeParams, $http) {
     $scope.status_options = ['live', 'candidate'];
