@@ -213,19 +213,20 @@ exports.load_gist = function (id, cache, options, callback) {
 
     Gists.getById({id: id}, {}, function (err, data) {
       var gist = data.results;
-
       var fetcher;
-      if (id.match(/^http:\/\//i)) {
-        fetcher = fetchFromUrl;
-      } else {
-        fetcher = fetchGithubGist;
-      }
 
       if (!err && gist && gist.id) {
         id = gist.url
       }
-
       id = exports.transformThirdPartyURLs(id);
+
+      if (id.match(/^http:\/\//i)) {
+        fetcher = fetchFromUrl;
+        console.log('Fetching from URL ' + id);
+      } else {
+        fetcher = fetchGithubGist;
+        console.log('Fetching from Gist' + id);
+      }
 
       for (var fetch in internal.fetchers) {
           if (id.indexOf(fetch) === 0) {
