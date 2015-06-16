@@ -222,10 +222,8 @@ exports.load_gist = function (id, cache, options, callback) {
 
       if (id.match(/^http:\/\//i)) {
         fetcher = fetchFromUrl;
-        console.log('Fetching from URL ' + id);
       } else {
         fetcher = fetchGithubGist;
-        console.log('Fetching from Gist' + id);
       }
 
       for (var fetch in internal.fetchers) {
