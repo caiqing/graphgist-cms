@@ -85,7 +85,7 @@ module.exports = function (app, api_port) {
                     if (!from_db) {
                       var options = opal.hash2(
                           ['attributes'],
-                          {attributes: ['showtitle']});
+                          {attributes: ['showtitle', 'env-graphgist']});
                     }
 
                     if (gist === null) gist = {}
@@ -173,7 +173,7 @@ module.exports = function (app, api_port) {
                   if (!from_db) {
                     var options = opal.hash2(
                         ['attributes'],
-                        {attributes: ['showtitle']});
+                        {attributes: ['showtitle', 'env-graphgist']});
                   }
                                     
                   data = asciidoctor_processor.$convert(load_gist.preProcessHTML(data), options)
