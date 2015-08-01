@@ -14,7 +14,6 @@ var paths = {
       "./web/dist/assets/js/controller.js",
       //"./web/dist/assets/js/resources.js",
       "./web/dist/assets/js/parallax.js",
-      "./web/dist/assets/js/MathJax.js",
 
       "./web/dist/assets/js/d3.min.js",
 

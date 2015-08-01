@@ -157,7 +157,7 @@ function GraphGist($, options) {
     }
 
     function processMathJAX() {
-        MathJax.Hub.Typeset();
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
     }
 
     function formUrl(url, title, author, twitter) {
