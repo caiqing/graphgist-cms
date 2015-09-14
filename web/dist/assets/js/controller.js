@@ -272,6 +272,7 @@ contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval', '$http
           }
         }
 
+        // Why isn't this always working?
         document.title = $scope.gist.title + ' - Neo4j GraphGist';
 
       }).fail(function (error) {

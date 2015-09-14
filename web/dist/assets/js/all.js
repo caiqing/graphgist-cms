@@ -24230,9 +24230,11 @@ var contentApp = angular.module('contentApp', [
             $scope.gist = data;
             $scope.gist.poster_image = $scope.gist.poster_image || ($scope.gist.title ? '/assets/img/posters/' + $scope.gist.title.replace('/', ' ') + '.jpg' : '');
             $scope.gist.poster_image = $scope.gist.poster_image.replace("w185", "w300");
-            $scope.gists.forEach(function (gist) {
-              gist.categories = (gist.genres || []).concat(gist.usecases || [])
-            });
+            if ($scope.gists) {
+              $scope.gists.forEach(function (gist) {
+                gist.categories = (gist.genres || []).concat(gist.usecases || [])
+              });
+            }
           } else {
             $scope.gist = $scope.gist || {};
           }
@@ -24611,6 +24613,7 @@ contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval', '$http
           }
         }
 
+        // Why isn't this always working?
         document.title = $scope.gist.title + ' - Neo4j GraphGist';
 
       }).fail(function (error) {
