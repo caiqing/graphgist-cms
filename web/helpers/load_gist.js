@@ -207,7 +207,10 @@ exports.load_gist = function (id, cache, options, callback) {
         id = id.replace(/^\?/,"")
         var idCut = id.indexOf('&');
         if (idCut !== -1) {
-            id = id.substring(0, idCut);
+          var cut_part = id.substring(0, idCut);
+          if (!cut_part.match(/[\&\/]/)) {
+            id = cut_part;
+          }
         }
     }
 
@@ -220,7 +223,7 @@ exports.load_gist = function (id, cache, options, callback) {
       }
       id = exports.transformThirdPartyURLs(id);
 
-      if (id.match(/^http:\/\//i)) {
+      if (id.match(/^https?:\/\//i)) {
         fetcher = fetchFromUrl;
       } else {
         fetcher = fetchGithubGist;

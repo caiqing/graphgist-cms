@@ -30198,7 +30198,6 @@ function Gist($, $content) {
             'GraphGist Portal': {
                 baseUrl: 'http://graphgist.neo4j.com/#!/gists/',
                 parse: function (gist, parts, baseUrl) {
-                  debugger
                     return useRestOfTheUrl('', baseUrl, gist);
                 }
             },
@@ -30318,7 +30317,7 @@ function Gist($, $content) {
                 }
             }
 
-            if (gist_string.indexOf('?') !== -1) {
+            if (gist_string.charAt(0) === '?') {
                 // in case a DocGist URL was pasted
                 gist_uuid = gist_string.split('?').pop();
             } else {
