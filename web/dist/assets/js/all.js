@@ -30603,7 +30603,7 @@ function GraphGist($, options) {
     var $VISUALIZATION_ICONS = $('<div class="visualization-icons"><i class="glyphicon glyphicon-fullscreen fullscreen-icon" title="Toggle fullscreen mode"></i></div>');
     var $I = $('<i/>');
 
-    var DEFAULT_VERSION = '2.2';
+    var DEFAULT_VERSION = '2.3';
     var CONSOLE_VERSIONS = { '2.0.0-M06': 'http://neo4j-console-20m06.herokuapp.com/',
         '2.0.0-RC1': 'http://neo4j-console-20rc1.herokuapp.com/',
         '2.0.0': 'http://neo4j-console-20.herokuapp.com/',
