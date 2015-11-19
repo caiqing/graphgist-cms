@@ -271,6 +271,8 @@ exports.preProcessHTML = function (content) {
       sanitized = sanitized.replace(new RegExp('^\/\/\\s*'+ tag, 'gm'), comment_replacements[tag])
     }
 
+    sanitized += '\n[subs="attributes"]\n++++\n<span id="metadata"\n author="{author}"\n version="{neo4j-version}"\n twitter="{twitter}"\n tags="{tags}"\n/>\n++++\n';
+
     return(sanitized);
 }
 
