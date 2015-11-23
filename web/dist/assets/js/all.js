@@ -27536,7 +27536,7 @@ function convertResult(data) {
         var newRow = [];
         for (var col = 0; col < count; col++) {
             var value = convertCell(currentRow[columns[col]]);
-            newRow[col] = value;
+            newRow[col] = render(value);
             result.columns[col].sWidth = Math.max(value.length * CHAR_WIDTH, result.columns[col].sWidth);
         }
         result.data[row] = newRow;
@@ -27550,6 +27550,15 @@ function convertResult(data) {
         result.columns[col].sWidth = '' + Math.round(100 * result.columns[col].sWidth / width) + '%';
     }
     return result;
+}
+function render(cell) {
+  if (typeof cell === 'string') {
+    if (cell.match(/^https?:/)) {
+      if (cell.match(/(jpg|png|gif)$/i)) return '<img style="display:inline;max-height:100%" src="'+cell+'">';
+      return '<a href="'+cell+'" target="_blank">'+cell+'</a>';
+    };
+  }
+  return cell;
 }
 
 function convertCell(cell) {
@@ -27577,7 +27586,7 @@ function convertCell(cell) {
         }
         return props(cell);
     }
-    return cell;
+    return render(cell);
 }
 
 function props(cell) {
@@ -29623,7 +29632,7 @@ function Neod3Renderer() {
     function dummyFunc() {
     }
 
-    function render(id, $container, visualization) {
+    function render(id, $container, visualization, styleConfig) {
         function extract_props(pc) {
             var p = {};
             for (var key in pc) {
@@ -29651,7 +29660,7 @@ function Neod3Renderer() {
                         return keys.indexOf(k) !== -1
                     });
                     selected_keys = selected_keys.concat(keys).concat(['id']);
-                    var selector = "node." + label(nodes[i]);
+                    var selector = selectorFor(label(nodes[i]));
                     var selectedKey = selected_keys[0];
                     if (typeof(props[selectedKey]) === "string" && props[selectedKey].length > 30) {
                         props[selectedKey] = props[selectedKey].substring(0,30)+" ...";
@@ -29660,6 +29669,35 @@ function Neod3Renderer() {
                 }
             }
             return style;
+        }
+
+
+        function isSelector(label) { return label.substring(0,5) == "node."; }
+        function selectorFor(label) { return "node."+label; }
+        function styleFor(label, property,color) {
+            var textColor = window.isInternetExplorer ? '#000000' : color['text-color-internal'];
+            var result =
+            (isSelector(label) ? label : selectorFor(label)) + 
+            " {caption: '{" + property +"}' "+
+            "; color: " + color.color +
+            "; border-color: " + color['border-color'] +
+            "; text-color-internal: " +  textColor +
+            "; text-color-external: " +  textColor +
+            "; }";
+            return result;
+        }
+
+        // red:Person(name), green/lightgreen/white:Book(title)
+        function initialStyleConfig(styleConfig) {
+           if (!styleConfig || styleConfig.trim().length == 0) return {};
+           var style = {};
+           var parts = styleConfig.trim().split(/[,:()]\s*/)
+           for (var i=0;i<parts.length;i+=4) {
+              var color=parts[i], label=parts[i+1], prop=parts[i+2];
+              var colors=color.split(/\//)
+              style[selectorFor(label)]=styleFor(label,prop,{color:colors[0], "border-color":colors[1]||colors[0], "text-color-internal":colors[2]||'#000000'});
+           }
+           return style;
         }
 
         function style_sheet(styles, styleContents) {
@@ -29672,14 +29710,8 @@ function Neod3Renderer() {
                 } else {
                     var color = colors[currentColor];
                     currentColor = (currentColor + 1) % colors.length;
-                    var textColor = window.isInternetExplorer ? '#000000' : color['text-color-internal'];
-                    styleItem = selector +
-                        " {caption: '{" + styles[selector] +
-                        "}'; color: " + color.color +
-                        "; border-color: " + color['border-color'] +
-                        "; text-color-internal: " +  textColor +
-                        "; text-color-external: " +  textColor +
-                        "; }";
+                    var property = styles[selector];
+                    styleItem = styleFor(selector, property, color);
                     existingStyles[selector] = styleItem;
                 }
                 styleItems.push(styleItem);
@@ -29721,6 +29753,7 @@ function Neod3Renderer() {
             }
         }
 
+        var existingStyles = initialStyleConfig(styleConfig);
         var links = visualization.links;
         var nodes = visualization.nodes;
         for (var i = 0; i < links.length; i++) {
@@ -30938,6 +30971,7 @@ function GraphGist($, options) {
             var visualization = $wrapper.data('visualization');
             var id = 'graph-visualization-' + (counter++);
             var $visContainer = $VISUALIZATION.clone().attr('id', id).insertAfter($heading);
+            var style = $heading.attr('data-style');
             var show_result_only = $heading.attr('graph-mode') && $heading.attr('graph-mode').indexOf('result') !== -1;
             var selectedVisualization = handleSelection(visualization, show_result_only);
             $heading.remove();
@@ -30946,7 +30980,7 @@ function GraphGist($, options) {
 
             function performVisualizationRendering() {
                 if (visualization) {
-                    var rendererHooks = neod3Renderer.render(id, $visContainer, selectedVisualization);
+                    var rendererHooks = neod3Renderer.render(id, $visContainer, selectedVisualization, style);
                     var subscriptions = 'subscriptions' in rendererHooks ? rendererHooks['subscriptions'] : {};
                     var actions = 'actions' in rendererHooks ? rendererHooks['actions'] : {};
                     var $visualizationIcons = $VISUALIZATION_ICONS.clone().appendTo($visContainer);
