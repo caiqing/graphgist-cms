@@ -5,7 +5,16 @@ var param = sw.params;
 var url = require("url");
 var swe = sw.errors;
 var _ = require('underscore');
-
+var nodemailer = require('nodemailer');
+var mandrillTransport = require('nodemailer-mandrill-transport');
+var transporter = nodemailer.createTransport(mandrillTransport({
+  auth: {
+    apiKey: process.env.MANDRIL_API_KEY
+  }
+}), {
+    // default values for sendMail method
+    from: 'graphgist_portal@neo4j.com'
+});
 
 /*
  *  Util Functions
@@ -293,11 +302,18 @@ exports.createGist = {
       throw swe.invalid('body')
     }
 
-    Gists.create(_(req.body).extend({status: 'candidate'}), {}, function (err, query, data) {
+    Gists.create(_(req.body).extend({status: 'candidate'}), {}, function (err, data) {
       if (err) {
         throw err;
       } else {
-        writeResponse(res, query, data);
+        var gist = data.results;
+        transporter.sendMail({
+            to: 'michael.hunger@neotechnology.com',
+            cc: 'public@brian-underwood.codes',
+            subject: '[New GraphGist] ' + gist.title,
+            html: 'See it <a href="http://graphgist.neo4j.com/#!/gists/'+ gist.id +'">here</a>'
+        });
+        writeResponse(res, data, new Date());
       }
     });
   }
@@ -356,7 +372,7 @@ exports.updateGist = {
 
       var valid_update_keys = VALID_CREATE_KEYS.concat(['id', 'poster_image', 'rated', 'status', 'featured']);
       var invalid_keys = _(_(req.body).keys()).difference(valid_update_keys);
-      
+
       _(invalid_keys).each(function(invalid_key) {
         delete req.body[invalid_key]
       });
