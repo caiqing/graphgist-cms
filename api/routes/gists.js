@@ -9,7 +9,7 @@ var nodemailer = require('nodemailer');
 var mandrillTransport = require('nodemailer-mandrill-transport');
 var transporter = nodemailer.createTransport(mandrillTransport({
   auth: {
-    apiKey: process.env.MANDRIL_API_KEY
+    apiKey: process.env.MANDRILL_API_KEY
   }
 }), {
     // default values for sendMail method
