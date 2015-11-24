@@ -311,7 +311,7 @@ exports.createGist = {
             to: 'michael.hunger@neotechnology.com',
             cc: 'public@brian-underwood.codes',
             subject: '[New GraphGist] ' + gist.title,
-            html: 'See it <a href="http://graphgist.neo4j.com/#!/gists/'+ gist.id +'">here</a>'
+            html: 'See it <a href="http://graphgist.neo4j.com/#!/gists/'+ gist.id +'">here</a><br><br>Manage it <a href="http://graphgist.neo4j.com/#!/gists/manage/'+ gist.id +'">here</a>'
         });
         writeResponse(res, data, new Date());
       }
