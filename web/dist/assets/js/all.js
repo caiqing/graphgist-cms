@@ -27586,7 +27586,7 @@ function convertCell(cell) {
         }
         return props(cell);
     }
-    return render(cell);
+    return cell;
 }
 
 function props(cell) {
@@ -29672,7 +29672,7 @@ function Neod3Renderer() {
         }
 
 
-        function isSelector(label) { return label.substring(0,5) == "node."; }
+        function isSelector(label) { return label && label.substring(0,5) == "node."; }
         function selectorFor(label) { return "node."+label; }
         function styleFor(label, property,color) {
             var textColor = window.isInternetExplorer ? '#000000' : color['text-color-internal'];
@@ -30775,7 +30775,7 @@ function GraphGist($, options) {
         var $meta = $('#metadata', $content);
         var version = $meta.attr('version'), tags = $meta.attr('tags'), author = $meta.attr('author'), twitter = $meta.attr('twitter');
         regex = /^(\d+)\.(\d+)\.\d+$/;
-        if (version.match(regex)) {
+        if (typeof version !== 'undefined' && version.match(regex)) {
           version = version.replace(regex, '$1.$2');
         }
         if (tags === '{tags}') {
