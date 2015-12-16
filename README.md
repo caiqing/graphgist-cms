@@ -4,7 +4,7 @@ Neo4j GraphGist Browser
 
 This repository is a GraphGist content browser powered by Neo4j. All GraphGist content is consumed from a Neo4j REST API endpoint built using Neo4j Swagger.
 
-* Neo4j: http://www.neo4j.org/download/
+* Neo4j: http://neo4j.com/download/
 * Swagger: http://neo4j-swagger.tinj.com/
 * Node.js: http://nodejs.org/
 * Bootstrap: http://getbootstrap.com/
