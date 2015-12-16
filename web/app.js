@@ -20,6 +20,11 @@ module.exports = function (app, api_port) {
 
   app.locals.load_cache = { };
 
+  app.get('/*',function(req,res,next){
+    res.header('X-Robots-Tag' , 'noindex, noarchive' );
+    next(); // http://expressjs.com/guide.html#passing-route control
+  });
+
   app.all(/.*/, function(req, res, next) {
     if (process.env.REDIRECT_TO_PRODUCTION == 'true') {
       var host = req.header('host');
