@@ -24224,7 +24224,7 @@ var contentApp = angular.module('contentApp', [
     // Maybe not the best place for this.
     // Is there a way to get helpers that can load resources themselves?
     loadGist: function (url, $http, $scope, $templateCache) {
-      $http({method: 'GET', url: url, cache: $templateCache}).
+      return($http({method: 'GET', url: url, cache: $templateCache}).
         success(function(data, status, headers, config) {
           if (_(data).size()) {
             $scope.gist = data;
@@ -24242,7 +24242,7 @@ var contentApp = angular.module('contentApp', [
         error(function(data, status, headers, config) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
-        });
+        }));
     },
 
     gistTemplate: function (gist) {
@@ -24580,13 +24580,18 @@ contentApp.controller('GistItemCtrl', ['$scope', '$routeParams', '$http', '$temp
 
 contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval', '$http', '$templateCache',
   function($scope, $routeParams, $interval, $http, $templateCache) {
+
     var gistId = decodeURIComponent($routeParams.gistId);
 
     $scope.gist = {};
 
     $scope.url = API_URL+'/api/v0/gists/' + encodeURIComponent(encodeURIComponent(gistId)) + '?api_key=special-key&neo4j=false';
 
-    $scope.UTIL.loadGist($scope.url, $http, $scope, $templateCache)
+    $scope.UTIL.loadGist($scope.url, $http, $scope, $templateCache).success(function () {
+      // http://localhost:5000/#!/gists/24d1098502b15f4797e5ef4d56d5deb5
+      // Redirect to new page on neo4j.com
+      window.location.href = 'http://neo4j.com/graphgist/'+ $scope.gist.graphgist_id;    
+    })
 
     $scope.loading_message = 'Loading...';
 

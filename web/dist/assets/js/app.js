@@ -12,7 +12,7 @@ var contentApp = angular.module('contentApp', [
     // Maybe not the best place for this.
     // Is there a way to get helpers that can load resources themselves?
     loadGist: function (url, $http, $scope, $templateCache) {
-      $http({method: 'GET', url: url, cache: $templateCache}).
+      return($http({method: 'GET', url: url, cache: $templateCache}).
         success(function(data, status, headers, config) {
           if (_(data).size()) {
             $scope.gist = data;
@@ -30,7 +30,7 @@ var contentApp = angular.module('contentApp', [
         error(function(data, status, headers, config) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
-        });
+        }));
     },
 
     gistTemplate: function (gist) {

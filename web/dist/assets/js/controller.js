@@ -239,13 +239,17 @@ contentApp.controller('GistItemCtrl', ['$scope', '$routeParams', '$http', '$temp
 
 contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval', '$http', '$templateCache',
   function($scope, $routeParams, $interval, $http, $templateCache) {
+
     var gistId = decodeURIComponent($routeParams.gistId);
 
     $scope.gist = {};
 
     $scope.url = API_URL+'/api/v0/gists/' + encodeURIComponent(encodeURIComponent(gistId)) + '?api_key=special-key&neo4j=false';
 
-    $scope.UTIL.loadGist($scope.url, $http, $scope, $templateCache)
+    $scope.UTIL.loadGist($scope.url, $http, $scope, $templateCache).success(function () {
+      // Redirect to new page on neo4j.com
+      window.location.href = 'http://neo4j.com/graphgist/'+ $scope.gist.graphgist_id;    
+    })
 
     $scope.loading_message = 'Loading...';
 

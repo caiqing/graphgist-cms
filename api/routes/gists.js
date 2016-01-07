@@ -122,6 +122,7 @@ exports.findById = {
 
     var callback = function (err, response) {
       if (err) throw swe.notFound('gist');
+      if (typeof(response.results.graphgist_id) === 'undefined') response.results.graphgist_id = id
       writeResponse(res, response.results ? response : '', start);
     };
 

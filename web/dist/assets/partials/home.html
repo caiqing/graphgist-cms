@@ -1,7 +1,7 @@
 <section class="featured-gist" ng-repeat="gist in gists.slice(0,25)" ng-class-odd="'odd'" ng-class-even="'even'">
 	<div class="row" style="padding: 1em 0;">
 		<div class="large-12 medium-12 columns">
-      <a ng-href="/#!/gists/{{gist.id}}"><h3>{{gist.title}}</h3></a>
+      <a ng-href="http://neo4j.com/graphgist/{{gist.graphgist_id}}"><h3>{{gist.title}}</h3></a>
       <hr>
 		</div>
 	</div>
@@ -9,7 +9,7 @@
 		<div class="large-6 medium-6 columns overview">
 			<p class="lead">
         {{gist.summary}}
-        <a ng-href="/#!/gists/{{gist.id}}">Read More →</a>
+        <a ng-href="http://neo4j.com/graphgist/{{gist.graphgist_id}}">Read More →</a>
       </p>
 			<p>
         <em>Categories </em>:
@@ -19,7 +19,7 @@
       </p>
 		</div>
 
-    <a ng-href="/#!/gists/{{gist.id}}">
+    <a ng-href="http://neo4j.com/graphgist/{{gist.graphgist_id}}">
       <div class="large-6 medium-6 columns poster-image" style="background-image: url('{{gist.poster_image}}');"></div>
     </a>
 	</div>
