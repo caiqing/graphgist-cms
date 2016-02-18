@@ -64,9 +64,7 @@ module.exports = function (app, api_port) {
           (match = req.query._escaped_fragment_.toString().match(/^\/gists\/([^\/]+)/))) {
 
           if (match[1] == 'all') {
-            load_gist.get_all_gists(function (err, data) {
-              res.render(__dirname + '/dist/assets/partials/gist-all-crawl.html.jade', {gists: data.results});
-            });
+            res.redirect(301, 'http://neo4j.com/graphgists/');
           } else if (match[1] == 'about') {
             res.render(__dirname + '/dist/about-escaped-fragment.html.jade');
           } else {
@@ -76,6 +74,9 @@ module.exports = function (app, api_port) {
 
             load_gist.get_gist(id, function(data) {
               gist = data;
+
+              res.redirect(301, 'http://neo4j.com/graphgist/'+ gist.graphgist_id);
+              return;
 
               load_gist.load_gist(id, cache, {}, function(err, data, from_db) {
                 if (err) {

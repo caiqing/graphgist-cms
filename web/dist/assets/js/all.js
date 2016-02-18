@@ -24428,6 +24428,8 @@ contentApp.directive('afterRenderRepeat', function() {
 
 contentApp.controller('GistListAllCtrl', ['$scope', '$http',
     function ($scope, $http) {
+      window.location.href = 'http://neo4j.com/graphgists';
+
 	  	$scope.url = API_URL+'/api/v0/gists?api_key=special-key&neo4j=false';
 	  	$scope.gists = [];
 
@@ -24572,8 +24574,11 @@ contentApp.controller('GistItemCtrl', ['$scope', '$routeParams', '$http', '$temp
   function($scope, $routeParams, $http, $templateCache) {
   		$scope.url = API_URL+'/api/v0/gists/' + encodeURIComponent(decodeURI(decodeURI($routeParams.gistId))) + '?api_key=special-key&neo4j=false';
 
-      $scope.UTIL.loadGist($scope.url, $http, $scope, $templateCache)
-  
+      $scope.UTIL.loadGist($scope.url, $http, $scope, $templateCache).success(function () {
+        // Redirect to new page on neo4j.com
+        window.location.href = 'http://neo4j.com/graphgist/'+ $scope.gist.graphgist_id;
+      })
+
       $scope.current_panel = 'panel1';
       $scope.set_panel = function (panel) { $scope.current_panel = panel; }
   }]);
@@ -24588,9 +24593,8 @@ contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval', '$http
     $scope.url = API_URL+'/api/v0/gists/' + encodeURIComponent(encodeURIComponent(gistId)) + '?api_key=special-key&neo4j=false';
 
     $scope.UTIL.loadGist($scope.url, $http, $scope, $templateCache).success(function () {
-      // http://localhost:5000/#!/gists/24d1098502b15f4797e5ef4d56d5deb5
       // Redirect to new page on neo4j.com
-      window.location.href = 'http://neo4j.com/graphgist/'+ $scope.gist.graphgist_id;    
+      window.location.href = 'http://neo4j.com/graphgist/'+ $scope.gist.graphgist_id;
     })
 
     $scope.loading_message = 'Loading...';
