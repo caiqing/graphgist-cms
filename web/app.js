@@ -60,6 +60,10 @@ module.exports = function (app, api_port) {
         }
       }
 
+      app.get('/google734980214f2326b4.html', function (req, res) {
+        res.render(__dirname + '/dist/google734980214f2326b4.html');
+      });
+
       if (typeof(req.query._escaped_fragment_) === 'string' &&
           (match = req.query._escaped_fragment_.toString().match(/^\/gists\/([^\/]+)/))) {
 
