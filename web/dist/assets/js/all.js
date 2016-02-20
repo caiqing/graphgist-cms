@@ -24383,6 +24383,8 @@ contentApp.controller('GistListCtrl', ['$scope', '$http', '$templateCache',
 	  	$scope.url = API_URL+'/api/v0/gists?api_key=special-key&neo4j=false&featured=true';
 	  	$scope.gists = [];
 
+       window.location.href = 'http://neo4j.com/graphgists/';
+
       $scope.domains =  ['Finance', 'Retail', 'Entertainment', 'Telecommunications', 'Mass Media']
 
       $http({method: 'GET', url: API_URL+'/api/v0/domains?front_page=true'}).
