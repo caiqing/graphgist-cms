@@ -235,7 +235,11 @@ contentApp.controller('GistItemCtrl', ['$scope', '$routeParams', '$http', '$temp
 
       $scope.UTIL.loadGist($scope.url, $http, $scope, $templateCache).success(function () {
         // Redirect to new page on neo4j.com
-        window.location.href = 'http://neo4j.com/graphgist/'+ $scope.gist.graphgist_id;
+        if ($scope.gist.graphgist_id == "b1f0ca297ec2105fa060") {
+          window.location.href = 'http://neo4j.com/graphgist/'+ "943332d7-3a7e-42d4-b332-accc88e3abd7";
+        } else {
+          window.location.href = 'http://neo4j.com/graphgist/'+ $scope.gist.graphgist_id;
+        }
       })
 
       $scope.current_panel = 'panel1';
@@ -253,7 +257,11 @@ contentApp.controller('GistCtrl', ['$scope', '$routeParams', '$interval', '$http
 
     $scope.UTIL.loadGist($scope.url, $http, $scope, $templateCache).success(function () {
       // Redirect to new page on neo4j.com
-      window.location.href = 'http://neo4j.com/graphgist/'+ $scope.gist.graphgist_id;
+      if ($scope.gist.graphgist_id == "b1f0ca297ec2105fa060") {
+        window.location.href = 'http://neo4j.com/graphgist/'+ "943332d7-3a7e-42d4-b332-accc88e3abd7";
+      } else {
+        window.location.href = 'http://neo4j.com/graphgist/'+ $scope.gist.graphgist_id;
+      }
     })
 
     $scope.loading_message = 'Loading...';
