@@ -60,10 +60,12 @@ module.exports = function (app, api_port) {
         }
       }
 
+      app.get('/robots.txt', function (req, res) {
+        res.send("User-agent: *\nDisallow: /");
+      });
+
       app.get('/google734980214f2326b4.html', function (req, res) {
         res.send('google-site-verification: google734980214f2326b4.html');
-
-
       });
 
       if (typeof(req.query._escaped_fragment_) === 'string' &&
