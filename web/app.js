@@ -80,7 +80,7 @@ module.exports = function (app, api_port) {
               gist = data;
 
               if (gist === null) {
-                res.redirect(301, 'http://neo4j.com/graphgists');
+                res.send(404, "Error loading graphgist from: "+ id)
               } else {
                 res.redirect(301, 'http://neo4j.com/graphgist/'+ gist.graphgist_id);
               }
