@@ -81,7 +81,11 @@ module.exports = function (app, api_port) {
             load_gist.get_gist(id, function(data) {
               gist = data;
 
-              res.redirect(301, 'http://neo4j.com/graphgist/'+ gist.graphgist_id);
+              if (gist === null) {
+                res.redirect(301, 'http://neo4j.com/graphgists');
+              } else {
+                res.redirect(301, 'http://neo4j.com/graphgist/'+ gist.graphgist_id);
+              }
               return;
 
               load_gist.load_gist(id, cache, {}, function(err, data, from_db) {
